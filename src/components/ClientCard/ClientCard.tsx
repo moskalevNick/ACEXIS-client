@@ -112,7 +112,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                               />
                             </div>
                           );
-                        } else return;
+                        }
                       })}
                       {values.imgPath.length < 5 && (
                         <button className={styles.smallUploadButtonWrapper}>

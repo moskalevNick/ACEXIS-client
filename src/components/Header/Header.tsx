@@ -37,16 +37,13 @@ export const Header: React.FC<HeaderType> = ({
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
 
-  const handleClickOutside = useCallback(
-    (e: any) => {
-      if (refBadge.current !== null && refAvatar.current !== null) {
-        if (!refBadge.current.contains(e.target) && !refAvatar.current.contains(e.target)) {
-          setOpenBadge(false);
-        }
-      } else return;
-    },
-    [isOpenBadge],
-  );
+  const handleClickOutside = useCallback((e: any) => {
+    if (refBadge.current !== null && refAvatar.current !== null) {
+      if (!refBadge.current.contains(e.target) && !refAvatar.current.contains(e.target)) {
+        setOpenBadge(false);
+      }
+    } else return;
+  }, []);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);

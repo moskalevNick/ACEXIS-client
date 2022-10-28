@@ -1,5 +1,5 @@
 import styles from './Card.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { WarninIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
