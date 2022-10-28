@@ -1,0 +1,21 @@
+.wrapper {
+    display: flex;
+}
+
+.wrapperRange{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.range{
+    margin: 0 20px;
+    min-width: 468px;
+}
+
+.min, .max, .label{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+}

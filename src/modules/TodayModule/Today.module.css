@@ -1,0 +1,17 @@
+.container {
+  min-height: calc(100vh - 92px);
+  background-color: var(--background-color);
+  padding-top: 40px;
+}
+
+.containerWithCamera{
+  width: calc(100vw - 620px);
+}
+
+.label{
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 24px;
+  margin: 0px 0px 34px 80px;
+  color: var(--text-color);
+}

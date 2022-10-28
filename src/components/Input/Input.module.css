@@ -1,0 +1,93 @@
+.input {
+  width: 100%;
+  height: 44px;
+  background: var(--input-background);
+  border-radius: 10px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--text-input-color);
+}
+
+.input:focus{
+  color: var(--textActive-input-color);
+}
+
+.inputSmall {
+  height: 100%;
+  padding: 4px 10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.input:focus {
+  background: transparent;
+  border: 1px solid #1487F2;
+  box-shadow: 0px 0px 2px #1487F2;
+}
+
+.input::placeholder {
+  color: var(--input-placeholder-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.input:disabled {
+  background-color: #eee;
+}
+
+.hasError {
+  background: var(--input-error-background);
+  color:#FF382C;
+}
+
+.input.hasError::placeholder {
+  color: #ff382c;
+}
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+
+.inputWithBeforeIcon {
+  padding-left: 39px;
+}
+
+.inputWithAfterIcon {
+  padding-right: 45px;
+}
+
+.beforeIcon svg,
+.afterIcon svg {
+  overflow: visible;
+  transform: translateY(-50%);
+}
+
+.beforeIcon,
+.afterIcon {
+  position: absolute;
+  top: 50%;
+}
+
+.beforeIcon {
+  left: 13px;
+}
+
+.afterIcon {
+  right: 12px;
+}

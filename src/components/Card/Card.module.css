@@ -1,0 +1,129 @@
+.wrapper {
+  position: relative;
+  height: 219px;
+  width: 288px;
+  border-radius: 12px;
+  background-color: var(--login-background);
+  cursor: pointer;
+}
+
+.contentWrapper {
+  position: relative;
+  margin: 15px 16px 16px;
+}
+
+.imgWrapper {
+  width: 256px;
+  height: 143px;
+  border-radius: 8px;
+}
+
+.name {
+  margin-top: 13px;
+  font-size: 14px;
+  color: var(--card-name-color);
+}
+
+.lastVisit {
+  font-size: 14px;
+  margin-top: 2px;
+  color: var(--description-color);
+}
+
+.warning {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  background-color: var(--login-background);
+  border-radius: 8px;
+  width: 47px;
+  height: 32px;
+  padding-left: 18px;
+  position: absolute;
+  top: 115px;
+  left: 0;
+}
+
+.status svg {
+  fill: #1487f2;
+  stroke: #1487f2;
+}
+
+.shortDescriptionWrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortDescription {
+  width: 343px;
+  background-color: var(--login-background);
+  padding: 24px;
+  border: 1px solid var(--range-background);
+  border-radius: 12px;
+}
+
+.nameClient {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 19px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+}
+
+.textWrapper {
+  height: 11px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-color);
+  margin-top: 13px;
+}
+
+.labelContent {
+  height: 11px;
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.horizontalLine {
+  height: 1px;
+  border: none;
+  background-color: var(--line-color);
+  margin: 18px 0;
+}
+
+.pinnedMessageDateWrapper {
+  display: flex;
+}
+
+.pinnedMessageDate {
+  color: var(--description-color);
+  margin-left: 8px;
+}
+
+.pinnedMessageText {
+  height: 31px;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-color);
+}

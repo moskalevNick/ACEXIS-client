@@ -1,0 +1,10 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 19px;
+    font-size: 14px;
+    gap: 6.5px;
+    color: #FF382C;
+    font-weight: 600;
+    line-height: 19px;
+}

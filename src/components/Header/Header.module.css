@@ -1,0 +1,323 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 92px;
+    background-color: var(--login-background);
+}
+
+.wrapperWithCamera{
+    width: calc(100vw - 620px);
+}
+
+.arrowRightButton{
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 0 8px 8px 0;
+    border-width: 1px 1px 1px 0;
+    width: 18px;
+    height: 40px;
+    margin-right: 1.72%;
+}
+
+
+.arrowRightButton > svg, .arrowLeftButton > svg{
+    fill: var(--arrow-icon-color);
+}
+
+.arrowRightButton:hover{
+    border: 1px solid #1487F2;
+    border-width: 1px 1px 1px 0;
+}
+
+.arrowRightButton:hover > svg {
+    fill: #1487F2;
+}
+
+.cameraWidgetWrapper{
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 219px;
+    height: 118px;
+    border-radius: 0 0 15px 0;
+    background-color: var(--login-background);
+    box-shadow: var(--shadow-widget);
+}
+
+.arrowLeftButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 100%;
+    margin-right: 1.72%;
+    background-color: transparent;
+}
+
+.arrowLeftButton:hover svg {
+    fill: #1487F2;
+}
+
+.smallCameraView{
+    position: relative;
+    width: 179px;
+    height: 86px;
+    margin: 16px 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.webcam{
+    width: 179px;
+    margin-top: -24px;
+}
+
+.fullScreenButton{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border-radius: 4px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--icons-background);
+}
+
+.inputHeader{
+    width: 248px;
+    fill: var(--input-placeholder-color);
+    margin-left: 30px;
+}
+
+.smallSearchButton{
+    width: 46px;
+    height: 44px;
+    fill: var(--input-placeholder-color);
+    margin-left: 25px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--search-button-background);
+}
+
+.wrapperSectionToggle{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    right: 37%;
+    width: 122px;
+    height: 100%;
+    color: var(--input-placeholder-color);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.wrapperSectionToggleWithOpenCamera{
+    width: 108px;
+}
+
+.section{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--input-placeholder-color);
+    transition: all .4s;
+}
+
+.section:hover{
+    color: #1487F2;
+    text-decoration: none;
+    transition: all .4s;
+}
+
+.section:focus{
+    text-decoration: none;
+}
+
+.settingsContainer{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    right: 30px;
+    width: 200px;
+}
+
+.toggleThemeContainer{
+    margin-right: 24px;
+}
+
+.avatarContainer{
+    cursor: pointer;
+}
+
+.avatarContainer > svg {
+    fill: var(--icon-background);
+}
+
+.badge{
+    position: absolute;
+    right: 38px;
+    top: 80px;
+    background-color: var(--login-background);
+    box-shadow: 0px 0px 10px var(--shadow-color);
+    border-radius: 10px;
+    width: 203px;
+    height: 95px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.badgeButton, .badgeButton:hover{
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 8px;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.badgeButton:active{
+    box-shadow: none;
+}
+
+.buttonLabel{
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.badgeButton > svg{
+    stroke:var(--text-color);
+}
+
+.line{
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: var(--line-color);
+}
+
+/* modal settings */
+.modalSettings{
+    width: 976px;
+    height: 593px;
+}
+
+.billsWrapper{
+    width: 904px;
+    display: flex;
+    margin: 24px 0;
+}
+
+.minBillWrapper{
+    width: 172px;
+    display: flex;
+    margin-right: 24px;
+}
+
+.labelInput{
+    display: flex;
+    align-items: center;
+    width: 85px;
+    margin-right: 14px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.billInput{
+    width: 91px;
+    height: 42px;
+    margin-left: 14px;
+}
+
+.botWrapper{
+    margin: 24px 0;
+}
+
+.botLabel{
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: var(--text-color);
+}
+
+.botInput{
+    width: 296px;
+    height: 42px;
+}
+
+.uploadPhotoWrapper{
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+}
+
+.uploadButton, .uploadButton:hover{
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.labelUpload{
+    margin-left: 16px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.languageLabel{
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* modal logout */
+.modalLogout{
+    width: 621px;
+    height: 236px;
+}
+
+.contentWrapperLogout{
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 551px;
+    height: 125px;
+}
+
+.contentLogout{
+    display: flex;
+    justify-content: flex-start;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.buttonWrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancelButton, .logoutButton{
+    width: 148px;
+}
+
+.logoutButton{
+    margin-left: 12px;
+}

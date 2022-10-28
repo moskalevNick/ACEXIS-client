@@ -1,0 +1,130 @@
+.container {
+  min-height: calc(100vh - 92px);
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.containerWithCamera{
+  width: calc(100vw - 620px);
+}
+
+.labelWrapper{
+  padding-top: 40px;
+  margin: 0px 0px 22px 40px;
+  display: flex;
+  align-items: center;
+}
+
+.label{
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 24px;
+  margin-right: 16px;
+}
+
+.addButton{
+  width: 44px;
+  height: 44px;
+  margin-right: 20px;
+}
+
+.wordingWrapper{
+  background-color: var(--login-background);
+  width: 283px;
+  height: 44px;
+  border-right: 1px solid var(--line-color);
+  border-radius: 12px 0px 0px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.counterWrapper{  
+  width: 117px;
+  height: 44px;
+  background-color: var(--login-background);
+  border-radius: 0px 12px 12px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 26px;
+  background-color: var(--counter-background-color);
+  color: #1487F2;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.filtersWrapper{
+  position: relative;
+  height: 62px;
+  background-color: var(--login-background);
+  margin: 0px 30px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.datePickerWrapper{
+  margin-left: 12px;
+}
+
+.line{
+  margin: 0 16px 0 20px;
+  border-left: 1px solid var(--line-color);
+  height: 38px;
+}
+
+.billButton{
+  width: 74px;
+  height: 38px;
+
+}
+
+.wrapperSlider{
+  display: flex;
+  align-items: center;
+}
+
+.wrapperSliderAbsolute{
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 638px;
+  height: 62px;
+  background-color: var(--login-background);
+  border-radius: 12px;
+  bottom: -66px;
+  left: 154px;
+}
+
+.statusBar{
+  display: flex;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.noClientsWrapper{
+  font-weight: 600;
+  margin-top: 162px;
+  font-size: 14px;
+  color: var(--input-placeholder-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}

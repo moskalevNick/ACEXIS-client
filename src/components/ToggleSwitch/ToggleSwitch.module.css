@@ -1,0 +1,101 @@
+.switch{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 122px;
+    height: 36px;
+}
+
+.shortSwitch {
+    width: 96px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background-color: var(--toggle-background);
+}
+
+.slider:before{
+    position: absolute;
+    content: '';
+    height: 36px;
+    width: 61px;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #419CF0 0%, #0080F7 100%);
+    border-radius: 8px;
+    transition: 0.4s;
+}
+
+.shortSwitch > .slider:before {
+    width: 48px;
+}
+
+.switch:hover > .slider::before{
+    background: linear-gradient(180deg, #64B4FF 0%, #007AEB 100%);
+}
+
+.switch:hover > .slider{
+    background: var(--toggle-hover-background); 
+}
+
+input:checked + .slider::before{
+    transform: translateX(-61px);
+}
+
+.shortSwitch > input:checked + .slider::before{
+    transform: translateX(-48px);
+}
+
+.firstLabel{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-20%, -50%);
+    color: #1487F2;
+    stroke: #1487F2;
+    transition: 0.5s;
+}
+
+.secondLabel{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 10px;
+    position: absolute;
+    top: 50%;
+    right:  20%;
+    transform: translate(20%, -50%);
+    color: #fff;
+    stroke: #fff;
+    transition: 0.5s;
+}
+
+input:checked + .slider > .firstLabel{
+    color: #fff;
+    stroke: #fff;
+    transition: 0.5s;
+}
+
+input:checked + .slider > .secondLabel{
+    color: #1487F2;
+    stroke: #1487F2;
+    transition: 0.5s;
+} 

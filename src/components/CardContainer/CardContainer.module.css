@@ -1,0 +1,16 @@
+.wrapper {
+    padding: 0 20px 40px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+.wrapperMinus190{
+    max-height: calc(100vh - 190px);
+}
+
+.wrapperMinus278{
+    max-height: calc(100vh - 278px);
+}
