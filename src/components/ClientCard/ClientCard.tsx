@@ -13,7 +13,7 @@ import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import { EditIcon } from '../Icons/EditIcon';
 import { CrossInSquareIcon } from '../Icons/CrossInSquareIcon';
-import Draggable, { DraggableData, DraggableEventHandler } from 'react-draggable';
+import Draggable, { DraggableData } from 'react-draggable';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -88,10 +88,10 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
   const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
 
-  const [positionFirst, setPositionFirst] = useState<any>({ positionFirstX: 100 });
+  const [position, setPosition] = useState<any>({ positionX: 320 });
 
-  const onDragFirst = (data: DraggableData) => {
-    setPositionFirst({ positionFirstX: data.x });
+  const onDrag = (data: DraggableData) => {
+    setPosition({ positionX: data.x });
   };
 
   return (
@@ -113,7 +113,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
           style={{
             minWidth: '716px',
             maxWidth: '836px',
-            width: positionFirst.positionFirstX + 500,
+            width: position.positionX + 500,
           }}
         >
           <div className={styles.clientDataWrapper}>
@@ -299,13 +299,15 @@ export const ClientCard: React.FC<ClientCardType> = ({
           </div>
         </div>
 
-        <Draggable
-          defaultPosition={{ x: 0, y: 0 }}
-          position={{ x: positionFirst.positionFirstX, y: 0 }}
-          onDrag={(e, data) => onDragFirst(data)}
-        >
-          <div className={styles.handler} />
-        </Draggable>
+        <div className={styles.draggableWrapper}>
+          <Draggable
+            defaultPosition={{ x: 0, y: 0 }}
+            position={{ x: position.positionX, y: 0 }}
+            onDrag={(e, data) => onDrag(data)}
+          >
+            <div className={styles.handler} />
+          </Draggable>
+        </div>
 
         <div className={styles.exisBackground}>
           <div className={styles.exisContainer}>

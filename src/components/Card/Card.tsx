@@ -37,10 +37,12 @@ export const Card: React.FC<CardType> = ({ client }) => {
   };
 
   const checkDelay = (down: Date | undefined, up: Date) => {
-    if (Number(up) - Number(down) > 2500) {
-      setShortDescription(true);
-    } else setShortDescription(false);
-    setOpenDescription(true);
+    if (!openDescription) {
+      if (Number(up) - Number(down) > 2500) {
+        setShortDescription(true);
+      } else setShortDescription(false);
+      setOpenDescription(true);
+    }
   };
 
   useEffect(() => {

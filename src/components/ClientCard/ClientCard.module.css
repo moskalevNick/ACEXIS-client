@@ -393,10 +393,9 @@
 
 .handler {
   position: absolute;
-  right: 58%;
-  width: 3px;
+  right: 58.5%;
+  width: 4px;
   height: 100%;
-  padding: 0px 0;
   top: 0;
   background: red;
   cursor: col-resize;
