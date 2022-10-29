@@ -44,7 +44,7 @@ export const StatusBar: React.FC<StatusBarType> = ({
 
   useEffect(() => {
     getStatus(statuses);
-  }, [statuses, getStatus]);
+  }, [statuses]);
 
   useEffect(() => {
     if (prevStatuses?.length) {

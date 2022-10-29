@@ -20,7 +20,7 @@ export const RangeSlider: React.FC<RangeSliderType> = ({
 
   useEffect(() => {
     getRangeValue(rangeValue);
-  }, [rangeValue, getRangeValue]);
+  }, [rangeValue]);
 
   return (
     <div className={styles.wrapper}>

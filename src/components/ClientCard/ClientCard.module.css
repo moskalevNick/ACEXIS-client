@@ -48,15 +48,18 @@
 }
 
 .contentWrapper {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
 }
 
 .clientDataWrapper {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 575px;
 }
 
 .clientDataContainer {
@@ -67,6 +70,128 @@
   position: relative;
   width: 776px;
   display: flex;
+}
+
+.visitsData {
+  height: 100%;
+}
+
+.visitsWrapper {
+  border: 1px solid var(--line-color);
+  margin: 24px 36px;
+  height: calc(100% - 25px);
+  border-radius: 8px;
+}
+
+.visitsHeader {
+  height: 52px;
+  border-bottom: 1px solid var(--line-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.visitsHeaderItem {
+  width: 100%;
+}
+
+.visitsHeaderlabel {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 16px;
+  font-style: normal;
+}
+
+.visitsContainer {
+  height: 337px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.visitItemWrapper {
+  margin: 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.visitItem {
+  position: relative;
+  width: 100%;
+}
+
+.exisPointWrapper {
+  width: 6px;
+}
+
+.exisPoint {
+  position: relative;
+  margin: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: #1487f2;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.exisPoint::before,
+.exisPoint::after,
+.exisBadge {
+  opacity: 0;
+}
+
+.exisPointWrapper:hover > .exisPoint::before {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.exisPointWrapper:hover > .exisPoint::after {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}
+
+.exisPointWrapper:hover > .exisBadge {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.exisPoint::before {
+  position: absolute;
+  top: calc(-50% - 1px);
+  left: calc(-50% - 1px);
+  content: '';
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #1487f2;
+  width: 14px;
+  height: 14px;
+}
+
+.exisPoint::after {
+  position: absolute;
+  top: calc(-50% - 4px);
+  left: calc(-50% - 4px);
+  content: '';
+  display: block;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #9fcefa;
+  width: 20px;
+  height: 20px;
+}
+
+.exisBadge {
+  position: absolute;
+  left: 1px;
+  z-index: 999;
+  padding: 20px;
+  border: 1px solid var(--line-color);
+  border-radius: 10px;
+  width: 230px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: var(--login-background);
 }
 
 .settingsToggle {
@@ -266,8 +391,19 @@
   margin-left: 12px;
 }
 
+.handler {
+  position: absolute;
+  right: 58%;
+  width: 3px;
+  height: 100%;
+  padding: 0px 0;
+  top: 0;
+  background: red;
+  cursor: col-resize;
+}
+
 .exisBackground {
-  width: 432px;
+  flex: 1 1 auto;
   background: linear-gradient(
     296.09deg,
     #fb5c64 8.05%,
@@ -282,8 +418,7 @@
 
 .exisContainer {
   position: relative;
-  margin: 19px auto 0;
-  width: 392px;
+  margin: 20px;
   height: calc(100% - 19px);
   background: var(--login-background);
   border-radius: 12px 12px 0px 0px;
@@ -341,25 +476,44 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: fit-content;
 }
 
 .unpinButton {
-  position: absolute;
-  top: 12px;
   display: none;
-  width: 136px;
-  height: 31px;
 }
-.unpinButton svg {
-  stroke: #fff;
+
+.labelUnpinButton {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: 8px;
 }
 
 .pinnedMessageDateWrapper:hover + .unpinButton {
-  display: block;
+  position: absolute;
+  top: 14px;
+  width: 136px;
+  height: 31px;
+  padding-left: 11px;
+  display: flex;
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  border-radius: 7px;
+  align-items: center;
 }
 
 .unpinButton:hover {
-  display: block;
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  width: 136px;
+  height: 31px;
+  padding-left: 11px;
+  display: flex;
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  border-radius: 7px;
+  align-items: center;
 }
 
 .pinnedMessageDate {
@@ -391,6 +545,25 @@
 .messageDateWrapper {
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+.buttonsWrapper {
+  position: absolute;
+  right: 0;
+  display: none;
+}
+
+.exisContentWrapper:hover > .messageDateWrapper > .buttonsWrapper {
+  display: block;
+}
+
+.buttonsWrapper > button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-left: 8px;
+  background-color: transparent;
 }
 
 .messageDate {

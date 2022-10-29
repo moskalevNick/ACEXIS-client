@@ -7,9 +7,15 @@ type TodayModuleType = {
   isOpenFullScreenCamera: boolean;
 };
 
-type ExisType = {
+export type ExisType = {
+  id: string;
   date: Date;
   text: string;
+};
+
+type VisitsType = {
+  date: Date;
+  exisId?: string;
 };
 
 export type ClientType = {
@@ -20,8 +26,9 @@ export type ClientType = {
   isSimilar: boolean;
   id: string;
   averageBill?: number;
+  visits: VisitsType[];
   exises: ExisType[];
-  pinnedExis?: ExisType;
+  pinnedExisId?: string;
   phoneNumber?: string;
 };
 
@@ -33,157 +40,165 @@ const clients: ClientType[] = [
     status: 'ghost',
     isSimilar: true,
     id: '1',
-    exises: [],
-    pinnedExis: {
-      text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-      date: new Date('2022, 9, 22'),
-    },
+    visits: [
+      { date: new Date('2021, 9, 25') },
+      { date: new Date('2021, 10, 25') },
+      { date: new Date('2021, 11, 25') },
+      { date: new Date('2021, 12, 25') },
+      { date: new Date('2022, 1, 25') },
+      { date: new Date('2022, 2, 25') },
+      { date: new Date('2022, 3, 25'), exisId: '1' },
+      { date: new Date('2022, 4, 25') },
+      { date: new Date('2022, 5, 25') },
+      { date: new Date('2022, 6, 25') },
+      { date: new Date('2022, 7, 25') },
+      { date: new Date('2022, 8, 25') },
+      { date: new Date('2022, 9, 25') },
+      { date: new Date('2022, 10, 25') },
+      { date: new Date('2022, 10, 26') },
+      { date: new Date('2022, 10, 27'), exisId: '2' },
+      { date: new Date('2022, 10, 28') },
+    ],
+    exises: [
+      {
+        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 3, 25'),
+        id: '1',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 10, 27'),
+        id: '2',
+      },
+    ],
+    pinnedExisId: '1',
     averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
-    status: 'cookie',
-    isSimilar: false,
+    status: 'ghost',
+    isSimilar: true,
     id: '2',
-    exises: [],
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
+    averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '3Станиславов Станислав',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'ghost',
     isSimilar: true,
     id: '3',
-    exises: [],
-    pinnedExis: {
-      text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-      date: new Date('2022, 9, 22'),
-    },
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
     averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
-    status: 'goal',
-    isSimilar: false,
+    status: 'ghost',
+    isSimilar: true,
     id: '4',
-    exises: [],
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
+    averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '5Станиславов Станислав',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'ghost',
     isSimilar: true,
     id: '5',
-    exises: [],
-    pinnedExis: {
-      text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-      date: new Date('2022, 9, 22'),
-    },
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
     averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
+    status: 'ghost',
+    isSimilar: true,
     id: '6',
-    exises: [],
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
+    averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '123 123',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
-    status: 'moon',
+    status: 'ghost',
     isSimilar: true,
     id: '7',
-    exises: [],
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
+    averageBill: 99231,
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
+    name: '1Станиславов Станислав',
     lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
+    status: 'ghost',
+    isSimilar: true,
     id: '8',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '123 123',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: true,
-    id: '9',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
-    id: '10',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '123 123',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: true,
-    id: '11',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
-    id: '12',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '123 123',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: true,
-    id: '13',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
-    id: '14',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '123 123',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: true,
-    id: '15',
-    exises: [],
-  },
-  {
-    imgPath: ['/mocks/visitor.png'],
-    name: '456 456',
-    lastVisit: 'Today',
-    status: 'moon',
-    isSimilar: false,
-    id: '16',
-    exises: [],
+    visits: [],
+    exises: [
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 22'),
+        id: '1',
+      },
+    ],
+    pinnedExisId: '1',
+    averageBill: 99231,
   },
 ];
 

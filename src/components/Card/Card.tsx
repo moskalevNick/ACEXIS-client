@@ -1,12 +1,12 @@
 import styles from './Card.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WarninIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
-import { ClientType } from '../../modules/TodayModule/TodayModule';
+import { ClientType, ExisType } from '../../modules/TodayModule/TodayModule';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import { ClientCard } from '../ClientCard/ClientCard';
 type CardType = {
@@ -17,6 +17,7 @@ export const Card: React.FC<CardType> = ({ client }) => {
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
   const [isShortDescription, setShortDescription] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
+  const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -41,6 +42,11 @@ export const Card: React.FC<CardType> = ({ client }) => {
     } else setShortDescription(false);
     setOpenDescription(true);
   };
+
+  useEffect(() => {
+    const pinnedMessage = client.exises.find((el) => el.id === client.pinnedExisId);
+    pinnedMessage && setPinnedMessage(pinnedMessage);
+  }, [client.pinnedExisId]);
 
   return (
     <div
@@ -76,20 +82,16 @@ export const Card: React.FC<CardType> = ({ client }) => {
                 <div className={styles.labelContent}>Average bill</div>
                 {client.averageBill ? client.averageBill : '---'}
               </div>
-              {client.pinnedExis && (
+              {pinnedMessage && (
                 <>
                   <div className={styles.horizontalLine} />
                   <div className={styles.pinnedMessageDateWrapper}>
                     <PinnedIcon />
                     <div className={styles.pinnedMessageDate}>
-                      {`${client.pinnedExis?.date?.getDate()}.${
-                        client.pinnedExis?.date?.getMonth() + 1 < 10
-                          ? `0${client.pinnedExis?.date?.getMonth() + 1}`
-                          : client.pinnedExis?.date?.getMonth() + 1
-                      }.${client.pinnedExis?.date?.getFullYear()}`}
+                      {pinnedMessage.date.toLocaleDateString()}
                     </div>
                   </div>
-                  <div className={styles.pinnedMessageText}>{client.pinnedExis.text}</div>
+                  <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
                 </>
               )}
             </div>

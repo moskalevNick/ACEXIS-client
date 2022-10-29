@@ -35,6 +35,8 @@
 
 .checkbox {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .label {
@@ -56,19 +58,19 @@
   width: auto;
 }
 
-.wrapperToggleEng{
+.wrapperToggleEng {
   position: absolute;
   bottom: 32px;
   left: 32px;
 }
 
-.wrapperToggleTheme{
+.wrapperToggleTheme {
   position: absolute;
   bottom: 32px;
   right: 32px;
 }
 
-.preview{
+.preview {
   margin: auto 0;
   width: 100%;
   height: 87%;
@@ -78,7 +80,7 @@
   background-position: center right;
 }
 
-.moon{
+.moon {
   position: absolute;
   left: 9.2%;
   top: 5%;
@@ -88,7 +90,7 @@
   fill: var(--login-background);
 }
 
-.planet{
+.planet {
   position: absolute;
   left: 32%;
   bottom: 2.5%;
