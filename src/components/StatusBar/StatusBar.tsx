@@ -22,6 +22,14 @@ type StatusType = {
   icon: React.ReactNode;
 };
 
+const statusesArray: StatusType[] = [
+  { id: '1', status: 'ghost', icon: <GhostStatusIcon /> },
+  { id: '2', status: 'cookie', icon: <CookieStatusIcon /> },
+  { id: '3', status: 'moon', icon: <MoonStatusIcon /> },
+  { id: '4', status: 'goal', icon: <GoalStatusIcon /> },
+  { id: '5', status: 'wheel', icon: <WheelStatusIcon /> },
+];
+
 export const StatusBar: React.FC<StatusBarType> = ({
   label = 'Statuses',
   disableGhost = false,
@@ -31,16 +39,6 @@ export const StatusBar: React.FC<StatusBarType> = ({
   prevStatuses,
 }) => {
   const [statuses, setStatuses] = useState<string[]>([]);
-
-  const statusesArray: StatusType[] = [
-    { id: '1', status: 'ghost', icon: <GhostStatusIcon /> },
-    { id: '2', status: 'cookie', icon: <CookieStatusIcon /> },
-    { id: '3', status: 'moon', icon: <MoonStatusIcon /> },
-    { id: '4', status: 'goal', icon: <GoalStatusIcon /> },
-    { id: '5', status: 'wheel', icon: <WheelStatusIcon /> },
-  ];
-
-  if (withoutGhost) statusesArray.shift();
 
   useEffect(() => {
     getStatus(statuses);
@@ -80,21 +78,21 @@ export const StatusBar: React.FC<StatusBarType> = ({
     <div className={styles.wrapper}>
       <div className={styles.label}>{label}</div>
       <div className={statusBarClasses}>
-        {statusesArray.map((status) => (
+        {statusesArray.map(({ status, id, icon }) => (
           <button
             className={classNames(
               styles.button,
-              Boolean(statuses.find((el) => el === status.status)) && styles.activeButton,
-              disableGhost && status.status === 'ghost' && styles.disableGhost,
+              Boolean(statuses.find((el) => el === status)) && styles.activeButton,
+              disableGhost && status === 'ghost' && styles.disableGhost,
             )}
             onClick={(e) => {
               e.preventDefault();
-              oneStatus ? setStatus(status.status) : checkStatus(status.status);
+              oneStatus ? setStatus(status) : checkStatus(status);
             }}
-            key={status.id}
-            disabled={disableGhost && status.status === 'ghost' && styles.disableGhost}
+            key={id}
+            disabled={disableGhost && status === 'ghost' && styles.disableGhost}
           >
-            {status.icon}
+            {icon}
           </button>
         ))}
       </div>

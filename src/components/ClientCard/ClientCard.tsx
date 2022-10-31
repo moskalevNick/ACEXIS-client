@@ -48,7 +48,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
   const [isOpenDeleteExis, setOpenDeleteExis] = useState(false);
   const [deletingExis, setDeletingExis] = useState<ExisType | undefined>();
+  const [editingExis, setEditingExis] = useState<ExisType | undefined>();
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
+  const [point, setPoint] = useState<null | { x: number; y: number }>(null);
 
   const setBill = () => {
     //console.log(billValue);
@@ -100,10 +102,19 @@ export const ClientCard: React.FC<ClientCardType> = ({
     pinnedMessage && styles.exisesWrapperWithPin,
   );
 
+  const exisInputWrapperClassnames = classNames(
+    styles.exisInputWrapper,
+    editingExis && styles.exisEditInputWrapper,
+  );
+
   const [position, setPosition] = useState<any>({ positionX: 320 });
 
-  const onDrag = (data: DraggableData) => {
-    setPosition({ positionX: data.x });
+  const onDrag = ({ x }: DraggableData) => {
+    const min = 220;
+    const max = 338;
+    if (x >= min || x <= max) setPosition({ positionX: x });
+    if (x < min) setPosition({ positionX: min });
+    if (x > max) setPosition({ positionX: max });
   };
 
   const getDeleteIcon = (status: string) => {
@@ -126,6 +137,10 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const deleteExis = (exis: ExisType) => {
     setOpenDeleteExis(true);
     setDeletingExis(exis);
+  };
+
+  const editExis = (exis: ExisType) => {
+    setEditingExis(exis);
   };
 
   return (
@@ -180,7 +195,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                         <div className={styles.visitsHeaderlabel}>EXIS</div>
                       </div>
                     </div>
-                    <div className={styles.visitsContainer}>
+                    <div className={styles.visitsContainer} onScroll={() => setPoint(null)}>
                       {values.visits.map((el) => (
                         <div key={el.date.toString()} className={styles.visitItemWrapper}>
                           <div className={styles.visitItem}>
@@ -190,11 +205,25 @@ export const ClientCard: React.FC<ClientCardType> = ({
                             <div className={styles.visitDate}>{el.date.toLocaleDateString()}</div>
                           </div>
                           <div className={styles.visitItem}>
-                            <div className={styles.exisPointWrapper}>
+                            <div
+                              className={styles.exisPointWrapper}
+                              onMouseEnter={(ev) => setPoint({ x: ev.clientX, y: ev.clientY })}
+                              onMouseLeave={(ev) => setPoint(null)}
+                            >
                               {el.exisId && (
                                 <>
                                   <div className={styles.exisPoint} />
-                                  <div className={styles.exisBadge}>
+                                  <div
+                                    className={styles.exisBadge}
+                                    style={
+                                      point
+                                        ? {
+                                            left: point.x + 34,
+                                            top: point.y - 50,
+                                          }
+                                        : {}
+                                    }
+                                  >
                                     <div className={styles.exisBadgeTime}>
                                       {values.exises
                                         .find((exis) => exis.id === el.exisId)
@@ -380,7 +409,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                           <button>
                             <PinnedIcon />
                           </button>
-                          <button>
+                          <button onClick={() => editExis(exis)}>
                             <EditIcon />
                           </button>
                           <button onClick={() => deleteExis(exis)}>
@@ -429,7 +458,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
             ) : (
               <div className={styles.noExis}>No EXIS</div>
             )}
-            <div className={styles.exisInputWrapper}>
+            <div className={exisInputWrapperClassnames}>
               <div className={styles.horizontalLine} />
               <Input className={styles.exisInput} placeholder="Enter EXIS" />
               <Button className={styles.exisSubmitButton} beforeIcon={<AddExisIcon />} />
