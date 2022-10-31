@@ -19,6 +19,7 @@ import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
+import { SquareTickIcon } from '../Icons/SquareTickIcon';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -140,7 +141,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
   };
 
   const editExis = (exis: ExisType) => {
-    setEditingExis(exis);
+    editingExis ? setEditingExis(undefined) : setEditingExis(exis);
   };
 
   return (
@@ -460,8 +461,32 @@ export const ClientCard: React.FC<ClientCardType> = ({
             )}
             <div className={exisInputWrapperClassnames}>
               <div className={styles.horizontalLine} />
-              <Input className={styles.exisInput} placeholder="Enter EXIS" />
-              <Button className={styles.exisSubmitButton} beforeIcon={<AddExisIcon />} />
+              {editingExis ? (
+                <div className={styles.wrapperEdittingInpt}>
+                  <div className={styles.labelEdittingInput}>
+                    <EditIcon />
+                    Editing
+                  </div>
+                  <div className={styles.editingExisText}>{editingExis.text}</div>
+                  <Input className={styles.exisEditInput} value={editingExis.text} />
+                  <Button
+                    className={styles.exisSubmitEditButton}
+                    beforeIcon={<SquareTickIcon />}
+                    onClick={() => setEditingExis(undefined)}
+                  />
+                  <button
+                    onClick={() => setEditingExis(undefined)}
+                    className={styles.buttonCloseEdit}
+                  >
+                    <CrossIcon />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Input className={styles.exisInput} placeholder="Enter EXIS" />
+                  <Button className={styles.exisSubmitButton} beforeIcon={<AddExisIcon />} />
+                </>
+              )}
             </div>
           </div>
         </div>

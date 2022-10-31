@@ -74,15 +74,36 @@ export const StatusBar: React.FC<StatusBarType> = ({
     withoutGhost && styles.statusbarWithoutGhost,
   );
 
+  const isActive = (status: string) => {
+    return statuses.includes(status);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.label}>{label}</div>
       <div className={statusBarClasses}>
-        {statusesArray.map(({ status, id, icon }) => (
+        {statusesArray.map(({ status, id, icon }, i) => (
           <button
             className={classNames(
               styles.button,
-              Boolean(statuses.find((el) => el === status)) && styles.activeButton,
+              isActive(status) && styles.activeButton,
+              !oneStatus &&
+                isActive(status) &&
+                i < statusesArray.length - 1 &&
+                isActive(statusesArray[i + 1].status) &&
+                styles.activeButtonRight,
+              !oneStatus &&
+                isActive(status) &&
+                i > 0 &&
+                isActive(statusesArray[i - 1].status) &&
+                styles.activeButtonLeft,
+              !oneStatus &&
+                isActive(status) &&
+                i > 0 &&
+                isActive(statusesArray[i - 1].status) &&
+                i < statusesArray.length - 1 &&
+                isActive(statusesArray[i + 1].status) &&
+                styles.activeButtonBoth,
               disableGhost && status === 'ghost' && styles.disableGhost,
             )}
             onClick={(e) => {

@@ -3,6 +3,7 @@
   width: 1208px;
   height: 639px;
   padding: 0 !important;
+  color: var(--text-color);
 }
 
 .clientNameInput {
@@ -97,7 +98,6 @@
 }
 
 .visitsHeaderlabel {
-  color: var(--text-color);
   font-weight: 600;
   font-size: 16px;
   font-style: normal;
@@ -202,7 +202,6 @@
 }
 
 .exisBadgeText {
-  color: var(--text-color);
   font-weight: 600;
   font-size: 13px;
 }
@@ -319,7 +318,6 @@
 }
 
 .clientName {
-  color: var(--text-color);
   font-weight: 600;
   font-size: 24px;
   height: 18px;
@@ -332,7 +330,6 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
-  color: var(--text-color);
 }
 
 .labelContent {
@@ -395,7 +392,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 20px 36px 27px;
+  margin: 20px 36px 26px;
 }
 
 .submitButton {
@@ -449,6 +446,7 @@
 }
 
 .exisInputWrapper {
+  background: var(--login-background);
   position: absolute;
   height: 88px;
   width: 100%;
@@ -462,11 +460,75 @@
 .exisInput {
   height: 40px;
   margin: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .exisSubmitButton {
   position: absolute;
   top: 23px;
+  right: 22px;
+  width: 48px;
+  height: 36px;
+}
+
+.wrapperEdittingInpt {
+  position: relative;
+  padding: 14px 20px 0px;
+}
+
+.labelEdittingInput {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.labelEdittingInput svg {
+  margin-right: 13px;
+}
+
+.editingExisText {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0 48px 0 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buttonCloseEdit {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  right: 22px;
+  top: 24px;
+}
+
+.buttonCloseEdit svg {
+  fill: #1487f2;
+}
+
+.exisEditInput {
+  height: 40px;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.exisSubmitEditButton {
+  position: absolute;
+  bottom: 2px;
   right: 22px;
   width: 48px;
   height: 36px;
@@ -617,7 +679,6 @@
 }
 
 .contentDeleteModal {
-  color: var(--text-color);
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 24px;
@@ -656,7 +717,6 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
-  color: var(--text-color);
 }
 
 .deleteClientLabelContent {

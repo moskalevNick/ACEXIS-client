@@ -1,68 +1,79 @@
 .wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-.label{
-    margin-right: 16px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
+.label {
+  margin-right: 16px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
 }
 
-.statusbar{
-    display: flex;
-    background-color: var(--icon-background);
-    width: 220px;
-    height: 36px;
-    border-radius: 8px;
+.statusbar {
+  display: flex;
+  background-color: var(--icon-background);
+  width: 220px;
+  height: 36px;
+  border-radius: 8px;
 }
 
-.statusbarWithoutGhost{
-    width: 176px;
+.statusbarWithoutGhost {
+  width: 176px;
 }
 
-.button{
-    border: none;
-    width: 44px;
-    background-color: var(--icon-background);
-    border-radius: 8px;
-    padding-top: 5px;
-    float: left;
+.button {
+  border: none;
+  width: 44px;
+  background-color: var(--icon-background);
+  border-radius: 8px;
+  padding-top: 5px;
+  float: left;
 }
 
-.button:hover{
-    background: linear-gradient(180deg, #64B4FF 0%, #007AEB 100%);
-    box-shadow: 0px 7px 11px -4px rgba(57, 149, 233, 0.52);
+.button:hover {
+  background: linear-gradient(180deg, #64b4ff 0%, #007aeb 100%);
+  box-shadow: 0px 7px 11px -4px rgba(57, 149, 233, 0.52);
 }
 
 .button svg {
-    fill: #1487F2;
-    stroke: #1487F2;
+  fill: #1487f2;
+  stroke: #1487f2;
 }
 
 .button:hover svg {
-    fill: #fff;
-    stroke: #fff;
+  fill: #fff;
+  stroke: #fff;
 }
 
-.activeButton{
-    background:linear-gradient(180deg, #419CF0 0%, #0080F7 100%);
+.activeButton {
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
 }
 
-.activeButton:hover{
-    background: linear-gradient(180deg, #64B4FF 0%, #007AEB 100%);
-    box-shadow: var(--button-hover-shadow)
+.activeButton:hover {
+  background: linear-gradient(180deg, #64b4ff 0%, #007aeb 100%);
+  box-shadow: var(--button-hover-shadow);
 }
 
 .activeButton svg {
-    fill: #fff;
-    stroke: #fff;
+  fill: #fff;
+  stroke: #fff;
 }
 
-.disableGhost svg{
-    fill: #C4C4C4;
-    stroke: #C4C4C4;
-    cursor: not-allowed;
+.activeButtonRight {
+  border-radius: 8px 0 0 8px;
 }
 
+.activeButtonLeft {
+  border-radius: 0 8px 8px 0;
+}
+
+.activeButtonBoth {
+  border-radius: 0;
+}
+
+.disableGhost svg {
+  fill: #c4c4c4;
+  stroke: #c4c4c4;
+  cursor: not-allowed;
+}
