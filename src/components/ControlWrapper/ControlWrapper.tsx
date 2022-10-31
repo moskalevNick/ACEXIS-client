@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-uuid';
 import styles from './ControlWrapper.module.css';
 
 export type ControlWrapperProps = {
@@ -17,7 +17,7 @@ export const ControlWrapper: React.FC<ControlWrapperProps> = ({
   label,
   getElementProps,
 }) => {
-  const id = uuidv4();
+  const id = uuid();
 
   const localGetElementProps = useMemo(() => {
     return getElementProps ?? (() => ({ hasError: Boolean(error), id }));

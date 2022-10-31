@@ -1,7 +1,7 @@
 import { useController, useFormContext } from 'react-hook-form';
 import { ControlWrapper, ControlWrapperProps } from './ControlWrapper';
 import React, { useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-uuid';
 
 type ControlWrapperFormProp = Omit<ControlWrapperProps, 'getElementProps'> & {
   name: string;
@@ -25,7 +25,7 @@ export const ControlWrapperForm: React.FC<ControlWrapperFormProp> = ({
     control,
   });
 
-  const id = uuidv4();
+  const id = uuid();
 
   const getElementProps = useCallback(
     () => ({

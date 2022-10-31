@@ -182,16 +182,31 @@
 
 .exisBadge {
   position: absolute;
-  left: 1px;
+  left: 34px;
+  top: -50px;
   z-index: 999;
   padding: 20px;
   border: 1px solid var(--line-color);
   border-radius: 10px;
-  width: 230px;
-  font-style: normal;
+  width: 220px;
+  background-color: var(--login-background);
+}
+
+.exisBadgeTime {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.exisBadgeText {
+  color: var(--text-color);
   font-weight: 600;
   font-size: 13px;
-  background-color: var(--login-background);
 }
 
 .settingsToggle {
@@ -425,10 +440,15 @@
 
 .exisesWrapper {
   position: absolute;
-  top: 114px;
-  height: calc(100% - 114px - 88px);
+  height: 453px;
+  bottom: 89px;
   overflow-y: scroll;
-  max-height: 392px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.exisesWrapperWithPin {
+  height: calc(100% - 210px);
 }
 
 .exisInputWrapper {

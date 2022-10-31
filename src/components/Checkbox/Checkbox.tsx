@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-uuid';
 
 import styles from './Checkbox.module.css';
 import { Tick } from '../Icons/TickIcon';
@@ -32,7 +32,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     hasError && styles.hasError,
     !checked && styles.hidden,
   );
-  const checkboxID = uuidv4();
+  const checkboxID = uuid();
 
   return (
     <div className={styles.wrapperCheckbox}>

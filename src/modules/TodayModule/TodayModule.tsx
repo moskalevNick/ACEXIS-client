@@ -61,14 +61,24 @@ const clients: ClientType[] = [
     ],
     exises: [
       {
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        text: 'Was with several people, ordered fish and chips and 8 litres of beer',
         date: new Date('2022, 3, 25'),
         id: '1',
       },
       {
-        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        text: '2Was with several people, ordered fish and chips and 8 litres of beer',
         date: new Date('2022, 10, 27'),
         id: '2',
+      },
+      {
+        text: '3Was with several people, ordered fish and chips and 8 litres of beer',
+        date: new Date('2022, 10, 27'),
+        id: '3',
+      },
+      {
+        text: '4Was with several people, ordered fish and chips and 8 litres of beer',
+        date: new Date('2022, 10, 27'),
+        id: '4',
       },
     ],
     pinnedExisId: '1',
@@ -85,11 +95,40 @@ const clients: ClientType[] = [
     exises: [
       {
         text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        date: new Date('2022, 9, 22'),
+        date: new Date('2022, 10, 22'),
         id: '1',
       },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 4, 22'),
+        id: '2',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2021, 9, 22'),
+        id: '3',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 2'),
+        id: '4',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 7, 22'),
+        id: '5',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2020, 9, 22'),
+        id: '6',
+      },
+      {
+        text: 'Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
+        date: new Date('2022, 9, 2'),
+        id: '7',
+      },
     ],
-    pinnedExisId: '1',
     averageBill: 99231,
   },
   {

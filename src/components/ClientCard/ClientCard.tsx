@@ -87,12 +87,18 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
   const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
+  const exisWrapperClassnames = classNames(
+    styles.exisesWrapper,
+    pinnedMessage && styles.exisesWrapperWithPin,
+  );
 
   const [position, setPosition] = useState<any>({ positionX: 320 });
 
   const onDrag = (data: DraggableData) => {
     setPosition({ positionX: data.x });
   };
+
+  clientData?.exises.sort((a, b) => -Number(a.date) + Number(b.date));
 
   return (
     <Modal
@@ -166,7 +172,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
                                         .find((exis) => exis.id === el.exisId)
                                         ?.date.toLocaleDateString()}
                                     </div>
-                                    {values.exises.find((exis) => exis.id === el.exisId)?.text}
+                                    <div className={styles.exisBadgeText}>
+                                      {values.exises.find((exis) => exis.id === el.exisId)?.text}
+                                    </div>
                                   </div>
                                 </>
                               )}
@@ -311,53 +319,51 @@ export const ClientCard: React.FC<ClientCardType> = ({
 
         <div className={styles.exisBackground}>
           <div className={styles.exisContainer}>
-            <>
-              {values.exises.length ? (
-                <>
-                  {pinnedMessage && (
-                    <div className={styles.pinnedExisWrapper}>
-                      <div className={styles.pinnedMessageDateWrapper}>
-                        <div className={styles.pinIconWrapper}>
-                          <PinnedIcon />
-                        </div>
-                        <div className={styles.pinnedMessageDate}>
-                          {pinnedMessage.date.toLocaleDateString()}
-                        </div>
+            {values.exises.length ? (
+              <>
+                {pinnedMessage && (
+                  <div className={styles.pinnedExisWrapper}>
+                    <div className={styles.pinnedMessageDateWrapper}>
+                      <div className={styles.pinIconWrapper}>
+                        <PinnedIcon />
                       </div>
-                      <button className={styles.unpinButton} onClick={() => console.log('unpin')}>
-                        <PinnedIcon stroke="#fff" />
-                        <div className={styles.labelUnpinButton}>Unpin this EXIS</div>
-                      </button>
-
-                      <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
+                      <div className={styles.pinnedMessageDate}>
+                        {pinnedMessage.date.toLocaleDateString()}
+                      </div>
                     </div>
-                  )}
-                  <div className={styles.exisesWrapper}>
-                    {values.exises.map((exis) => (
-                      <div className={styles.exisContentWrapper} key={exis.text}>
-                        <div className={styles.messageDateWrapper}>
-                          <div className={styles.messageDate}>{exis.date.toLocaleDateString()}</div>
-                          <div className={styles.buttonsWrapper}>
-                            <button>
-                              <PinnedIcon />
-                            </button>
-                            <button>
-                              <EditIcon />
-                            </button>
-                            <button>
-                              <CrossInSquareIcon />
-                            </button>
-                          </div>
-                        </div>
-                        <div className={styles.messageText}>{exis.text}</div>
-                      </div>
-                    ))}
+                    <button className={styles.unpinButton} onClick={() => console.log('unpin')}>
+                      <PinnedIcon stroke="#fff" />
+                      <div className={styles.labelUnpinButton}>Unpin this EXIS</div>
+                    </button>
+
+                    <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
                   </div>
-                </>
-              ) : (
-                <div className={styles.noExis}>No EXIS</div>
-              )}
-            </>
+                )}
+                <div className={exisWrapperClassnames}>
+                  {values.exises.map((exis) => (
+                    <div className={styles.exisContentWrapper} key={exis.id}>
+                      <div className={styles.messageDateWrapper}>
+                        <div className={styles.messageDate}>{exis.date.toLocaleDateString()}</div>
+                        <div className={styles.buttonsWrapper}>
+                          <button>
+                            <PinnedIcon />
+                          </button>
+                          <button>
+                            <EditIcon />
+                          </button>
+                          <button>
+                            <CrossInSquareIcon />
+                          </button>
+                        </div>
+                      </div>
+                      <div className={styles.messageText}>{exis.text}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className={styles.noExis}>No EXIS</div>
+            )}
             <div className={styles.exisInputWrapper}>
               <div className={styles.horizontalLine} />
               <Input className={styles.exisInput} placeholder="Enter EXIS" />
