@@ -20,12 +20,13 @@ export const Modal: React.FC<ModalProps> = ({
   label,
 }) => {
   const wrapperClass = classNames(styles.modal, !open && styles.hidden);
+  const btnCloseClass = classNames(styles.btnClose, label && styles.btnCloseWithLabel);
 
   const closeModal = (ev: MouseEvent<HTMLElement>): void => {
     const trgClass = (ev.target as Element).className;
     const trgCurClass = (ev.currentTarget as Element).className;
 
-    if (trgClass === wrapperClass || trgCurClass === styles.btnClose) {
+    if (trgClass === wrapperClass || trgCurClass === btnCloseClass) {
       ev.stopPropagation();
       if (onClose) {
         onClose();
@@ -43,7 +44,7 @@ export const Modal: React.FC<ModalProps> = ({
           </>
         )}
         {children}
-        <div className={styles.btnClose} onClick={closeModal}>
+        <div className={btnCloseClass} onClick={closeModal}>
           <CrossIcon />
         </div>
       </div>

@@ -39,6 +39,10 @@
   cursor: pointer;
 }
 
+.btnCloseWithLabel {
+  top: 36px;
+}
+
 .btnClose svg {
   fill: #1487f2;
   width: 20px;

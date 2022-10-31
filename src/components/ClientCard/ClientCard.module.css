@@ -1,4 +1,4 @@
-.modalAddClient {
+.modalClient {
   position: relative;
   width: 1208px;
   height: 639px;
@@ -601,4 +601,127 @@
   line-height: 20px;
   height: 30px;
   margin-top: 18px;
+}
+
+.modalDeleteClient {
+  width: 816px;
+  height: 369px;
+}
+
+.contentWrapperDeleteClientModal {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding-top: 26px;
+}
+
+.contentDeleteModal {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 24px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.deleteClientInfoWrapper {
+  height: calc(100% - 78px);
+  display: flex;
+}
+
+.deleteClientImg {
+  width: 235px;
+  height: 127px;
+}
+
+.deleteClientDataWrapper {
+  margin-left: 21px;
+}
+
+.deleteClientName {
+  height: 15px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.deleteClientTextWrapper {
+  display: flex;
+  align-items: center;
+  height: 10px;
+  margin: 16px 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--text-color);
+}
+
+.deleteClientLabelContent {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.deleteClientStatus {
+  width: 44px;
+  height: 28px;
+  background-color: var(--icon-background);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.deleteClientStatus svg {
+  fill: #1487f2;
+  stroke: #1487f2;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancelButton,
+.logoutButton {
+  width: 148px;
+}
+
+.logoutButton {
+  margin-left: 12px;
+}
+
+.deleteExisWrapper {
+  background-color: var(--input-background);
+  border-radius: 12px;
+  margin-bottom: 35px;
+}
+
+.deleteExisDate {
+  color: var(--description-color);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  height: 10px;
+  padding: 22px 0 16px 21px;
+  display: flex;
+  align-items: center;
+}
+
+.deleteExisText {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0 24px 22px 21px;
 }

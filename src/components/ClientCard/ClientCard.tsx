@@ -14,6 +14,11 @@ import { PinnedIcon } from '../Icons/PinnedIcon';
 import { EditIcon } from '../Icons/EditIcon';
 import { CrossInSquareIcon } from '../Icons/CrossInSquareIcon';
 import Draggable, { DraggableData } from 'react-draggable';
+import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
+import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
+import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
+import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
+import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -40,6 +45,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [billValue, setBillValue] = useState('');
   const [values, setValues] = useState<ClientType>(defaultValues);
   const [isVisits, toggleVisits] = useState(false);
+  const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
+  const [isOpenDeleteExis, setOpenDeleteExis] = useState(false);
+  const [deletingExis, setDeletingExis] = useState<ExisType | undefined>();
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
 
   const setBill = () => {
@@ -98,13 +106,33 @@ export const ClientCard: React.FC<ClientCardType> = ({
     setPosition({ positionX: data.x });
   };
 
+  const getDeleteIcon = (status: string) => {
+    switch (status) {
+      case 'ghost':
+        return <GhostStatusIcon />;
+      case 'cookie':
+        return <CookieStatusIcon />;
+      case 'moon':
+        return <MoonStatusIcon />;
+      case 'goal':
+        return <GoalStatusIcon />;
+      case 'wheel':
+        return <WheelStatusIcon />;
+    }
+  };
+
   clientData?.exises.sort((a, b) => -Number(a.date) + Number(b.date));
+
+  const deleteExis = (exis: ExisType) => {
+    setOpenDeleteExis(true);
+    setDeletingExis(exis);
+  };
 
   return (
     <Modal
       onClose={() => setOpenClientModal(false)}
       open={isOpenClientModal}
-      className={styles.modalAddClient}
+      className={styles.modalClient}
     >
       {clientData ? (
         <div className={styles.headerClientNameWrapper}>
@@ -277,7 +305,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                         <div className={labelFixContent}>Delete client</div>
                         <div className={styles.deleteClientWrapper}>
                           <Button
-                            onClick={setBill}
+                            onClick={() => setOpenDeleteClient(true)}
                             className={styles.deleteClientButton}
                             outlined
                             orange
@@ -296,10 +324,14 @@ export const ClientCard: React.FC<ClientCardType> = ({
             <div>
               {!isVisits && <div className={styles.horizontalLine} />}
               <div className={styles.submitButtonsWrapper}>
-                <Button outlined className={styles.submitButton}>
+                <Button
+                  outlined
+                  className={styles.submitButton}
+                  onClick={() => setOpenClientModal(false)}
+                >
                   Cancel
                 </Button>
-                <Button className={styles.submitButton}>
+                <Button className={styles.submitButton} onClick={() => setOpenClientModal(false)}>
                   {clientData ? 'Save' : 'Add visitor'}
                 </Button>
               </div>
@@ -351,12 +383,45 @@ export const ClientCard: React.FC<ClientCardType> = ({
                           <button>
                             <EditIcon />
                           </button>
-                          <button>
+                          <button onClick={() => deleteExis(exis)}>
                             <CrossInSquareIcon />
                           </button>
                         </div>
                       </div>
                       <div className={styles.messageText}>{exis.text}</div>
+                      <Modal
+                        onClose={() => setOpenDeleteExis(false)}
+                        open={isOpenDeleteExis}
+                        className={styles.modalDeleteExis}
+                        label="Delete EXIS"
+                      >
+                        <div className={styles.contentWrapperDeleteClientModal}>
+                          <div className={styles.contentDeleteModal}>
+                            Are you sure you want to delete this EXIS?
+                          </div>
+                          <div className={styles.deleteExisWrapper}>
+                            <div className={styles.deleteExisDate}>
+                              {deletingExis?.date.toLocaleDateString()}
+                            </div>
+                            <div className={styles.deleteExisText}>{deletingExis?.text}</div>
+                          </div>
+                          <div className={styles.buttonWrapper}>
+                            <Button
+                              className={styles.cancelButton}
+                              outlined
+                              onClick={() => setOpenDeleteExis(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              className={styles.logoutButton}
+                              onClick={() => setOpenDeleteExis(false)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </div>
+                      </Modal>
                     </div>
                   ))}
                 </div>
@@ -372,6 +437,51 @@ export const ClientCard: React.FC<ClientCardType> = ({
           </div>
         </div>
       </div>
+      <Modal
+        onClose={() => setOpenDeleteClient(false)}
+        open={isOpenDeleteClient}
+        className={styles.modalDeleteClient}
+        label="Delete client"
+      >
+        <div className={styles.contentWrapperDeleteClientModal}>
+          <div className={styles.contentDeleteModal}>
+            Are you sure you want to delete the client?
+          </div>
+          <div className={styles.deleteClientInfoWrapper}>
+            <img
+              src={values.imgPath[0]}
+              alt={`avatar_${values.name}`}
+              className={styles.deleteClientImg}
+            />
+            <div className={styles.deleteClientDataWrapper}>
+              <div className={styles.deleteClientName}>{values.name}</div>
+              <div className={styles.deleteClientTextWrapper}>
+                <div className={styles.deleteClientLabelContent}>Last visit</div>
+                {values.lastVisit}
+              </div>
+              <div className={styles.deleteClientTextWrapper}>
+                <div className={styles.deleteClientLabelContent}>Average bill</div>
+                {values.averageBill ? values.averageBill : 'No bills'}
+              </div>
+              <div className={styles.deleteClientTextWrapper}>
+                <div className={styles.deleteClientStatus}>{getDeleteIcon(values.status)}</div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.buttonWrapper}>
+            <Button
+              className={styles.cancelButton}
+              outlined
+              onClick={() => setOpenDeleteClient(false)}
+            >
+              Cancel
+            </Button>
+            <Button className={styles.logoutButton} onClick={() => setOpenDeleteClient(false)}>
+              Delete
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </Modal>
   );
 };
