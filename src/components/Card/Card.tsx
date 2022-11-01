@@ -27,6 +27,7 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
+  const [showInfo, setShowInfo] = useState<undefined | { x: number; y: number }>();
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -80,85 +81,92 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   }, [client.coincidentIds]);
 
   return (
-    <div
-      className={styles.wrapper}
-      onMouseDown={onMouseDown}
-      onMouseUp={() => !openDescription && checkDelay(mouseDown, new Date())}
-    >
-      <div className={styles.contentWrapper}>
-        <div className={styles.imgWrapper}>
-          <img src={client.imgPath[0]} alt={`avatar_${client.name}`} />
+    <>
+      <div
+        className={styles.wrapper}
+        onMouseDown={onMouseDown}
+        onMouseUp={() => !openDescription && checkDelay(mouseDown, new Date())}
+      >
+        <div className={styles.contentWrapper}>
+          <div className={styles.imgWrapper}>
+            <img src={client.imgPath[0]} alt={`avatar_${client.name}`} />
+          </div>
+          <div className={styles.name}>{client.name}</div>
+          <div className={styles.lastVisit}>{client.lastVisit}</div>
+          {client.coincidentIds?.length !== 0 && (
+            <div className={styles.coincidentWrapper}>
+              <div
+                className={styles.warningIconWrapper}
+                onMouseEnter={(ev) => !showInfo && setShowInfo({ x: ev.clientX, y: ev.clientY })}
+              >
+                <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
+              </div>
+            </div>
+          )}
         </div>
-        <div className={styles.name}>{client.name}</div>
-        <div className={styles.lastVisit}>{client.lastVisit}</div>
-        {client.coincidentIds?.length !== 0 && (
-          <div className={styles.coincidentWrapper}>
-            <div className={styles.warningIconWrapper}>
-              <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
-            </div>
-            <div className={styles.coincidentContainer}>
-              <div className={styles.coincidentHeader}>Select coincident profile</div>
-              <div className={styles.horizontalLineCoincident} />
-              <div className={styles.profilesWrapper}>
-                {coincidentClients.map((el) => (
-                  <div className={styles.coincidentCard} key={uuid()}>
-                    <div className={styles.imgCoincidentWrapper}>
-                      <img src={el.imgPath[0]} alt={`avatar_coincident_${el.name}`} />
-                      <button className={styles.coincidentDeleteButton}>
-                        <CrossIcon />
-                      </button>
-                      <Button className={styles.combainButton}>Combine</Button>
+        <div className={styles.status}>{chooseIcon(client.status)}</div>
+        {openDescription &&
+          (isShortDescription ? (
+            <div
+              className={styles.shortDescriptionWrapper}
+              onClick={() => {
+                setOpenDescription(false);
+                setShortDescription(false);
+                setDownTarget(undefined);
+              }}
+            >
+              <div className={styles.shortDescription}>
+                <div className={styles.nameClient}>{client.name}</div>
+                <div className={styles.textWrapper}>
+                  <div className={styles.labelContent}>Last visit</div>
+                  {client.lastVisit}
+                </div>
+                <div className={styles.textWrapper}>
+                  <div className={styles.labelContent}>Average bill</div>
+                  {client.averageBill ? client.averageBill : '---'}
+                </div>
+                {pinnedMessage && (
+                  <>
+                    <div className={styles.horizontalLineDescription} />
+                    <div className={styles.pinnedMessageDateWrapper}>
+                      <PinnedIcon />
+                      <div className={styles.pinnedMessageDate}>
+                        {pinnedMessage.date.toLocaleDateString()}
+                      </div>
                     </div>
-                    <div className={styles.coincidentName}>{el.name}</div>
-                  </div>
-                ))}
+                    <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
+                  </>
+                )}
               </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <ClientCard
+              clientData={client}
+              isOpenClientModal={openDescription}
+              setOpenClientModal={setOpenDescription}
+            />
+          ))}
       </div>
-      <div className={styles.status}>{chooseIcon(client.status)}</div>
-      {openDescription &&
-        (isShortDescription ? (
-          <div
-            className={styles.shortDescriptionWrapper}
-            onClick={() => {
-              setOpenDescription(false);
-              setShortDescription(false);
-              setDownTarget(undefined);
-            }}
-          >
-            <div className={styles.shortDescription}>
-              <div className={styles.nameClient}>{client.name}</div>
-              <div className={styles.textWrapper}>
-                <div className={styles.labelContent}>Last visit</div>
-                {client.lastVisit}
+      {showInfo && (
+        <div className={styles.coincidentContainer} style={{ left: showInfo.x, top: showInfo.y }}>
+          <div className={styles.coincidentHeader}>Select coincident profile</div>
+          <div className={styles.horizontalLineCoincident} />
+          <div className={styles.profilesWrapper}>
+            {coincidentClients.map((el) => (
+              <div className={styles.coincidentCard} key={uuid()}>
+                <div className={styles.imgCoincidentWrapper}>
+                  <img src={el.imgPath[0]} alt={`avatar_coincident_${el.name}`} />
+                  <button className={styles.coincidentDeleteButton}>
+                    <CrossIcon />
+                  </button>
+                  <Button className={styles.combainButton}>Combine</Button>
+                </div>
+                <div className={styles.coincidentName}>{el.name}</div>
               </div>
-              <div className={styles.textWrapper}>
-                <div className={styles.labelContent}>Average bill</div>
-                {client.averageBill ? client.averageBill : '---'}
-              </div>
-              {pinnedMessage && (
-                <>
-                  <div className={styles.horizontalLineDescription} />
-                  <div className={styles.pinnedMessageDateWrapper}>
-                    <PinnedIcon />
-                    <div className={styles.pinnedMessageDate}>
-                      {pinnedMessage.date.toLocaleDateString()}
-                    </div>
-                  </div>
-                  <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
-                </>
-              )}
-            </div>
+            ))}
           </div>
-        ) : (
-          <ClientCard
-            clientData={client}
-            isOpenClientModal={openDescription}
-            setOpenClientModal={setOpenDescription}
-          />
-        ))}
-    </div>
+        </div>
+      )}
+    </>
   );
 };

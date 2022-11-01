@@ -41,12 +41,7 @@
 }
 
 .coincidentContainer {
-  display: none;
-}
-
-.warningIconWrapper:hover + .coincidentContainer {
   position: absolute;
-  display: block;
   z-index: 1;
   top: -170px;
   left: 30px;
@@ -58,10 +53,10 @@
   border-radius: 16px;
 }
 
-.coincidentWrapper:hover > .coincidentContainer {
+/* .coincidentWrapper:hover > .coincidentContainer {
   position: absolute;
   display: block;
-  z-index: 1;
+  z-index: 999;
   top: -170px;
   left: 30px;
   width: 588px;
@@ -70,7 +65,7 @@
   padding: 24px;
   box-shadow: var(--shadow-modal);
   border-radius: 16px;
-}
+} */
 
 .coincidentHeader {
   font-style: normal;
