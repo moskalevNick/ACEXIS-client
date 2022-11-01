@@ -1,4 +1,3 @@
-import styles from './Card.module.css';
 import React, { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { WarninIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
@@ -12,22 +11,24 @@ import { ClientCard } from '../ClientCard/ClientCard';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { Button } from '../Button/Button';
 import uuid from 'react-uuid';
+import styles from './Card.module.css';
 
 type CardType = {
   client: ClientType;
   clients: ClientType[];
+  showInfo?: any;
+  setShowInfo?: any;
 };
 
 const CLICK_DURATION = 2500; // in ms
 
-export const Card: React.FC<CardType> = ({ client, clients }) => {
+export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInfo }) => {
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
   const [downTarget, setDownTarget] = useState<EventTarget>();
   const [isShortDescription, setShortDescription] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
-  const [showInfo, setShowInfo] = useState<null | { x: number; y: number }>(null);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -97,7 +98,9 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
             <div className={styles.coincidentWrapper}>
               <div
                 className={styles.warningIconWrapper}
-                onMouseEnter={(ev) => !showInfo && setShowInfo({ x: ev.clientX, y: ev.clientY })}
+                onMouseEnter={(ev) =>
+                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
+                }
               >
                 <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
               </div>
@@ -147,10 +150,13 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
             />
           ))}
       </div>
-      {showInfo && (
+      {showInfo && showInfo.id === client.id && (
         <div
           className={styles.coincidentContainer}
           style={{ left: showInfo.x + 30, top: showInfo.y - 170 }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <div className={styles.coincidentHeader}>Select coincident profile</div>
           <div className={styles.horizontalLineCoincident} />
