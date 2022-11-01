@@ -32,7 +32,7 @@ const defaultValues: ClientType = {
   name: 'Client name',
   lastVisit: 'No Visits',
   status: 'ghost',
-  isSimilar: false,
+  coincidentIds: [],
   id: '1',
   exises: [],
   visits: [],

@@ -24,7 +24,7 @@ export const CardContainer: React.FC<CardContainerType> = ({
   return (
     <div className={containerClasses}>
       {clients.map((client) => (
-        <Card client={client} key={client.id} />
+        <Card client={client} key={client.id} clients={clients} />
       ))}
     </div>
   );

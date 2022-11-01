@@ -16,7 +16,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '1',
     visits: [],
     exises: [
@@ -55,7 +55,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '2',
     visits: [],
     exises: [
@@ -94,7 +94,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '3',
     visits: [],
     exises: [
@@ -133,7 +133,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '4',
     visits: [],
     exises: [
@@ -172,7 +172,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '5',
     visits: [],
     exises: [
@@ -211,7 +211,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '6',
     visits: [],
     exises: [
@@ -250,7 +250,7 @@ const clients: ClientType[] = [
     name: '1Станиславов Станислав',
     lastVisit: 'Today',
     status: 'moon',
-    isSimilar: true,
+    coincidentIds: [],
     id: '7',
     visits: [],
     exises: [

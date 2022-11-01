@@ -1,5 +1,5 @@
 import styles from './Card.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { WarninIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
@@ -9,12 +9,17 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { ClientType, ExisType } from '../../modules/TodayModule/TodayModule';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import { ClientCard } from '../ClientCard/ClientCard';
+import { CrossIcon } from '../Icons/CrossIcon';
+import { Button } from '../Button/Button';
+
 type CardType = {
   client: ClientType;
+  clients: ClientType[];
 };
 
-export const Card: React.FC<CardType> = ({ client }) => {
+export const Card: React.FC<CardType> = ({ client, clients }) => {
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
+  const [downTarget, setDownTarget] = useState<EventTarget>();
   const [isShortDescription, setShortDescription] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
@@ -36,12 +41,19 @@ export const Card: React.FC<CardType> = ({ client }) => {
     }
   };
 
+  const onMouseDown = (ev: MouseEvent<HTMLElement>): void => {
+    setDownTarget(ev.target);
+    setMouseDown(new Date());
+  };
+
   const checkDelay = (down: Date | undefined, up: Date) => {
-    if (!openDescription) {
+    if (!openDescription && downTarget) {
       if (Number(up) - Number(down) > 2500) {
         setShortDescription(true);
       } else setShortDescription(false);
       setOpenDescription(true);
+    } else {
+      setOpenDescription(false);
     }
   };
 
@@ -50,10 +62,23 @@ export const Card: React.FC<CardType> = ({ client }) => {
     pinnedMessage && setPinnedMessage(pinnedMessage);
   }, [client.pinnedExisId]);
 
+  let coincidentClients: ClientType[] = [];
+
+  client.coincidentIds?.forEach((elem) => {
+    const coincidentClient = clients.find((el) => el.id === elem);
+    coincidentClient && coincidentClients.push(coincidentClient);
+  });
+
+  const stopPropagation = (ev: MouseEvent<HTMLElement>) => {
+    setDownTarget(undefined);
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+
   return (
     <div
       className={styles.wrapper}
-      onMouseDown={() => setMouseDown(new Date())}
+      onMouseDown={onMouseDown}
       onMouseUp={() => {
         checkDelay(mouseDown, new Date());
       }}
@@ -64,9 +89,29 @@ export const Card: React.FC<CardType> = ({ client }) => {
         </div>
         <div className={styles.name}>{client.name}</div>
         <div className={styles.lastVisit}>{client.lastVisit}</div>
-        {client.isSimilar && (
-          <div className={styles.warning}>
-            <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
+        {client.coincidentIds?.length !== 0 && (
+          <div className={styles.coincidentWrapper} onMouseDown={stopPropagation}>
+            <div className={styles.warningIconWrapper}>
+              <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
+            </div>
+            <div className={styles.coincidentContainer}>
+              <div className={styles.coincidentHeader}>Select coincident profile</div>
+              <div className={styles.horizontalLineCoincident} />
+              <div className={styles.profilesWrapper}>
+                {coincidentClients.map((el) => (
+                  <div className={styles.coincidentCard} key={el.id}>
+                    <div className={styles.imgCoincidentWrapper}>
+                      <img src={el.imgPath[0]} alt={`avatar_coincident_${el.name}`} />
+                      <button className={styles.coincidentDeleteButton}>
+                        <CrossIcon />
+                      </button>
+                      <Button className={styles.combainButton}>Combine</Button>
+                    </div>
+                    <div className={styles.coincidentName}>{el.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -86,7 +131,7 @@ export const Card: React.FC<CardType> = ({ client }) => {
               </div>
               {pinnedMessage && (
                 <>
-                  <div className={styles.horizontalLine} />
+                  <div className={styles.horizontalLineDescription} />
                   <div className={styles.pinnedMessageDateWrapper}>
                     <PinnedIcon />
                     <div className={styles.pinnedMessageDate}>

@@ -5,6 +5,7 @@
   border-radius: 12px;
   background-color: var(--login-background);
   cursor: pointer;
+  color: var(--text-color);
 }
 
 .contentWrapper {
@@ -20,7 +21,10 @@
 
 .name {
   margin-top: 13px;
+  font-style: normal;
+  font-weight: 600;
   font-size: 14px;
+  line-height: 19px;
   color: var(--card-name-color);
 }
 
@@ -30,10 +34,138 @@
   color: var(--description-color);
 }
 
-.warning {
+.coincidentWrapper {
   position: absolute;
   right: 0;
   bottom: 10px;
+}
+
+.coincidentContainer {
+  display: none;
+}
+
+.warningIconWrapper:hover + .coincidentContainer {
+  position: absolute;
+  display: block;
+  z-index: 1;
+  top: -170px;
+  left: 30px;
+  width: 588px;
+  max-height: 494px;
+  background-color: var(--login-background);
+  padding: 24px;
+  box-shadow: var(--shadow-modal);
+  border-radius: 16px;
+}
+
+.coincidentWrapper:hover > .coincidentContainer {
+  position: absolute;
+  display: block;
+  z-index: 1;
+  top: -170px;
+  left: 30px;
+  width: 588px;
+  max-height: 494px;
+  background-color: var(--login-background);
+  padding: 24px;
+  box-shadow: var(--shadow-modal);
+  border-radius: 16px;
+}
+
+.coincidentHeader {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 33px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.horizontalLineCoincident {
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: var(--line-color);
+}
+
+.profilesWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-height: 390px;
+  overflow-y: scroll;
+  margin: 28px 0;
+}
+
+.coincidentCard {
+  margin-bottom: 20px;
+}
+
+.imgCoincidentWrapper {
+  position: relative;
+  text-align: center;
+  border-radius: 9px;
+}
+
+.imgCoincidentWrapper:hover {
+  border: 2px solid #1487f2;
+  box-shadow: 0px 0px 4px #1487f2;
+  background-color: #1487f2;
+}
+
+.imgCoincidentWrapper img {
+  width: 262px;
+  height: 143px;
+}
+
+.imgCoincidentWrapper:hover img {
+  width: 258px;
+  height: 139px;
+}
+
+.coincidentDeleteButton {
+  display: none;
+}
+
+.combainButton {
+  display: none;
+}
+
+.imgCoincidentWrapper:hover > .coincidentDeleteButton {
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: var(--icons-background);
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: #1487f2;
+}
+
+.imgCoincidentWrapper:hover > .combainButton {
+  display: block;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 104px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.coincidentName {
+  margin-top: 16px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--card-name-color);
 }
 
 .status {
@@ -76,7 +208,6 @@
 .nameClient {
   font-size: 22px;
   font-weight: 600;
-  color: var(--text-color);
   margin-bottom: 19px;
   height: 17px;
   display: flex;
@@ -89,7 +220,6 @@
   align-items: center;
   font-weight: 600;
   font-size: 14px;
-  color: var(--text-color);
   margin-top: 13px;
 }
 
@@ -104,7 +234,7 @@
   white-space: nowrap;
 }
 
-.horizontalLine {
+.horizontalLineDescription {
   height: 1px;
   border: none;
   background-color: var(--line-color);
@@ -125,5 +255,4 @@
   margin-top: 10px;
   font-weight: 600;
   font-size: 14px;
-  color: var(--text-color);
 }

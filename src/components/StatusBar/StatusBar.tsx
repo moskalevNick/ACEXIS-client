@@ -53,20 +53,12 @@ export const StatusBar: React.FC<StatusBarType> = ({
   const checkStatus = (status: string) => {
     const el = statuses.find((el) => el === status);
 
-    if (!el) {
-      setStatuses((prev) => [...prev, status]);
-    } else {
-      setStatuses((prev) => prev.filter((element) => element !== el));
-    }
+    setStatuses((prev) => (!el ? [...prev, status] : prev.filter((element) => element !== el)));
     return;
   };
 
   const setStatus = (status: string) => {
-    setStatuses((prev) => {
-      if (prev.includes(status)) {
-        return [];
-      } else return [status];
-    });
+    setStatuses((prev) => (prev.includes(status) ? [] : [status]));
   };
 
   const statusBarClasses = classNames(
@@ -74,9 +66,7 @@ export const StatusBar: React.FC<StatusBarType> = ({
     withoutGhost && styles.statusbarWithoutGhost,
   );
 
-  const isActive = (status: string) => {
-    return statuses.includes(status);
-  };
+  const isActive = (status: string) => statuses.includes(status);
 
   return (
     <div className={styles.wrapper}>
