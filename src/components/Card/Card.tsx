@@ -148,7 +148,10 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
           ))}
       </div>
       {showInfo && (
-        <div className={styles.coincidentContainer} style={{ left: showInfo.x, top: showInfo.y }}>
+        <div
+          className={styles.coincidentContainer}
+          style={{ left: showInfo.x + 30, top: showInfo.y - 170 }}
+        >
           <div className={styles.coincidentHeader}>Select coincident profile</div>
           <div className={styles.horizontalLineCoincident} />
           <div className={styles.profilesWrapper}>

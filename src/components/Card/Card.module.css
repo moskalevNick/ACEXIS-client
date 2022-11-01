@@ -43,8 +43,6 @@
 .coincidentContainer {
   position: absolute;
   z-index: 1;
-  top: -170px;
-  left: 30px;
   width: 588px;
   max-height: 494px;
   background-color: var(--login-background);
