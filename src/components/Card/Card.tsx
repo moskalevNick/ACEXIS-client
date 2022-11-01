@@ -1,5 +1,5 @@
 import styles from './Card.module.css';
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { WarninIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
@@ -16,6 +16,8 @@ type CardType = {
   client: ClientType;
   clients: ClientType[];
 };
+
+const CLICK_DURATION = 2500; // in ms
 
 export const Card: React.FC<CardType> = ({ client, clients }) => {
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
@@ -43,20 +45,23 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   };
 
   const onMouseDown = (ev: MouseEvent<HTMLElement>): void => {
+    if (downTarget) return;
     setDownTarget(ev.target);
     setMouseDown(new Date());
   };
 
-  const checkDelay = (down: Date | undefined, up: Date) => {
-    if (!openDescription && downTarget) {
-      if (Number(up) - Number(down) > 2500) {
-        setShortDescription(true);
-      } else setShortDescription(false);
-      setOpenDescription(true);
-    } else {
-      setOpenDescription(false);
-    }
-  };
+  const checkDelay = useCallback(
+    (down: Date | undefined, up: Date) => {
+      if (!openDescription && downTarget) {
+        setShortDescription(Number(up) - Number(down) > CLICK_DURATION);
+        setOpenDescription(true);
+      } else {
+        setOpenDescription(false);
+      }
+      setMouseDown(undefined);
+    },
+    [openDescription, downTarget],
+  );
 
   useEffect(() => {
     const pinnedMessage = client.exises.find((el) => el.id === client.pinnedExisId);
@@ -64,28 +69,21 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   }, [client.pinnedExisId]);
 
   useEffect(() => {
-    client.coincidentIds?.forEach((elem) => {
-      const newCoincidentClient = clients.find((el) => el.id === elem);
-      if (newCoincidentClient) {
-        !coincidentClients.includes(newCoincidentClient) &&
-          setCoincidentClients((prev) => [...prev, newCoincidentClient]);
-      }
-    });
-  }, []);
-
-  const stopPropagation = (ev: MouseEvent<HTMLElement>) => {
-    setDownTarget(undefined);
-    ev.preventDefault();
-    ev.stopPropagation();
-  };
+    if (client.coincidentIds) {
+      let arr: ClientType[] = [];
+      client.coincidentIds.map((elem) => {
+        const coincidentClient = clients.find((el) => el.id === elem);
+        if (coincidentClient) arr.push(coincidentClient);
+      });
+      setCoincidentClients(arr);
+    }
+  }, [client.coincidentIds]);
 
   return (
     <div
       className={styles.wrapper}
       onMouseDown={onMouseDown}
-      onMouseUp={() => {
-        checkDelay(mouseDown, new Date());
-      }}
+      onMouseUp={() => !openDescription && checkDelay(mouseDown, new Date())}
     >
       <div className={styles.contentWrapper}>
         <div className={styles.imgWrapper}>
@@ -94,7 +92,7 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
         <div className={styles.name}>{client.name}</div>
         <div className={styles.lastVisit}>{client.lastVisit}</div>
         {client.coincidentIds?.length !== 0 && (
-          <div className={styles.coincidentWrapper} onMouseDown={stopPropagation}>
+          <div className={styles.coincidentWrapper}>
             <div className={styles.warningIconWrapper}>
               <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
             </div>
