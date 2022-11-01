@@ -23,6 +23,7 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   const [isShortDescription, setShortDescription] = useState(false);
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
+  const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -62,12 +63,15 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
     pinnedMessage && setPinnedMessage(pinnedMessage);
   }, [client.pinnedExisId]);
 
-  let coincidentClients: ClientType[] = [];
-
-  client.coincidentIds?.forEach((elem) => {
-    const coincidentClient = clients.find((el) => el.id === elem);
-    coincidentClient && coincidentClients.push(coincidentClient);
-  });
+  useEffect(() => {
+    client.coincidentIds?.forEach((elem) => {
+      const newCoincidentClient = clients.find((el) => el.id === elem);
+      if (newCoincidentClient) {
+        !coincidentClients.includes(newCoincidentClient) &&
+          setCoincidentClients((prev) => [...prev, newCoincidentClient]);
+      }
+    });
+  }, []);
 
   const stopPropagation = (ev: MouseEvent<HTMLElement>) => {
     setDownTarget(undefined);
