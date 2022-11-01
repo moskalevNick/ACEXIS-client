@@ -27,7 +27,7 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
-  const [showInfo, setShowInfo] = useState<undefined | { x: number; y: number }>();
+  const [showInfo, setShowInfo] = useState<null | { x: number; y: number }>(null);
 
   const chooseIcon = (status: string) => {
     switch (status) {
