@@ -173,20 +173,13 @@ export const Header: React.FC<HeaderType> = ({
             onChange={() => setIsLight((prev) => !prev)}
           />
         </div>
-        <div
-          className={styles.avatarContainer}
-          onClick={() => setOpenBadge((prev) => !prev)}
-          ref={refAvatar}
-        >
+        <div className={styles.avatarContainer} ref={refAvatar}>
           <AvatarIcon />
         </div>
-      </div>
-      {isOpenBadge && (
         <div className={styles.badge} ref={refBadge}>
           <Button
             className={styles.badgeButton}
             onClick={() => {
-              setOpenBadge(false);
               setOpenSettingModal(true);
             }}
             beforeIcon={<SettingIcon />}
@@ -196,7 +189,6 @@ export const Header: React.FC<HeaderType> = ({
           <Button
             className={styles.badgeButton}
             onClick={() => {
-              setOpenBadge(false);
               setOpenLogoutModal(true);
             }}
             beforeIcon={<LogoutIcon />}
@@ -204,7 +196,7 @@ export const Header: React.FC<HeaderType> = ({
             <p className={styles.buttonLabel}>Exit</p>
           </Button>
         </div>
-      )}
+      </div>
       <Modal
         onClose={() => setOpenSettingModal(false)}
         open={isOpenSettingModal}
