@@ -11,6 +11,7 @@ import { PinnedIcon } from '../Icons/PinnedIcon';
 import { ClientCard } from '../ClientCard/ClientCard';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { Button } from '../Button/Button';
+import uuid from 'react-uuid';
 
 type CardType = {
   client: ClientType;
@@ -44,11 +45,10 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
     }
   };
 
-  const onMouseDown = (ev: MouseEvent<HTMLElement>): void => {
-    if (downTarget) return;
+  const onMouseDown = useCallback((ev: MouseEvent<HTMLElement>): void => {
     setDownTarget(ev.target);
     setMouseDown(new Date());
-  };
+  }, []);
 
   const checkDelay = useCallback(
     (down: Date | undefined, up: Date) => {
@@ -101,7 +101,7 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
               <div className={styles.horizontalLineCoincident} />
               <div className={styles.profilesWrapper}>
                 {coincidentClients.map((el) => (
-                  <div className={styles.coincidentCard} key={el.id}>
+                  <div className={styles.coincidentCard} key={uuid()}>
                     <div className={styles.imgCoincidentWrapper}>
                       <img src={el.imgPath[0]} alt={`avatar_coincident_${el.name}`} />
                       <button className={styles.coincidentDeleteButton}>
@@ -120,7 +120,14 @@ export const Card: React.FC<CardType> = ({ client, clients }) => {
       <div className={styles.status}>{chooseIcon(client.status)}</div>
       {openDescription &&
         (isShortDescription ? (
-          <div className={styles.shortDescriptionWrapper}>
+          <div
+            className={styles.shortDescriptionWrapper}
+            onClick={() => {
+              setOpenDescription(false);
+              setShortDescription(false);
+              setDownTarget(undefined);
+            }}
+          >
             <div className={styles.shortDescription}>
               <div className={styles.nameClient}>{client.name}</div>
               <div className={styles.textWrapper}>
