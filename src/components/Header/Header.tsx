@@ -173,29 +173,36 @@ export const Header: React.FC<HeaderType> = ({
             onChange={() => setIsLight((prev) => !prev)}
           />
         </div>
-        <div className={styles.avatarContainer} ref={refAvatar}>
+        <div
+          className={styles.avatarContainer}
+          ref={refAvatar}
+          onClick={() => setOpenBadge((prev) => !prev)}
+          onMouseEnter={() => !isOpenBadge && setOpenBadge(true)}
+        >
           <AvatarIcon />
         </div>
-        <div className={styles.badge} ref={refBadge}>
-          <Button
-            className={styles.badgeButton}
-            onClick={() => {
-              setOpenSettingModal(true);
-            }}
-            beforeIcon={<SettingIcon />}
-          >
-            <p className={styles.buttonLabel}>Settings</p>
-          </Button>
-          <Button
-            className={styles.badgeButton}
-            onClick={() => {
-              setOpenLogoutModal(true);
-            }}
-            beforeIcon={<LogoutIcon />}
-          >
-            <p className={styles.buttonLabel}>Exit</p>
-          </Button>
-        </div>
+        {isOpenBadge && (
+          <div className={styles.badge} ref={refBadge}>
+            <Button
+              className={styles.badgeButton}
+              onClick={() => {
+                setOpenSettingModal(true);
+              }}
+              beforeIcon={<SettingIcon />}
+            >
+              <p className={styles.buttonLabel}>Settings</p>
+            </Button>
+            <Button
+              className={styles.badgeButton}
+              onClick={() => {
+                setOpenLogoutModal(true);
+              }}
+              beforeIcon={<LogoutIcon />}
+            >
+              <p className={styles.buttonLabel}>Exit</p>
+            </Button>
+          </div>
+        )}
       </div>
       <Modal
         onClose={() => setOpenSettingModal(false)}
