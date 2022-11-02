@@ -68,7 +68,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   );
 
   useEffect(() => {
-    const pinnedMessage = client.exises.find((el) => el.id === client.pinnedExisId);
+    const pinnedMessage = client.exises.find(({ id }) => id === client.pinnedExisId);
     pinnedMessage && setPinnedMessage(pinnedMessage);
   }, [client.pinnedExisId]);
 
@@ -83,11 +83,17 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     }
   }, [client.coincidentIds]);
 
-  client.visits.forEach((el) => {
-    if (Number(el.date) > Number(lastVisit)) {
-      setLastVisit(el);
+  useEffect(() => {
+    if (client?.visits) {
+      let res: VisitsType | undefined;
+      client.visits.map((el) => {
+        if (Number(el.date) > Number(lastVisit)) {
+          res = el;
+        }
+      });
+      if (res) setLastVisit(res);
     }
-  });
+  }, [client.visits]);
 
   return (
     <>
