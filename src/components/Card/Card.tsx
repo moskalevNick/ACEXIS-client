@@ -85,13 +85,17 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
 
   useEffect(() => {
     if (client?.visits) {
-      let res: VisitsType | undefined;
+      let latest: VisitsType | undefined;
+
       client.visits.map((el) => {
-        if (Number(el.date) > Number(lastVisit)) {
-          res = el;
+        if (Number(el.date) > (Number(latest?.date) || 0)) {
+          latest = el;
         }
       });
-      if (res) setLastVisit(res);
+
+      if ((latest && lastVisit && latest.date > lastVisit.date) || (!lastVisit && latest)) {
+        setLastVisit(latest);
+      }
     }
   }, [client.visits]);
 
