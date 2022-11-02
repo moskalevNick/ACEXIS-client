@@ -36,6 +36,7 @@ const defaultValues: ClientType = {
   id: '1',
   exises: [],
   visits: [],
+  bills: [],
 };
 
 export const ClientCard: React.FC<ClientCardType> = ({
@@ -278,8 +279,12 @@ export const ClientCard: React.FC<ClientCardType> = ({
                       {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
                     </div>
                     <div className={styles.textWrapper}>
-                      <div className={styles.labelContent}>Average bill</div>
-                      {values.averageBill ? values.averageBill : 'No bills'}
+                      <div className={styles.labelContent}>Average bill</div>{' '}
+                      {values.bills.length
+                        ? Math.round(
+                            values.bills.reduce((acc, num) => acc + num, 0) / values.bills.length,
+                          )
+                        : 'No bills'}
                     </div>
                     <div className={styles.textWrapper}>
                       <div className={styles.labelContent}>Status</div>
@@ -499,7 +504,11 @@ export const ClientCard: React.FC<ClientCardType> = ({
               </div>
               <div className={styles.deleteClientTextWrapper}>
                 <div className={styles.deleteClientLabelContent}>Average bill</div>
-                {values.averageBill ? values.averageBill : 'No bills'}
+                {values.bills.length
+                  ? Math.round(
+                      values.bills.reduce((acc, num) => acc + num, 0) / values.bills.length,
+                    )
+                  : 'No bills'}
               </div>
               <div className={styles.deleteClientTextWrapper}>
                 <div className={styles.deleteClientStatus}>{getDeleteIcon(values.status)}</div>

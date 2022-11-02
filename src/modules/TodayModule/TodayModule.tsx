@@ -25,7 +25,7 @@ export type ClientType = {
   status: string;
   coincidentIds?: string[];
   id: string;
-  averageBill?: number;
+  bills: number[];
   visits: VisitsType[];
   exises: ExisType[];
   pinnedExisId?: string;

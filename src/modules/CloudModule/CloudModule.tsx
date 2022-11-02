@@ -46,7 +46,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20, 200],
     phoneNumber: '+375441234567',
   },
   {
@@ -84,7 +84,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
   {
@@ -122,7 +122,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
   {
@@ -160,7 +160,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
   {
@@ -198,7 +198,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
   {
@@ -236,7 +236,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
   {
@@ -274,7 +274,7 @@ const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '3',
-    averageBill: 99231,
+    bills: [10, 20],
     phoneNumber: '+375441234567',
   },
 ];

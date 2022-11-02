@@ -49,7 +49,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor2.png'],
@@ -95,7 +95,7 @@ export const clients: ClientType[] = [
         id: '7',
       },
     ],
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -111,7 +111,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -128,7 +128,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -145,7 +145,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -162,7 +162,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -179,7 +179,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -196,7 +196,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -213,7 +213,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -230,7 +230,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -247,7 +247,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -264,7 +264,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -281,7 +281,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -298,7 +298,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -315,7 +315,7 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
   {
     imgPath: ['/mocks/visitor.png'],
@@ -332,6 +332,6 @@ export const clients: ClientType[] = [
       },
     ],
     pinnedExisId: '1',
-    averageBill: 99231,
+    bills: [10, 20],
   },
 ];

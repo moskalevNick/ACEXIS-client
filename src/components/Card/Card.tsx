@@ -142,11 +142,15 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                 <div className={styles.nameClient}>{client.name}</div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Last visit</div>
-                  {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
+                  {lastVisit ? getInterval(lastVisit.date) : 'No visits'}
                 </div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Average bill</div>
-                  {client.averageBill ? client.averageBill : '---'}
+                  {client.bills.length
+                    ? Math.round(
+                        client.bills.reduce((acc, num) => acc + num, 0) / client.bills.length,
+                      )
+                    : 'No bills'}
                 </div>
                 {pinnedMessage && (
                   <>
