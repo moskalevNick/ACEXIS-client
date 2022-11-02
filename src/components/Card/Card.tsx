@@ -16,8 +16,8 @@ import styles from './Card.module.css';
 type CardType = {
   client: ClientType;
   clients: ClientType[];
-  showInfo?: any;
-  setShowInfo?: any;
+  showInfo?: null | { id: string; x: number; y: number };
+  setShowInfo?: (val: null | { id: string; x: number; y: number }) => void;
 };
 
 const CLICK_DURATION = 2500; // in ms
@@ -99,7 +99,9 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
               <div
                 className={styles.warningIconWrapper}
                 onMouseEnter={(ev) =>
-                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
+                  !showInfo &&
+                  setShowInfo &&
+                  setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
                 }
               >
                 <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
