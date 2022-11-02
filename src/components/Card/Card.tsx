@@ -100,7 +100,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
           <div className={styles.imgWrapper}>
             <img src={client.imgPath[0]} alt={`avatar_${client.name}`} />
           </div>
-          <div className={styles.name}>{client.name}</div>
+          <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
           <div className={styles.lastVisit}>
             {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
           </div>

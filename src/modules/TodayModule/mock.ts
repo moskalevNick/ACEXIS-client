@@ -99,7 +99,6 @@ export const clients: ClientType[] = [
   },
   {
     imgPath: ['/mocks/visitor.png'],
-    name: '3Станиславов Станислав',
     status: 'ghost',
     coincidentIds: [],
     id: '3',

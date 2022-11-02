@@ -21,7 +21,7 @@ export type VisitsType = {
 
 export type ClientType = {
   imgPath: string[];
-  name: string;
+  name?: string;
   status: string;
   coincidentIds?: string[];
   id: string;
