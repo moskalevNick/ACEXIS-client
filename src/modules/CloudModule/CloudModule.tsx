@@ -14,11 +14,10 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '1',
-    visits: [],
+    visits: [{ date: new Date('2022, 10, 25') }, { date: new Date('2022, 10, 25') }],
     exises: [
       {
         date: new Date('2022, 8, 23'),
@@ -53,7 +52,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '2',
@@ -92,7 +90,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '3',
@@ -131,7 +128,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '4',
@@ -170,7 +166,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '5',
@@ -209,7 +204,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '6',
@@ -248,7 +242,6 @@ const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'moon',
     coincidentIds: [],
     id: '7',

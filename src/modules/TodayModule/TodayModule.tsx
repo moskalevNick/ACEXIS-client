@@ -14,7 +14,7 @@ export type ExisType = {
   text: string;
 };
 
-type VisitsType = {
+export type VisitsType = {
   date: Date;
   exisId?: string;
 };
@@ -22,7 +22,6 @@ type VisitsType = {
 export type ClientType = {
   imgPath: string[];
   name: string;
-  lastVisit: string;
   status: string;
   coincidentIds?: string[];
   id: string;

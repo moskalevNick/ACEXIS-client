@@ -5,19 +5,20 @@ import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
-import { ClientType, ExisType } from '../../modules/TodayModule/TodayModule';
+import { ClientType, ExisType, VisitsType } from '../../modules/TodayModule/TodayModule';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import { ClientCard } from '../ClientCard/ClientCard';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { Button } from '../Button/Button';
 import uuid from 'react-uuid';
 import styles from './Card.module.css';
+import { getInterval } from '../../helpers/getInterval';
 
 type CardType = {
   client: ClientType;
   clients: ClientType[];
   showInfo?: null | { id: string; x: number; y: number };
-  setShowInfo?: (val: null | { id: string; x: number; y: number }) => void;
+  setShowInfo: (val: null | { id: string; x: number; y: number }) => void;
 };
 
 const CLICK_DURATION = 2500; // in ms
@@ -29,6 +30,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   const [openDescription, setOpenDescription] = useState(false);
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
+  const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -81,6 +83,12 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     }
   }, [client.coincidentIds]);
 
+  client.visits.forEach((el) => {
+    if (Number(el.date) > Number(lastVisit)) {
+      setLastVisit(el);
+    }
+  });
+
   return (
     <>
       <div
@@ -93,15 +101,15 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
             <img src={client.imgPath[0]} alt={`avatar_${client.name}`} />
           </div>
           <div className={styles.name}>{client.name}</div>
-          <div className={styles.lastVisit}>{client.lastVisit}</div>
+          <div className={styles.lastVisit}>
+            {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
+          </div>
           {client.coincidentIds?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
               <div
                 className={styles.warningIconWrapper}
                 onMouseEnter={(ev) =>
-                  !showInfo &&
-                  setShowInfo &&
-                  setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
+                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
                 }
               >
                 <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
@@ -124,7 +132,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                 <div className={styles.nameClient}>{client.name}</div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Last visit</div>
-                  {client.lastVisit}
+                  {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
                 </div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Average bill</div>

@@ -6,7 +6,7 @@ import { UploadBigIcon } from '../Icons/UploadBigIcon';
 import { Button } from '../Button/Button';
 import { StatusBar } from '../StatusBar/StatusBar';
 import { AddExisIcon } from '../Icons/AddExisIcon';
-import { ClientType, ExisType } from '../../modules/TodayModule/TodayModule';
+import { ClientType, ExisType, VisitsType } from '../../modules/TodayModule/TodayModule';
 import classNames from 'classnames';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
@@ -20,6 +20,7 @@ import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { SquareTickIcon } from '../Icons/SquareTickIcon';
+import { getInterval } from '../../helpers/getInterval';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -30,7 +31,6 @@ type ClientCardType = {
 const defaultValues: ClientType = {
   imgPath: [],
   name: 'Client name',
-  lastVisit: 'No Visits',
   status: 'ghost',
   coincidentIds: [],
   id: '1',
@@ -52,6 +52,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [editingExis, setEditingExis] = useState<ExisType | undefined>();
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [point, setPoint] = useState<null | { x: number; y: number }>(null);
+  const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
 
   const setBill = () => {
     //console.log(billValue);
@@ -71,29 +72,6 @@ export const ClientCard: React.FC<ClientCardType> = ({
     const pinnedMessage = values.exises.find((el) => el.id === values.pinnedExisId);
     pinnedMessage && setPinnedMessage(pinnedMessage);
   }, [values.pinnedExisId]);
-
-  const getInterval = (date: Date) => {
-    const interval = Number(new Date().setHours(0, 0, 0, 0)) / 86400000 - Number(date) / 86400000;
-    if (interval === 0) {
-      return 'Today';
-    }
-    if (interval === 1) {
-      return 'Yesterday';
-    }
-    if (interval < 60) {
-      return `${interval} days ago`;
-    }
-    if (Math.floor(interval / 30) === 6) {
-      return 'Half a year ago';
-    }
-    if (interval < 365) {
-      return `${Math.floor(interval / 30)} months ago`;
-    }
-    if (Math.floor(interval / 30) === 12) {
-      return 'A year ago';
-    }
-    return 'Over a year ago';
-  };
 
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
@@ -143,6 +121,12 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const editExis = (exis: ExisType) => {
     editingExis ? setEditingExis(undefined) : setEditingExis(exis);
   };
+
+  values.visits.forEach((el) => {
+    if (Number(el.date) > Number(lastVisit)) {
+      setLastVisit(el);
+    }
+  });
 
   return (
     <Modal
@@ -291,7 +275,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                     <div className={styles.clientName}>{values.name}</div>
                     <div className={styles.textWrapper}>
                       <div className={styles.labelContent}>Last visit</div>
-                      {values.lastVisit}
+                      {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
                     </div>
                     <div className={styles.textWrapper}>
                       <div className={styles.labelContent}>Average bill</div>
@@ -511,7 +495,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
               <div className={styles.deleteClientName}>{values.name}</div>
               <div className={styles.deleteClientTextWrapper}>
                 <div className={styles.deleteClientLabelContent}>Last visit</div>
-                {values.lastVisit}
+                {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
               </div>
               <div className={styles.deleteClientTextWrapper}>
                 <div className={styles.deleteClientLabelContent}>Average bill</div>

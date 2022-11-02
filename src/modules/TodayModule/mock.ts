@@ -4,7 +4,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: ['1', '2', '3', '4', '5', '6', '7'],
     id: '1',
@@ -55,7 +54,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor2.png'],
     name: '2Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '2',
@@ -102,7 +100,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '3Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '3',
@@ -120,7 +117,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '4',
@@ -138,7 +134,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '5',
@@ -156,7 +151,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '6',
@@ -174,7 +168,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '7',
@@ -192,7 +185,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '8',
@@ -210,7 +202,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '9',
@@ -228,7 +219,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '10',
@@ -246,7 +236,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '11',
@@ -264,7 +253,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '12',
@@ -282,7 +270,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '13',
@@ -300,7 +287,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '14',
@@ -318,7 +304,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '15',
@@ -336,7 +321,6 @@ export const clients: ClientType[] = [
   {
     imgPath: ['/mocks/visitor.png'],
     name: '1Станиславов Станислав',
-    lastVisit: 'Today',
     status: 'ghost',
     coincidentIds: [],
     id: '16',
