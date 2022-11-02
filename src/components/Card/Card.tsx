@@ -75,7 +75,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   useEffect(() => {
     if (client.coincidentIds) {
       let arr: ClientType[] = [];
-      client.coincidentIds.map((elem) => {
+      client.coincidentIds.forEach((elem) => {
         const coincidentClient = clients.find((el) => el.id === elem);
         if (coincidentClient) arr.push(coincidentClient);
       });
@@ -87,7 +87,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     if (client?.visits) {
       let latest: VisitsType | undefined;
 
-      client.visits.map((el) => {
+      client.visits.forEach((el) => {
         if (Number(el.date) > (Number(latest?.date) || 0)) {
           latest = el;
         }
