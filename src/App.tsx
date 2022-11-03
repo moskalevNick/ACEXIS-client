@@ -20,7 +20,6 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
-
               <Route path="*" element={<Navigate to={'/'} />} />
             </Route>
           </Routes>

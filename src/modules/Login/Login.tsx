@@ -12,7 +12,13 @@ import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch';
 import { MoonIconPreview } from '../../components/Icons/MoonIconPreview';
 import { PlanetIcon } from '../../components/Icons/PlanetIcon';
 import { useSelector } from 'react-redux';
-import { selectTheme, setFSCameraOpen, setTheme } from '../../redux/reducers/globalReducer';
+import {
+  selectIsRussian,
+  selectTheme,
+  setFSCameraOpen,
+  setRussian,
+  setTheme,
+} from '../../redux/reducers/globalReducer';
 import styles from './Login.module.css';
 
 type FormType = {
@@ -32,8 +38,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const [isRemember, setRemember] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  const [isRus, setIsRus] = useState(false);
   const theme = useSelector(selectTheme);
+  const isRus = useSelector(selectIsRussian);
 
   const methods = useForm<FormType>({
     mode: 'onChange',
@@ -42,7 +48,7 @@ export const Login = () => {
 
   useEffect(() => {
     dispatch(setFSCameraOpen(false));
-  }, []);
+  }, [dispatch]);
 
   useLayoutEffect(() => {
     document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
@@ -95,7 +101,9 @@ export const Login = () => {
         <div className={styles.wrapperToggleEng}>
           <ToggleSwitch
             checked={isRus}
-            onChange={() => setIsRus((prev) => !prev)}
+            onChange={() => {
+              dispatch(setRussian(isRus ? false : true));
+            }}
             labels={['РУС', 'ENG']}
           />
         </div>

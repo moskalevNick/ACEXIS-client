@@ -1,10 +1,11 @@
 import { RootState } from '../store';
-import { SET_FS_CAMERA, SET_THEME } from './actions/globalActions';
+import { SET_FS_CAMERA, SET_RUSSIAN, SET_THEME } from './actions/globalActions';
 import { ActionType, State, Theme } from './types';
 
 const initialState: State = {
   theme: 'light',
   isFullScreenCameraOpen: false,
+  isRussian: false,
 };
 
 export default function globalReducer(state = initialState, action: ActionType = {}) {
@@ -13,6 +14,8 @@ export default function globalReducer(state = initialState, action: ActionType =
       return { ...state, theme: action.payload };
     case SET_FS_CAMERA:
       return { ...state, isFullScreenCameraOpen: action.payload };
+    case SET_RUSSIAN:
+      return { ...state, isRussian: action.payload };
     default:
       return state;
   }
@@ -28,5 +31,11 @@ export const setFSCameraOpen = (value: boolean) => ({
   payload: value,
 });
 
+export const setRussian = (value: boolean) => ({
+  type: SET_RUSSIAN,
+  payload: value,
+});
+
 export const selectTheme = (store: RootState) => store.globalReducer.theme;
 export const selectFSCamera = (store: RootState) => store.globalReducer.isFullScreenCameraOpen;
+export const selectIsRussian = (store: RootState) => store.globalReducer.isRussian;

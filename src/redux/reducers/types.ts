@@ -7,4 +7,5 @@ export type Theme = 'light' | 'dark';
 export type State = {
   theme: Theme;
   isFullScreenCameraOpen: boolean;
+  isRussian: boolean;
 };
