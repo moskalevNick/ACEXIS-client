@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import styles from './Header.module.css';
@@ -16,18 +16,18 @@ import { UploadIcon } from '../Icons/UploadIcon';
 import { ArrowLeftIcon } from '../Icons/ArrowLeftIcon';
 import { FullScreenIcon } from '../Icons/FullScreenIcon';
 import classNames from 'classnames';
+import {
+  selectFSCamera,
+  selectTheme,
+  setFSCameraOpen,
+  setTheme,
+} from '../../redux/reducers/globalReducer';
+import { useSelector, useDispatch } from 'react-redux';
 
-type HeaderType = {
-  setOpenFullscreenCamera: (state: boolean) => void;
-  isOpenFullScreenCamera: boolean;
-};
-
-export const Header: React.FC<HeaderType> = ({
-  setOpenFullscreenCamera,
-  isOpenFullScreenCamera,
-}) => {
+export const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLight, setIsLight] = useState(true);
+  const theme = useSelector(selectTheme);
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
@@ -36,6 +36,7 @@ export const Header: React.FC<HeaderType> = ({
   const [isOpenSearchInput, setOpenSearchInput] = useState(false);
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
+  const isOpenFullScreenCamera = useSelector(selectFSCamera);
 
   const handleClickOutside = useCallback((e: any) => {
     if (refBadge.current !== null && refAvatar.current !== null) {
@@ -48,10 +49,6 @@ export const Header: React.FC<HeaderType> = ({
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
   }, [handleClickOutside]);
-
-  useEffect(() => {
-    document.body.setAttribute('color-theme', isLight ? 'light' : 'dark');
-  }, [isLight]);
 
   const activeStyle = {
     fontWeight: '700',
@@ -75,6 +72,10 @@ export const Header: React.FC<HeaderType> = ({
     styles.wrapperSectionToggleWithOpenCamera,
   );
 
+  useLayoutEffect(() => {
+    document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
+  }, [theme]);
+
   return (
     <div className={wrapperClassnames}>
       <button
@@ -96,7 +97,7 @@ export const Header: React.FC<HeaderType> = ({
             <button
               className={styles.fullScreenButton}
               onClick={() => {
-                setOpenFullscreenCamera(true);
+                dispatch(setFSCameraOpen(true));
                 setOpenCameraWidget(false);
               }}
             >
@@ -168,9 +169,11 @@ export const Header: React.FC<HeaderType> = ({
       <div className={styles.settingsContainer}>
         <div className={styles.toggleThemeContainer}>
           <ToggleSwitch
-            checked={isLight}
+            checked={theme === 'light'}
             size="short"
-            onChange={() => setIsLight((prev) => !prev)}
+            onChange={() => {
+              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+            }}
           />
         </div>
         <div

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from '../../components/Button/Button';
 import { CardContainer } from '../../components/CardContainer/CardContainer';
 import { ClientCard } from '../../components/ClientCard/ClientCard';
@@ -7,283 +8,11 @@ import { Datepicker } from '../../components/DatePicker/DatePicker';
 import { PlusIcon } from '../../components/Icons/PlusIcon';
 import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
 import { StatusBar } from '../../components/StatusBar/StatusBar';
-import { ClientType } from '../TodayModule/TodayModule';
+import { selectFSCamera } from '../../redux/reducers/globalReducer';
+import { clients } from './clients';
 import styles from './Cloud.module.css';
 
-const clients: ClientType[] = [
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '1',
-    visits: [{ date: new Date('2022, 10, 25') }, { date: new Date('2022, 10, 25') }],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20, 200],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '2',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '3',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '4',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '5',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '6',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-  {
-    imgPath: ['/mocks/visitor2.png', '/mocks/small.png', '/mocks/small2.png'],
-    name: '1Станиславов Станислав',
-    status: 'moon',
-    coincidentIds: [],
-    id: '7',
-    visits: [],
-    exises: [
-      {
-        date: new Date('2022, 8, 23'),
-        text: '1Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '1',
-      },
-      {
-        date: new Date('2022, 9, 24'),
-        text: '2Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '2',
-      },
-      {
-        date: new Date('2022, 9, 25'),
-        text: '3Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '3',
-      },
-      {
-        date: new Date('2022, 9, 26'),
-        text: '4Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '4',
-      },
-      {
-        date: new Date('2022, 9, 27'),
-        text: '5Often comes with people, orders chicken with vegetables, sometimes alcohol drinks',
-        id: '5',
-      },
-    ],
-    pinnedExisId: '3',
-    bills: [10, 20],
-    phoneNumber: '+375441234567',
-  },
-];
-
 const wording = ['Customers added yesterday', 'Customers added for selected period'];
-
-type CloudModuleType = {
-  isOpenFullScreenCamera: boolean;
-};
 
 export type DatepickerDataType = [Date | null, Date | null];
 export type RangeDataType = [number, number];
@@ -300,10 +29,11 @@ const defaultValues: FiltersType = {
   status: [],
 };
 
-export const CloudModule: React.FC<CloudModuleType> = ({ isOpenFullScreenCamera }) => {
+export const CloudModule = () => {
   const [filters, setFilters] = useState(defaultValues);
   const [isOpenAddClientModal, setOpenAddClientModal] = useState(false);
   const [isOpenRange, setOpenRange] = useState(false);
+  const isOpenFullScreenCamera = useSelector(selectFSCamera);
 
   const onSubmitDatepicker = (date: DatepickerDataType | undefined) => {
     setFilters((prev) => ({ ...prev, date: date }));

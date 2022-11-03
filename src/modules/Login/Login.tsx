@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
-import styles from './Login.module.css';
+import { useDispatch } from 'react-redux/es/exports';
 import Logo from '../../assets/images/logo.png';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { Input } from '../../components/Input/Input';
@@ -12,10 +11,9 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch';
 import { MoonIconPreview } from '../../components/Icons/MoonIconPreview';
 import { PlanetIcon } from '../../components/Icons/PlanetIcon';
-
-type LoginType = {
-  setOpenFullscreenCamera: (state: boolean) => void;
-};
+import { useSelector } from 'react-redux';
+import { selectTheme, setFSCameraOpen, setTheme } from '../../redux/reducers/globalReducer';
+import styles from './Login.module.css';
 
 type FormType = {
   login: string;
@@ -29,12 +27,13 @@ const defaultValues: FormType = {
   isRemember: false,
 };
 
-export const Login: React.FC<LoginType> = ({ setOpenFullscreenCamera }) => {
+export const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isRemember, setRemember] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [isRus, setIsRus] = useState(false);
-  const [isLight, setIsLight] = useState(true);
+  const theme = useSelector(selectTheme);
 
   const methods = useForm<FormType>({
     mode: 'onChange',
@@ -42,13 +41,12 @@ export const Login: React.FC<LoginType> = ({ setOpenFullscreenCamera }) => {
   });
 
   useEffect(() => {
-    setOpenFullscreenCamera(false);
-  }, [setOpenFullscreenCamera]);
+    dispatch(setFSCameraOpen(false));
+  }, []);
 
-  //set var in redux
-  useEffect(() => {
-    document.body.setAttribute('color-theme', isLight ? 'light' : 'dark');
-  }, [isLight]);
+  useLayoutEffect(() => {
+    document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
+  }, [theme]);
 
   const { handleSubmit, watch } = methods;
 
@@ -102,7 +100,12 @@ export const Login: React.FC<LoginType> = ({ setOpenFullscreenCamera }) => {
           />
         </div>
         <div className={styles.wrapperToggleTheme}>
-          <ToggleSwitch checked={isLight} onChange={() => setIsLight((prev) => !prev)} />
+          <ToggleSwitch
+            checked={theme === 'light'}
+            onChange={() => {
+              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+            }}
+          />
         </div>
       </main>
       <div className={styles.side}>

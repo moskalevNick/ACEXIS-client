@@ -1,12 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { CardContainer } from '../../components/CardContainer/CardContainer';
+import { selectFSCamera } from '../../redux/reducers/globalReducer';
 import { clients } from './mock';
 import styles from './Today.module.css';
-
-type TodayModuleType = {
-  isOpenFullScreenCamera: boolean;
-};
 
 export type ExisType = {
   id: string;
@@ -32,7 +30,8 @@ export type ClientType = {
   phoneNumber?: string;
 };
 
-export const TodayModule: React.FC<TodayModuleType> = ({ isOpenFullScreenCamera }) => {
+export const TodayModule = () => {
+  const isOpenFullScreenCamera = useSelector(selectFSCamera);
   const containerClassnames = classNames(
     styles.container,
     isOpenFullScreenCamera && styles.containerWithCamera,
