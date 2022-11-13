@@ -1,6 +1,6 @@
 import { RootState } from '../store';
 import { SET_FS_CAMERA, SET_RUSSIAN, SET_THEME } from './actions/globalActions';
-import { ActionType, State, Theme } from './types';
+import { ActionType, State, Theme } from '../types';
 
 const initialState: State = {
   theme: 'light',

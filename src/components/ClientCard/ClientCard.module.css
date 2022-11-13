@@ -439,6 +439,7 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column-reverse;
+  width: 100%;
 }
 
 .exisesWrapperWithPin {
@@ -552,6 +553,7 @@
   box-shadow: var(--shadow-pinned-exis);
   border-radius: 12px;
   padding: 20px;
+  width: 100%;
 }
 
 .pinnedMessageDateWrapper {
@@ -608,7 +610,7 @@
 
 .pinnedMessageText {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-weight: 600;
   font-size: 13px;
@@ -657,7 +659,7 @@
 
 .messageText {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-weight: 600;
   font-size: 13px;

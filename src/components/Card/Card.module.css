@@ -17,6 +17,7 @@
   width: 256px;
   height: 143px;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .name {

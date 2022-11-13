@@ -5,7 +5,6 @@ import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
-import { ClientType, ExisType, VisitsType } from '../../modules/TodayModule/TodayModule';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import { ClientCard } from '../ClientCard/ClientCard';
 import { CrossIcon } from '../Icons/CrossIcon';
@@ -13,6 +12,8 @@ import { Button } from '../Button/Button';
 import uuid from 'react-uuid';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
+import { ClientType, ExisType, VisitsType } from '../../redux/types';
+import { useAppSelector } from '../../hooks/redux';
 
 type CardType = {
   client: ClientType;
@@ -32,45 +33,14 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
 
-  const chooseIcon = (status: string) => {
-    switch (status) {
-      case 'ghost':
-        return <GhostStatusIcon />;
-      case 'cookie':
-        return <CookieStatusIcon />;
-      case 'moon':
-        return <MoonStatusIcon />;
-      case 'goal':
-        return <GoalStatusIcon />;
-      case 'wheel':
-        return <WheelStatusIcon />;
-      default:
-        return <>err</>;
-    }
-  };
-
-  const onMouseDown = useCallback((ev: MouseEvent<HTMLElement>): void => {
-    setDownTarget(ev.target);
-    setMouseDown(new Date());
-  }, []);
-
-  const checkDelay = useCallback(
-    (down: Date | undefined, up: Date) => {
-      if (!openDescription && downTarget) {
-        setShortDescription(Number(up) - Number(down) > CLICK_DURATION);
-        setOpenDescription(true);
-      } else {
-        setOpenDescription(false);
-      }
-      setMouseDown(undefined);
-    },
-    [openDescription, downTarget],
-  );
+  const exises = useAppSelector((state) => state.exisReducer.exises);
+  const avatars = useAppSelector((state) => state.avatarReducer.avatars);
 
   useEffect(() => {
-    const pinnedMessage = client.exises.find(({ id }) => id === client.pinnedExisId);
-    pinnedMessage && setPinnedMessage(pinnedMessage);
-  }, [client.pinnedExisId]);
+    if (client.pinnedExisId) {
+      setPinnedMessage(exises.find((exis) => exis.id === client.pinnedExisId));
+    }
+  }, [exises]);
 
   useEffect(() => {
     if (client.coincidentIds) {
@@ -99,6 +69,41 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     }
   }, [client.visits]);
 
+  const chooseIcon = (status: string) => {
+    switch (status) {
+      case 'ghost':
+        return <GhostStatusIcon />;
+      case 'cookie':
+        return <CookieStatusIcon />;
+      case 'moon':
+        return <MoonStatusIcon />;
+      case 'goal':
+        return <GoalStatusIcon />;
+      case 'wheel':
+        return <WheelStatusIcon />;
+      default:
+        return <GhostStatusIcon />;
+    }
+  };
+
+  const onMouseDown = useCallback((ev: MouseEvent<HTMLElement>): void => {
+    setDownTarget(ev.target);
+    setMouseDown(new Date());
+  }, []);
+
+  const checkDelay = useCallback(
+    (down: Date | undefined, up: Date) => {
+      if (!openDescription && downTarget) {
+        setShortDescription(Number(up) - Number(down) > CLICK_DURATION);
+        setOpenDescription(true);
+      } else {
+        setOpenDescription(false);
+      }
+      setMouseDown(undefined);
+    },
+    [openDescription, downTarget],
+  );
+
   return (
     <>
       <div
@@ -108,7 +113,9 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
       >
         <div className={styles.contentWrapper}>
           <div className={styles.imgWrapper}>
-            <img src={client.imgPath[0]} alt={`avatar_${client.name}`} />
+            {client.imgIds.length !== 0 && (
+              <img src={client.avatarLink} alt={`avatar_${client.name}`} />
+            )}
           </div>
           <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
           <div className={styles.lastVisit}>
@@ -158,7 +165,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                     <div className={styles.pinnedMessageDateWrapper}>
                       <PinnedIcon />
                       <div className={styles.pinnedMessageDate}>
-                        {pinnedMessage.date.toLocaleDateString()}
+                        {new Date(pinnedMessage.date).toLocaleDateString()}
                       </div>
                     </div>
                     <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
@@ -168,7 +175,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
             </div>
           ) : (
             <ClientCard
-              clientData={client}
+              clientId={client.id}
               isOpenClientModal={openDescription}
               setOpenClientModal={setOpenDescription}
             />
@@ -188,7 +195,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
             {coincidentClients.map((el) => (
               <div className={styles.coincidentCard} key={uuid()}>
                 <div className={styles.imgCoincidentWrapper}>
-                  <img src={el.imgPath[0]} alt={`avatar_coincident_${el.name}`} />
+                  <img src={el.avatarLink} alt={`avatar_coincident_${el.name}`} />
                   <button className={styles.coincidentDeleteButton}>
                     <CrossIcon />
                   </button>

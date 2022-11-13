@@ -2,8 +2,8 @@ import styles from './CardContainer.module.css';
 import React, { useState } from 'react';
 import { Card } from '../Card/Card';
 import classNames from 'classnames';
-import { ClientType } from '../../modules/TodayModule/TodayModule';
 import uuid from 'react-uuid';
+import { ClientType } from '../../redux/types';
 
 type CardContainerType = {
   clients: ClientType[];

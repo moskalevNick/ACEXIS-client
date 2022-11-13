@@ -1,5 +1,6 @@
 export const getInterval = (date: Date) => {
-  const interval = Number(new Date().setHours(0, 0, 0, 0)) / 86400000 - Number(date) / 86400000;
+  const interval =
+    Number(new Date().setHours(0, 0, 0, 0)) / 86400000 - Number(new Date(date)) / 86400000;
   if (interval === 0) {
     return 'Today';
   }

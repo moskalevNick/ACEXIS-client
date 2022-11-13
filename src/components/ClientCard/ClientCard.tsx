@@ -1,3 +1,4 @@
+import uuid from 'react-uuid';
 import styles from './ClientCard.module.css';
 import React, { useEffect, useState } from 'react';
 import { Modal } from '../Modal/Modal';
@@ -6,7 +7,6 @@ import { UploadBigIcon } from '../Icons/UploadBigIcon';
 import { Button } from '../Button/Button';
 import { StatusBar } from '../StatusBar/StatusBar';
 import { AddExisIcon } from '../Icons/AddExisIcon';
-import { ClientType, ExisType, VisitsType } from '../../modules/TodayModule/TodayModule';
 import classNames from 'classnames';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
@@ -21,39 +21,82 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { SquareTickIcon } from '../Icons/SquareTickIcon';
 import { getInterval } from '../../helpers/getInterval';
+import { ClientType, ExisType, VisitsType } from '../../redux/types';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { exisActions } from '../../redux/exis/actions';
+import { clientActions } from '../../redux/clients/actions';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
   setOpenClientModal: (state: boolean) => void;
-  clientData?: ClientType;
+  clientId?: string;
 };
 
 const defaultValues: ClientType = {
-  imgPath: [],
+  imgIds: [],
   name: 'Client name',
   status: 'ghost',
   coincidentIds: [],
   id: '1',
-  exises: [],
+  exisIds: [],
   visits: [],
   bills: [],
+  userId: '',
 };
 
 export const ClientCard: React.FC<ClientCardType> = ({
   isOpenClientModal,
   setOpenClientModal,
-  clientData,
+  clientId,
 }) => {
+  const dispatch = useAppDispatch();
   const [billValue, setBillValue] = useState('');
   const [values, setValues] = useState<ClientType>(defaultValues);
   const [isVisits, toggleVisits] = useState(false);
   const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
   const [isOpenDeleteExis, setOpenDeleteExis] = useState(false);
   const [deletingExis, setDeletingExis] = useState<ExisType | undefined>();
-  const [editingExis, setEditingExis] = useState<ExisType | undefined>();
+  const [editingExis, setEditingExis] = useState<ExisType>();
+  const [editingExisStr, setEditingExisStr] = useState<string>('');
+  const [newExisText, setNewExisText] = useState<string>('');
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [point, setPoint] = useState<null | { x: number; y: number }>(null);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
+  const [position, setPosition] = useState<any>({ positionX: 320 });
+
+  const client = useAppSelector((state) => state.clientReducer.client);
+
+  useEffect(() => {
+    if (clientId) {
+      dispatch(clientActions.getClient(clientId));
+    }
+  }, [clientId]);
+
+  useEffect(() => {
+    if (Object.keys(client).length !== 0 && isOpenClientModal) {
+      setValues(client);
+    }
+  }, [client]);
+
+  useEffect(() => {
+    if (values.pinnedExisId) {
+      // setPinnedMessage(values?.exises?.find((exis) => exis.id === values.pinnedExisId));
+    } else {
+      setPinnedMessage(undefined);
+    }
+  }, [values]);
+
+  useEffect(() => {
+    editingExis ? setEditingExisStr(editingExis?.text) : setEditingExisStr('');
+  }, [editingExis]);
+
+  useEffect(() => {
+    values.visits.forEach((el) => {
+      if (Number(el.date) > Number(lastVisit)) {
+        setLastVisit(el);
+      }
+    });
+  }, [values]);
 
   const setBill = () => {
     //console.log(billValue);
@@ -62,32 +105,6 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const getStatus = (status: string[]) => {
     // console.log(status);
   };
-
-  useEffect(() => {
-    if (clientData) {
-      setValues(clientData);
-    }
-  }, [clientData]);
-
-  useEffect(() => {
-    const pinnedMessage = values.exises.find((el) => el.id === values.pinnedExisId);
-    pinnedMessage && setPinnedMessage(pinnedMessage);
-  }, [values.pinnedExisId]);
-
-  const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
-  const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
-  const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
-  const exisWrapperClassnames = classNames(
-    styles.exisesWrapper,
-    pinnedMessage && styles.exisesWrapperWithPin,
-  );
-
-  const exisInputWrapperClassnames = classNames(
-    styles.exisInputWrapper,
-    editingExis && styles.exisEditInputWrapper,
-  );
-
-  const [position, setPosition] = useState<any>({ positionX: 320 });
 
   const onDrag = ({ x }: DraggableData) => {
     const min = 220;
@@ -112,22 +129,63 @@ export const ClientCard: React.FC<ClientCardType> = ({
     }
   };
 
-  clientData?.exises.sort((a, b) => -Number(a.date) + Number(b.date));
-
-  const deleteExis = (exis: ExisType) => {
+  const confirmDeleteExis = (exis?: ExisType) => {
     setOpenDeleteExis(true);
     setDeletingExis(exis);
   };
 
-  const editExis = (exis: ExisType) => {
+  const deleteExis = () => {
+    deletingExis && dispatch(exisActions.deleteExis(deletingExis.id));
+    setOpenDeleteExis(false);
+    setDeletingExis(undefined);
+  };
+
+  const editExis = (exis?: ExisType) => {
     editingExis ? setEditingExis(undefined) : setEditingExis(exis);
   };
 
-  values.visits.forEach((el) => {
-    if (Number(el.date) > Number(lastVisit)) {
-      setLastVisit(el);
-    }
-  });
+  const redactExis = () => {
+    editingExisStr &&
+      editingExis?.id &&
+      dispatch(exisActions.editExis({ ...editingExis, text: editingExisStr }));
+
+    setEditingExis(undefined);
+    clientId && dispatch(clientActions.getClient(clientId));
+  };
+
+  const addNewExis = () => {
+    dispatch(
+      exisActions.createExis({
+        date: new Date(),
+        text: newExisText,
+        id: uuid(),
+        clientId: values.id,
+      }),
+    );
+    setNewExisText('');
+    clientId && dispatch(clientActions.getClient(clientId));
+  };
+
+  useEffect(() => {
+    console.log(client);
+  }, [client]);
+
+  const pinExis = (exisId: string) => {
+    exisId === '' && setPinnedMessage(undefined);
+    dispatch(clientActions.editClient({ ...values, pinnedExisId: exisId }));
+  };
+
+  const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
+  const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
+  const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
+  const exisWrapperClassnames = classNames(
+    styles.exisesWrapper,
+    pinnedMessage && styles.exisesWrapperWithPin,
+  );
+  const exisInputWrapperClassnames = classNames(
+    styles.exisInputWrapper,
+    editingExis && styles.exisEditInputWrapper,
+  );
 
   return (
     <Modal
@@ -135,7 +193,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
       open={isOpenClientModal}
       className={styles.modalClient}
     >
-      {clientData ? (
+      {clientId ? (
         <div className={styles.headerClientNameWrapper}>
           <div className={styles.headerClientName}>{values.name}</div>
         </div>
@@ -152,7 +210,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
           }}
         >
           <div className={styles.clientDataWrapper}>
-            {clientData && (
+            {clientId && (
               <div className={styles.settingsToggle}>
                 <div className={styles.wrapperSectionToggle}>
                   <button className={settingsClassnames} onClick={() => toggleVisits(false)}>
@@ -188,7 +246,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
                             <div className={styles.interval}>{getInterval(el.date)}</div>
                           </div>
                           <div className={styles.visitItem}>
-                            <div className={styles.visitDate}>{el.date.toLocaleDateString()}</div>
+                            <div className={styles.visitDate}>
+                              {new Date(el.date).toLocaleDateString()}
+                            </div>
                           </div>
                           <div className={styles.visitItem}>
                             <div
@@ -210,14 +270,14 @@ export const ClientCard: React.FC<ClientCardType> = ({
                                         : {}
                                     }
                                   >
-                                    <div className={styles.exisBadgeTime}>
-                                      {values.exises
-                                        .find((exis) => exis.id === el.exisId)
-                                        ?.date.toLocaleDateString()}
+                                    {/* <div className={styles.exisBadgeTime}>
+                                      {new Date(
+                                        values.exises.find((exis) => exis.id === el.exisId)!.date,
+                                      ).toLocaleDateString()}
                                     </div>
                                     <div className={styles.exisBadgeText}>
                                       {values.exises.find((exis) => exis.id === el.exisId)?.text}
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </>
                               )}
@@ -231,22 +291,22 @@ export const ClientCard: React.FC<ClientCardType> = ({
               ) : (
                 <div className={styles.clientData}>
                   <div className={styles.uploadPhotoWrapper}>
-                    {values.imgPath.length ? (
+                    {values.imgIds.length ? (
                       <div className={styles.photosWrapper}>
                         <div className={styles.avatarPhoto}>
                           <button className={styles.removePhotoButton}>
                             <CrossIcon />
                           </button>
                           <img
-                            src={values.imgPath[0]}
+                            // src={values.imgPath[0]}
                             alt={`avatar_${values.name}`}
                             className={styles.img}
                           />
                         </div>
                         <div className={styles.photoGallery}>
-                          {values.imgPath.map(
+                          {/* {values.imageLinks.map(
                             (el, i) =>
-                              i !== 0 && (
+                              i !== values.imageLinks.length - 1 && (
                                 <div className={styles.smallPhotoWrapper} key={`${el} ${i}`}>
                                   <img
                                     src={el}
@@ -255,8 +315,8 @@ export const ClientCard: React.FC<ClientCardType> = ({
                                   />
                                 </div>
                               ),
-                          )}
-                          {values.imgPath.length < 5 && (
+                          )} */}
+                          {values.imgIds.length < 5 && (
                             <button className={styles.smallUploadButtonWrapper}>
                               <SquareUploadIcon />
                             </button>
@@ -319,7 +379,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                         </Button>
                       </div>
                     </div>
-                    {clientData && (
+                    {clientId && (
                       <div className={styles.textWrapper}>
                         <div className={labelFixContent}>Delete client</div>
                         <div className={styles.deleteClientWrapper}>
@@ -351,7 +411,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                   Cancel
                 </Button>
                 <Button className={styles.submitButton} onClick={() => setOpenClientModal(false)}>
-                  {clientData ? 'Save' : 'Add visitor'}
+                  {clientId ? 'Save' : 'Add visitor'}
                 </Button>
               </div>
             </div>
@@ -370,7 +430,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
 
         <div className={styles.exisBackground}>
           <div className={styles.exisContainer}>
-            {values.exises.length ? (
+            {values.exisIds.length ? (
               <>
                 {pinnedMessage && (
                   <div className={styles.pinnedExisWrapper}>
@@ -379,10 +439,10 @@ export const ClientCard: React.FC<ClientCardType> = ({
                         <PinnedIcon />
                       </div>
                       <div className={styles.pinnedMessageDate}>
-                        {pinnedMessage.date.toLocaleDateString()}
+                        {new Date(pinnedMessage.date).toLocaleDateString()}
                       </div>
                     </div>
-                    <button className={styles.unpinButton} onClick={() => console.log('unpin')}>
+                    <button className={styles.unpinButton} onClick={() => pinExis('')}>
                       <PinnedIcon stroke="#fff" />
                       <div className={styles.labelUnpinButton}>Unpin this EXIS</div>
                     </button>
@@ -391,18 +451,20 @@ export const ClientCard: React.FC<ClientCardType> = ({
                   </div>
                 )}
                 <div className={exisWrapperClassnames}>
-                  {values.exises.map((exis) => (
+                  {/* {values.exises.map((exis) => (
                     <div className={styles.exisContentWrapper} key={exis.id}>
                       <div className={styles.messageDateWrapper}>
-                        <div className={styles.messageDate}>{exis.date.toLocaleDateString()}</div>
+                        <div className={styles.messageDate}>
+                          {new Date(exis.date).toLocaleDateString()}
+                        </div>
                         <div className={styles.buttonsWrapper}>
-                          <button>
+                          <button onClick={() => pinExis(exis.id)}>
                             <PinnedIcon />
                           </button>
                           <button onClick={() => editExis(exis)}>
                             <EditIcon />
                           </button>
-                          <button onClick={() => deleteExis(exis)}>
+                          <button onClick={() => confirmDeleteExis(exis)}>
                             <CrossInSquareIcon />
                           </button>
                         </div>
@@ -420,7 +482,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                           </div>
                           <div className={styles.deleteExisWrapper}>
                             <div className={styles.deleteExisDate}>
-                              {deletingExis?.date.toLocaleDateString()}
+                              {deletingExis && new Date(deletingExis.date).toLocaleDateString()}
                             </div>
                             <div className={styles.deleteExisText}>{deletingExis?.text}</div>
                           </div>
@@ -432,17 +494,14 @@ export const ClientCard: React.FC<ClientCardType> = ({
                             >
                               Cancel
                             </Button>
-                            <Button
-                              className={styles.logoutButton}
-                              onClick={() => setOpenDeleteExis(false)}
-                            >
+                            <Button className={styles.logoutButton} onClick={deleteExis}>
                               Delete
                             </Button>
                           </div>
                         </div>
                       </Modal>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </>
             ) : (
@@ -457,11 +516,16 @@ export const ClientCard: React.FC<ClientCardType> = ({
                     Editing
                   </div>
                   <div className={styles.editingExisText}>{editingExis.text}</div>
-                  <Input className={styles.exisEditInput} value={editingExis.text} />
+                  <Input
+                    className={styles.exisEditInput}
+                    value={editingExisStr}
+                    onChange={(e) => setEditingExisStr(e.target.value)}
+                    autoFocus
+                  />
                   <Button
                     className={styles.exisSubmitEditButton}
                     beforeIcon={<SquareTickIcon />}
-                    onClick={() => setEditingExis(undefined)}
+                    onClick={redactExis}
                   />
                   <button
                     onClick={() => setEditingExis(undefined)}
@@ -472,8 +536,17 @@ export const ClientCard: React.FC<ClientCardType> = ({
                 </div>
               ) : (
                 <>
-                  <Input className={styles.exisInput} placeholder="Enter EXIS" />
-                  <Button className={styles.exisSubmitButton} beforeIcon={<AddExisIcon />} />
+                  <Input
+                    className={styles.exisInput}
+                    placeholder="Enter EXIS"
+                    value={newExisText}
+                    onChange={(e) => setNewExisText(e.target.value)}
+                  />
+                  <Button
+                    className={styles.exisSubmitButton}
+                    beforeIcon={<AddExisIcon />}
+                    onClick={addNewExis}
+                  />
                 </>
               )}
             </div>
@@ -491,11 +564,11 @@ export const ClientCard: React.FC<ClientCardType> = ({
             Are you sure you want to delete the client?
           </div>
           <div className={styles.deleteClientInfoWrapper}>
-            <img
-              src={values.imgPath[0]}
+            {/* <img
+              src={values.imageLinks && values.imageLinks[values.imageLinks.length - 1]}
               alt={`avatar_${values.name}`}
               className={styles.deleteClientImg}
-            />
+            /> */}
             <div className={styles.deleteClientDataWrapper}>
               <div className={styles.deleteClientName}>{values.name}</div>
               <div className={styles.deleteClientTextWrapper}>
