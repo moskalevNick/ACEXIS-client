@@ -16,7 +16,7 @@ export const globalActions = {
     async ({ username, password }: authType) => {
       const response = await AuthService.login(username, password);
       localStorage.setItem('access-token', response.data.accessToken);
-      // localStorage.setItem('refresh-token', response.data.refreshToken);
+      localStorage.setItem('refresh-token', response.data.refreshToken);
       // cookies.
       return true;
     },
@@ -25,8 +25,16 @@ export const globalActions = {
   checkAuth: createAsyncThunk(
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].checkAuth),
     async () => {
-      // const refreshToken = localStorage.getItem('refresh-token');
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/refresh`);
+      const refreshToken = localStorage.getItem('refresh-token');
+
+      if (!refreshToken) {
+      }
+
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/refresh`, {
+        refreshToken,
+      });
+
+      localStorage.setItem('access-token', response.data.accessToken);
       console.log('response', response);
 
       return true;
