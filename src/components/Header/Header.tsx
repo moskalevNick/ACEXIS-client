@@ -16,18 +16,12 @@ import { UploadIcon } from '../Icons/UploadIcon';
 import { ArrowLeftIcon } from '../Icons/ArrowLeftIcon';
 import { FullScreenIcon } from '../Icons/FullScreenIcon';
 import classNames from 'classnames';
-import {
-  selectFSCamera,
-  selectTheme,
-  setFSCameraOpen,
-  setTheme,
-} from '../../redux/reducers/globalReducer';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { globalSettingActions } from '../../redux/global/reducer';
 
 export const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const theme = useSelector(selectTheme);
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
@@ -36,7 +30,10 @@ export const Header = () => {
   const [isOpenSearchInput, setOpenSearchInput] = useState(false);
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
-  const isOpenFullScreenCamera = useSelector(selectFSCamera);
+  const isOpenFullScreenCamera = useAppSelector(
+    (state) => state.globalReducer.isFullScreenCameraOpen,
+  );
+  const theme = useAppSelector((state) => state.globalReducer.theme);
 
   const handleClickOutside = useCallback((e: any) => {
     if (refBadge.current !== null && refAvatar.current !== null) {
@@ -97,7 +94,7 @@ export const Header = () => {
             <button
               className={styles.fullScreenButton}
               onClick={() => {
-                dispatch(setFSCameraOpen(true));
+                dispatch(globalSettingActions.setFSCamera(true));
                 setOpenCameraWidget(false);
               }}
             >
@@ -172,7 +169,7 @@ export const Header = () => {
             checked={theme === 'light'}
             size="short"
             onChange={() => {
-              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+              dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
             }}
           />
         </div>

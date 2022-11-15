@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../../components/Button/Button';
 import { CardContainer } from '../../components/CardContainer/CardContainer';
 import { ClientCard } from '../../components/ClientCard/ClientCard';
@@ -8,12 +7,9 @@ import { Datepicker } from '../../components/DatePicker/DatePicker';
 import { PlusIcon } from '../../components/Icons/PlusIcon';
 import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
 import { StatusBar } from '../../components/StatusBar/StatusBar';
-import { selectFSCamera } from '../../redux/reducers/globalReducer';
 import styles from './Cloud.module.css';
 import { clientActions } from '../../redux/clients/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { exisActions } from '../../redux/exis/actions';
-import { avatarActions } from '../../redux/avatar/actions';
 
 const wording = ['Customers added yesterday', 'Customers added for selected period'];
 
@@ -37,7 +33,9 @@ export const CloudModule = () => {
   const [filters, setFilters] = useState(defaultValues);
   const [isOpenAddClientModal, setOpenAddClientModal] = useState(false);
   const [isOpenRange, setOpenRange] = useState(false);
-  const isOpenFullScreenCamera = useSelector(selectFSCamera);
+  const isOpenFullScreenCamera = useAppSelector(
+    (state) => state.globalReducer.isFullScreenCameraOpen,
+  );
 
   const clients = useAppSelector((state) => state.clientReducer.clients);
 

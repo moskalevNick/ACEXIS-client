@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux/es/exports';
 import Logo from '../../assets/images/logo.png';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { Input } from '../../components/Input/Input';
@@ -11,35 +10,30 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch';
 import { MoonIconPreview } from '../../components/Icons/MoonIconPreview';
 import { PlanetIcon } from '../../components/Icons/PlanetIcon';
-import { useSelector } from 'react-redux';
-import {
-  selectIsRussian,
-  selectTheme,
-  setFSCameraOpen,
-  setRussian,
-  setTheme,
-} from '../../redux/reducers/globalReducer';
 import styles from './Login.module.css';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { globalSettingActions } from '../../redux/global/reducer';
+import { globalActions } from '../../redux/global/actions';
 
 type FormType = {
-  login: string;
+  username: string;
   password: string;
   isRemember: boolean;
 };
 
 const defaultValues: FormType = {
-  login: '',
+  username: '',
   password: '',
   isRemember: false,
 };
 
 export const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isRemember, setRemember] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  const theme = useSelector(selectTheme);
-  const isRus = useSelector(selectIsRussian);
+  const theme = useAppSelector((state) => state.globalReducer.theme);
+  const isRus = useAppSelector((state) => state.globalReducer.isRussian);
 
   const methods = useForm<FormType>({
     mode: 'onChange',
@@ -47,7 +41,7 @@ export const Login = () => {
   });
 
   useEffect(() => {
-    dispatch(setFSCameraOpen(false));
+    dispatch(globalSettingActions.setFSCamera(false));
   }, [dispatch]);
 
   useLayoutEffect(() => {
@@ -60,8 +54,8 @@ export const Login = () => {
 
   const login = () => {
     formData = { ...formData, isRemember: isRemember };
-    if (formData.login && formData.password) {
-      navigate('/', { replace: true });
+    if (formData.username && formData.password) {
+      dispatch(globalActions.login(formData));
     } else {
       setLoginError(true);
     }
@@ -76,7 +70,7 @@ export const Login = () => {
           <img src={Logo} width="168" height="59" alt="ACEXIS logo" className={styles.logo} />
           <FormProvider {...methods}>
             <form noValidate onSubmit={submit} autoComplete="off">
-              <ControlWrapperForm label="Login" name="login" error={loginError}>
+              <ControlWrapperForm label="Login" name="username" error={loginError}>
                 <Input placeholder="Enter your login" />
               </ControlWrapperForm>
               <ControlWrapperForm label="Password" name="password" error={loginError}>
@@ -102,7 +96,7 @@ export const Login = () => {
           <ToggleSwitch
             checked={isRus}
             onChange={() => {
-              dispatch(setRussian(isRus ? false : true));
+              dispatch(globalSettingActions.setIsRussian(isRus ? false : true));
             }}
             labels={['РУС', 'ENG']}
           />
@@ -111,7 +105,7 @@ export const Login = () => {
           <ToggleSwitch
             checked={theme === 'light'}
             onChange={() => {
-              dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
+              dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
             }}
           />
         </div>

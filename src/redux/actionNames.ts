@@ -13,4 +13,11 @@ export const actionNames = {
     deleteExis: 'DELETE_EXIS',
   },
   [modules.AVATAR]: { getAvatar: 'GET_AVATAR' },
+  [modules.GLOBAL]: {
+    setTheme: 'SET_THEME',
+    setFSCamera: 'SET_FS_CAMERA',
+    setRussian: 'SET_RUSSIAN',
+    login: 'LOGIN',
+    checkAuth: 'CHECK_AUTH',
+  },
 };

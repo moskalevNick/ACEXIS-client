@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { CardContainer } from '../../components/CardContainer/CardContainer';
-import { selectFSCamera } from '../../redux/reducers/globalReducer';
+import { useAppSelector } from '../../hooks/redux';
 import styles from './Today.module.css';
 
 export const TodayModule = () => {
-  const isOpenFullScreenCamera = useSelector(selectFSCamera);
+  const isOpenFullScreenCamera = useAppSelector(
+    (state) => state.globalReducer.isFullScreenCameraOpen,
+  );
   const containerClassnames = classNames(
     styles.container,
     isOpenFullScreenCamera && styles.containerWithCamera,

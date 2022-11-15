@@ -7,13 +7,13 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
   if (config && config.headers) {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem('access-token')}`;
   }
   return config;
 });
 
 $api.interceptors.response.use(
-  (config) => config.data,
+  (config) => config,
   async (error) => {
     const originalRequest = error.config;
     if (error?.response?.status === 401 && error.config && !error.config._isRetry) {
@@ -22,7 +22,7 @@ $api.interceptors.response.use(
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/refresh`, {
           withCredentials: true,
         });
-        localStorage.setItem('token', response.data.accessToken);
+        localStorage.setItem('access-token', response.data.accessToken);
         return $api.request(originalRequest);
       } catch (e) {
         console.log('НЕ АВТОРИЗОВАН');

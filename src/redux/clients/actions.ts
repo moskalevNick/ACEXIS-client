@@ -26,8 +26,7 @@ export const clientActions = {
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].editClient),
     async (newClient: ClientType) => {
       const data = await ClientsService.editClient(newClient);
-      const client = await ClientsService.getClient(data.id);
-      return client;
+      return data;
     },
   ),
 };

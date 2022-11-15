@@ -1,12 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import Webcam from 'react-webcam';
-import { setFSCameraOpen } from '../../redux/reducers/globalReducer';
+import { useAppDispatch } from '../../hooks/redux';
+import { globalSettingActions } from '../../redux/global/reducer';
 import { SmallScreenIcon } from '../Icons/SmallScreenIcon';
 import styles from './FullscreenCamera.module.css';
 
 export const FullscreenCamera = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className={styles.wrapper}>
@@ -15,7 +15,7 @@ export const FullscreenCamera = () => {
         <button
           className={styles.smallScreenButton}
           onClick={() => {
-            dispatch(setFSCameraOpen(false));
+            dispatch(globalSettingActions.setFSCamera(false));
           }}
         >
           <SmallScreenIcon />

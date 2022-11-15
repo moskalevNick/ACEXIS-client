@@ -1,7 +1,7 @@
 import { exisReducer } from './exis/reducers';
 import { clientReducer } from './clients/reducers';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import globalReducer from './reducers/globalReducer';
+import { globalReducer } from './global/reducer';
 import { avatarReducer } from './avatar/reducers';
 
 const rootReducer = combineReducers({
