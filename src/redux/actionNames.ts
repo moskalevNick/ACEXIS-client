@@ -18,6 +18,7 @@ export const actionNames = {
     setFSCamera: 'SET_FS_CAMERA',
     setRussian: 'SET_RUSSIAN',
     login: 'LOGIN',
+    logout: 'LOGOUT',
     checkAuth: 'CHECK_AUTH',
   },
 };

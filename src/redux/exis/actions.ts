@@ -1,4 +1,4 @@
-import { ExisType } from './../types';
+import { CreateExisType, EditExisType } from './../types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ExisService from '../../services/ExisService';
 import { actionNames } from '../actionNames';
@@ -6,19 +6,19 @@ import { getActionName } from '../getActionName';
 import { modules } from '../modules';
 
 export const exisActions = {
-  getExis: createAsyncThunk(
+  getExises: createAsyncThunk(
     getActionName(modules.EXIS, actionNames[modules.EXIS].getExis),
-    async (id: string) => await ExisService.getExis(id),
+    async (clientId: string) => await ExisService.getExises(clientId),
   ),
 
   editExis: createAsyncThunk(
     getActionName(modules.EXIS, actionNames[modules.EXIS].editExis),
-    async (newExis: ExisType) => await ExisService.editExis(newExis),
+    async (newExis: EditExisType) => await ExisService.editExis(newExis),
   ),
 
   createExis: createAsyncThunk(
     getActionName(modules.EXIS, actionNames[modules.EXIS].createExis),
-    async (newExis: ExisType) => await ExisService.createExis(newExis),
+    async (newExis: CreateExisType) => await ExisService.createExis(newExis),
   ),
 
   deleteExis: createAsyncThunk(

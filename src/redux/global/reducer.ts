@@ -9,6 +9,7 @@ const globalSlice = createSlice({
     isFullScreenCameraOpen: false,
     isRussian: false,
     isAuth: false,
+    isLoading: false,
   },
   reducers: {
     setTheme: (state, action) => {
@@ -26,12 +27,32 @@ const globalSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(globalActions.login.fulfilled, (state, action) => {
-      state.isAuth = action.payload;
-    });
-    builder.addCase(globalActions.checkAuth.fulfilled, (state, action) => {
-      state.isAuth = action.payload;
-    });
+    builder
+      .addCase(globalActions.login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(globalActions.login.fulfilled, (state, action) => {
+        state.isAuth = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(globalActions.login.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(globalActions.checkAuth.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(globalActions.checkAuth.fulfilled, (state, action) => {
+        state.isAuth = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(globalActions.checkAuth.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(globalActions.logout.fulfilled, () => {
+        localStorage.removeItem('refresh-token');
+        localStorage.removeItem('access-token');
+        window.location.href = '/';
+      });
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
@@ -7,6 +7,7 @@ import { Layout } from './modules/Layout/Layout';
 import { FullscreenCamera } from './components/FullscreenCamera/FullscreenCamera';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { globalActions } from './redux/global/actions';
+import { Loader } from './components/Loader/Loader';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -14,14 +15,17 @@ export default function App() {
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
   const isAuth = useAppSelector((state) => state.globalReducer.isAuth);
+  const isLoading = useAppSelector((state) => state.globalReducer.isLoading);
 
   useEffect(() => {
     if (localStorage.getItem('access-token')) {
       dispatch(globalActions.checkAuth());
     }
-  });
+  }, []);
 
-  return isAuth ? (
+  return isLoading ? (
+    <Loader />
+  ) : isAuth ? (
     <BrowserRouter>
       <div style={{ display: isOpenFullScreenCamera ? 'flex' : 'block' }}>
         <div>

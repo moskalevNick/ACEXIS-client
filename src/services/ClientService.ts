@@ -5,11 +5,13 @@ const path = 'clients';
 
 export default class ClientsService {
   static async getClients(): Promise<ClientType[]> {
-    return $api.get(`${path}`);
+    const response = await $api.get(`${path}`);
+    return response.data;
   }
 
   static async getClient(id: string): Promise<ClientType> {
-    return $api.get(`${path}/${id}`);
+    const response = await $api.get(`${path}/${id}`);
+    return response.data;
   }
 
   static async editClient(newClient: ClientType): Promise<ClientType> {

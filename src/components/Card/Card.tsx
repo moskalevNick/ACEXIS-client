@@ -32,26 +32,30 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
+  const [clientAvatar, setClientAvatar] = useState<string | null>(null);
 
-  const exises = useAppSelector((state) => state.exisReducer.exises);
-  const avatars = useAppSelector((state) => state.avatarReducer.avatars);
+  // useEffect(() => {
+  //   if (client.pinnedExisId) {
+  //     setPinnedMessage(exises.find((exis) => exis.id === client.pinnedExisId));
+  //   }
+  // }, [exises]);
+
+  // useEffect(() => {
+  //   if (client.coincidentIds) {
+  //     let arr: ClientType[] = [];
+  //     client.coincidentIds.forEach((elem) => {
+  //       const coincidentClient = clients.find((el) => el.id === elem);
+  //       if (coincidentClient) arr.push(coincidentClient);
+  //     });
+  //     setCoincidentClients(arr);
+  //   }
+  // }, [client.coincidentIds]);
 
   useEffect(() => {
-    if (client.pinnedExisId) {
-      setPinnedMessage(exises.find((exis) => exis.id === client.pinnedExisId));
+    if (client.images?.length) {
+      setClientAvatar(client.images[client.images.length - 1].publicUrl);
     }
-  }, [exises]);
-
-  useEffect(() => {
-    if (client.coincidentIds) {
-      let arr: ClientType[] = [];
-      client.coincidentIds.forEach((elem) => {
-        const coincidentClient = clients.find((el) => el.id === elem);
-        if (coincidentClient) arr.push(coincidentClient);
-      });
-      setCoincidentClients(arr);
-    }
-  }, [client.coincidentIds]);
+  }, [client]);
 
   useEffect(() => {
     if (client?.visits) {
@@ -113,15 +117,13 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
       >
         <div className={styles.contentWrapper}>
           <div className={styles.imgWrapper}>
-            {client.imgIds.length !== 0 && (
-              <img src={client.avatarLink} alt={`avatar_${client.name}`} />
-            )}
+            {clientAvatar && <img src={clientAvatar} alt={`avatar_${client.name}`} />}
           </div>
           <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
           <div className={styles.lastVisit}>
             {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
           </div>
-          {client.coincidentIds?.length !== 0 && (
+          {/* {client.coincidentIds?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
               <div
                 className={styles.warningIconWrapper}
@@ -132,7 +134,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                 <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
               </div>
             </div>
-          )}
+          )} */}
         </div>
         <div className={styles.status}>{chooseIcon(client.status)}</div>
         {openDescription &&
@@ -153,7 +155,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                 </div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Average bill</div>
-                  {client.bills.length
+                  {client.bills?.length
                     ? Math.round(
                         client.bills.reduce((acc, num) => acc + num, 0) / client.bills.length,
                       )
@@ -192,7 +194,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
           <div className={styles.coincidentHeader}>Select coincident profile</div>
           <div className={styles.horizontalLineCoincident} />
           <div className={styles.profilesWrapper}>
-            {coincidentClients.map((el) => (
+            {/* {coincidentClients.map((el) => (
               <div className={styles.coincidentCard} key={uuid()}>
                 <div className={styles.imgCoincidentWrapper}>
                   <img src={el.avatarLink} alt={`avatar_coincident_${el.name}`} />
@@ -203,7 +205,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                 </div>
                 <div className={styles.coincidentName}>{el.name}</div>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       )}

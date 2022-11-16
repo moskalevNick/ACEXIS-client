@@ -10,6 +10,7 @@ import { StatusBar } from '../../components/StatusBar/StatusBar';
 import styles from './Cloud.module.css';
 import { clientActions } from '../../redux/clients/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { Loader } from '../../components/Loader/Loader';
 
 const wording = ['Customers added yesterday', 'Customers added for selected period'];
 
@@ -33,11 +34,12 @@ export const CloudModule = () => {
   const [filters, setFilters] = useState(defaultValues);
   const [isOpenAddClientModal, setOpenAddClientModal] = useState(false);
   const [isOpenRange, setOpenRange] = useState(false);
+
   const isOpenFullScreenCamera = useAppSelector(
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
-
   const clients = useAppSelector((state) => state.clientReducer.clients);
+  const isLoading = useAppSelector((state) => state.clientReducer.isLoading);
 
   useEffect(() => {
     dispatch(clientActions.getClients());
@@ -64,7 +66,9 @@ export const CloudModule = () => {
     isOpenFullScreenCamera && styles.containerWithCamera,
   );
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className={containerClassnames}>
       <div className={styles.labelWrapper}>
         <div className={styles.label}>Cloud</div>

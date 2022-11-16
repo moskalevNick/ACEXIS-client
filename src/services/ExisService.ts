@@ -1,22 +1,26 @@
 import $api from '../http';
-import { ExisType } from '../redux/types';
+import { CreateExisType, EditExisType, ExisType } from '../redux/types';
 
 const path = 'exises';
 
 export default class ExisService {
-  static async getExis(id: string): Promise<ExisType> {
-    return $api.get(`${path}/${id}`);
+  static async getExises(clientId: string): Promise<ExisType[]> {
+    const response = await $api.get(`${path}/${clientId}`);
+    return response.data;
   }
 
-  static async editExis(newExis: ExisType): Promise<ExisType> {
-    return $api.put(`${path}/${newExis.id}`, { ...newExis });
+  static async editExis(newExis: EditExisType): Promise<ExisType> {
+    const response = await $api.put(`${path}/${newExis.id}`, { text: newExis.text });
+    return response.data;
   }
 
-  static async createExis(newExis: ExisType): Promise<ExisType> {
-    return $api.post(`${path}`, { ...newExis });
+  static async createExis(newExis: CreateExisType): Promise<ExisType> {
+    const response = await $api.post(`${path}/${newExis.clientId}`, { ...newExis });
+    return response.data;
   }
 
   static async deleteExis(id: string): Promise<ExisType> {
-    return $api.delete(`${path}/${id}`);
+    const response = await $api.delete(`${path}/${id}`);
+    return response.data;
   }
 }

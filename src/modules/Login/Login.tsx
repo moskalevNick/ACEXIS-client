@@ -29,7 +29,6 @@ const defaultValues: FormType = {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [isRemember, setRemember] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const theme = useAppSelector((state) => state.globalReducer.theme);

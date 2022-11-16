@@ -18,6 +18,7 @@ import { FullScreenIcon } from '../Icons/FullScreenIcon';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
+import { globalActions } from '../../redux/global/actions';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -54,9 +55,9 @@ export const Header = () => {
     transition: 'all .2s',
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const responce = await dispatch(globalActions.logout());
     setOpenLogoutModal(false);
-    navigate('/login', { replace: true });
   };
 
   const wrapperClassnames = classNames(

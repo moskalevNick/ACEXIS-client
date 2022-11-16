@@ -4,42 +4,48 @@ export type ActionType = {
 };
 
 export type Theme = 'light' | 'dark';
+
 export type State = {
   theme: Theme;
   isFullScreenCameraOpen: boolean;
   isRussian: boolean;
 };
 
+export type ClientType = {
+  id?: string;
+  name: string;
+  status: string;
+  phone: string;
+  bills?: number[];
+  images?: ImageType[];
+  visits?: VisitsType[];
+};
+
 export type ExisType = {
   id: string;
-  date: Date;
+  date: Date | string;
   text: string;
+};
+
+export type EditExisType = {
+  id: string;
+  text: string;
+};
+
+export type CreateExisType = {
   clientId: string;
+  date: Date | string;
+  text: string;
 };
 
 export type VisitsType = {
-  date: Date;
-  exisId?: string;
-};
-
-export type ClientType = {
-  name?: string;
-  status: string;
-  coincidentIds: string[];
   id: string;
-  visits: VisitsType[];
-  pinnedExisId?: string;
-  bills: number[];
-  imgIds: string[];
-  exisIds: string[];
-  phoneNumber?: string;
-  userId: string;
-  avatarLink?: string;
+  date: Date;
+  exisId: string | null;
 };
 
-export type AvatarType = {
+export type ImageType = {
   id: string;
   path: string;
   publicUrl: string;
-  clientId: string;
 };

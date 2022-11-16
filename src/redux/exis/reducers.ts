@@ -11,9 +11,22 @@ const exisSlice = createSlice({
   reducers: {},
 
   extraReducers: (builder) => {
-    builder.addCase(exisActions.getExis.fulfilled, (state, action) => {
-      state.exises = [...state.exises, action.payload];
-    });
+    builder
+      .addCase(exisActions.getExises.fulfilled, (state, action) => {
+        state.exises = action.payload;
+      })
+      .addCase(exisActions.editExis.fulfilled, (state, action) => {
+        const newArr = state.exises.filter((el) => el.id !== action.payload.id);
+        newArr.push(action.payload);
+        state.exises = newArr;
+      })
+      .addCase(exisActions.deleteExis.fulfilled, (state, action) => {
+        const newArr = state.exises.filter((el) => el.id !== action.payload.id);
+        state.exises = newArr;
+      })
+      .addCase(exisActions.createExis.fulfilled, (state, action) => {
+        state.exises = [...state.exises, action.payload];
+      });
   },
 });
 
