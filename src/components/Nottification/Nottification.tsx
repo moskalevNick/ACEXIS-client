@@ -1,5 +1,6 @@
 import 'react-notifications-component/dist/theme.css';
 import { Store } from 'react-notifications-component';
+import { NottificationMarkup } from './NottificationMarkup';
 
 type TransitionType = {
   duration: number;
@@ -23,9 +24,9 @@ type NotificationDismissType = {
 };
 
 type nottificationType = {
+  clientName?: string;
   id?: string;
   onRemoval?: (id: string, removalFlag: string) => void;
-  content?: React.ReactElement;
   title?: string;
   message?: string;
   type?: 'success' | 'danger' | 'info' | 'default' | 'warning';
@@ -56,9 +57,9 @@ type nottificationType = {
 };
 
 export const Nottification = ({
+  clientName,
   id,
   onRemoval,
-  content,
   title = 'Wonderful!',
   message = 'teodosii@react-notifications-component',
   type = 'success',
@@ -81,7 +82,6 @@ export const Nottification = ({
   Store.addNotification({
     id,
     onRemoval,
-    content,
     title,
     message,
     type,
@@ -97,5 +97,6 @@ export const Nottification = ({
     userDefinedTypes,
     width,
     hasBeenRemoved,
+    content: <NottificationMarkup clientName={clientName} />,
   });
 };
