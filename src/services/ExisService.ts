@@ -10,7 +10,10 @@ export default class ExisService {
   }
 
   static async editExis(newExis: EditExisType): Promise<ExisType> {
-    const response = await $api.put(`${path}/${newExis.id}`, { text: newExis.text });
+    const response = await $api.put(`${path}/${newExis.id}`, {
+      text: newExis.text,
+      isPinned: newExis.isPinned,
+    });
     return response.data;
   }
 

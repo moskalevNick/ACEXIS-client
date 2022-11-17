@@ -3,14 +3,19 @@ import { ImageType } from './../types';
 import { modules } from '../modules';
 import { imagesActions } from './actions';
 
-const exisSlice = createSlice({
-  name: modules.EXIS,
+const imageSlice = createSlice({
+  name: modules.IMAGE,
   initialState: {
     images: [] as ImageType[],
-    avatar: {} as ImageType,
+    avatar: {} as ImageType | null,
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    clearState: (state) => {
+      state.images = [];
+      state.avatar = null;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -50,4 +55,5 @@ const exisSlice = createSlice({
   },
 });
 
-export const imageReducer = exisSlice.reducer;
+export const imageReducer = imageSlice.reducer;
+export const imageSettingsActions = imageSlice.actions;

@@ -3,17 +3,19 @@ import React from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../Button/Button';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../redux/types';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
+import { useAppDispatch } from '../../hooks/redux';
+import { clientActions } from '../../redux/clients/actions';
 
 type DeleteClientModalType = {
   isOpenDeleteClient: boolean;
   setOpenDeleteClient: (state: boolean) => void;
-  clientAvatar: string | null;
+  clientAvatar: ImageType | null;
   client: ClientType;
   lastVisit: VisitsType | null;
 };
@@ -40,6 +42,14 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
   client,
   lastVisit,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const deleteClient = () => {
+    if (client.id) {
+      dispatch(clientActions.deleteClient(client.id));
+    }
+  };
+
   return (
     <Modal
       onClose={() => setOpenDeleteClient(false)}
@@ -52,7 +62,7 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
         <div className={styles.deleteClientInfoWrapper}>
           {clientAvatar && (
             <img
-              src={clientAvatar}
+              src={clientAvatar.publicUrl}
               alt={`avatar_${clientAvatar}`}
               className={styles.deleteClientImg}
             />
@@ -82,7 +92,7 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
           >
             Cancel
           </Button>
-          <Button className={styles.logoutButton} onClick={() => setOpenDeleteClient(false)}>
+          <Button className={styles.logoutButton} onClick={deleteClient}>
             Delete
           </Button>
         </div>

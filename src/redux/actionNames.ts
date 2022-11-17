@@ -5,7 +5,8 @@ export const actionNames = {
     getClients: 'GET_CLIENTS',
     getClient: 'GET_CLIENT',
     editClient: 'EDIT_CLIENT',
-    uploadImage: 'UPLOAD_IMAGE',
+    addClient: 'ADD_CLIENT',
+    deleteClient: 'DELETE_CLIENT',
   },
   [modules.EXIS]: {
     getExis: 'GET_EXIS',

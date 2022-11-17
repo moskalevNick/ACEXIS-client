@@ -21,7 +21,7 @@ type ExisContainerType = {
 export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   const dispatch = useAppDispatch();
   const [exises, setExises] = useState<ExisType[]>([]);
-  const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
+  const [pinnedExis, setPinnedExis] = useState<ExisType>();
   const [editingExis, setEditingExis] = useState<ExisType>();
   const [editingExisStr, setEditingExisStr] = useState<string>('');
   const [isOpenDeleteExis, setOpenDeleteExis] = useState(false);
@@ -29,6 +29,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   const [newExisText, setNewExisText] = useState<string>('');
 
   let storeExises = useAppSelector((state) => state.exisReducer.exises);
+  let storePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
 
   useEffect(() => {
     if (clientId) {
@@ -36,13 +37,21 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
         [...storeExises].sort((a, b) => -Number(new Date(a.date)) + Number(new Date(b.date))),
       );
     } else setExises([]);
-  }, [storeExises]);
+  }, [storeExises, clientId]);
+
+  useEffect(() => {
+    if (storePinnedExis) {
+      if (Object.keys(storePinnedExis).length !== 0) {
+        setPinnedExis(storePinnedExis);
+      } else setPinnedExis(undefined);
+    } else setPinnedExis(undefined);
+  }, [storePinnedExis]);
 
   useEffect(() => {
     if (clientId) {
       dispatch(exisActions.getExises(clientId));
     }
-  }, [clientId]);
+  }, [clientId, dispatch]);
 
   useEffect(() => {
     editingExis ? setEditingExisStr(editingExis?.text) : setEditingExisStr('');
@@ -84,9 +93,20 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
     setNewExisText('');
   };
 
+  const pinExis = (exis: ExisType) => {
+    unpinExis();
+    dispatch(exisActions.editExis({ id: exis.id, isPinned: true }));
+  };
+
+  const unpinExis = () => {
+    if (pinnedExis) {
+      dispatch(exisActions.editExis({ id: pinnedExis.id, isPinned: false }));
+    }
+  };
+
   const exisWrapperClassnames = classNames(
     styles.exisesWrapper,
-    // pinnedMessage && styles.exisesWrapperWithPin,
+    pinnedExis && styles.exisesWrapperWithPin,
   );
   const exisInputWrapperClassnames = classNames(
     styles.exisInputWrapper,
@@ -98,24 +118,24 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
       <div className={styles.exisContainer}>
         {exises?.length ? (
           <>
-            {/* {pinnedMessage && (
+            {pinnedExis && (
               <div className={styles.pinnedExisWrapper}>
                 <div className={styles.pinnedMessageDateWrapper}>
                   <div className={styles.pinIconWrapper}>
                     <PinnedIcon />
                   </div>
                   <div className={styles.pinnedMessageDate}>
-                    {new Date(pinnedMessage.date).toLocaleDateString()}
+                    {new Date(pinnedExis.date).toLocaleDateString()}
                   </div>
                 </div>
-                <button className={styles.unpinButton} onClick={() => console.log('pinExis()')}>
+                <button className={styles.unpinButton} onClick={unpinExis}>
                   <PinnedIcon stroke="#fff" />
                   <div className={styles.labelUnpinButton}>Unpin this EXIS</div>
                 </button>
 
-                <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
+                <div className={styles.pinnedMessageText}>{pinnedExis.text}</div>
               </div>
-            )} */}
+            )}
             <div className={exisWrapperClassnames}>
               {exises.map((exis) => (
                 <div className={styles.exisContentWrapper} key={exis.id}>
@@ -124,7 +144,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                       {new Date(exis.date).toLocaleDateString()}
                     </div>
                     <div className={styles.buttonsWrapper}>
-                      <button onClick={() => console.log('pinExis')}>
+                      <button onClick={() => pinExis(exis)}>
                         <PinnedIcon />
                       </button>
                       <button onClick={() => editExis(exis)}>

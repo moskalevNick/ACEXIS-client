@@ -29,7 +29,7 @@ const defaultValues: FormType = {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const [isRemember, setRemember] = useState(false);
+  const [isRemember, setRemember] = useState(true);
   const [loginError, setLoginError] = useState(false);
   const theme = useAppSelector((state) => state.globalReducer.theme);
   const isRus = useAppSelector((state) => state.globalReducer.isRussian);

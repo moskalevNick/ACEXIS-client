@@ -25,11 +25,13 @@ export type ExisType = {
   id: string;
   date: Date | string;
   text: string;
+  isPinned?: boolean;
 };
 
 export type EditExisType = {
   id: string;
-  text: string;
+  text?: string;
+  isPinned?: boolean;
 };
 
 export type CreateExisType = {

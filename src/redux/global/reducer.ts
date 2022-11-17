@@ -38,6 +38,7 @@ const globalSlice = createSlice({
       .addCase(globalActions.login.rejected, (state) => {
         state.isLoading = false;
       })
+
       .addCase(globalActions.checkAuth.pending, (state) => {
         state.isLoading = true;
       })
@@ -47,11 +48,6 @@ const globalSlice = createSlice({
       })
       .addCase(globalActions.checkAuth.rejected, (state) => {
         state.isLoading = false;
-      })
-      .addCase(globalActions.logout.fulfilled, () => {
-        localStorage.removeItem('refresh-token');
-        localStorage.removeItem('access-token');
-        window.location.href = '/';
       });
   },
 });

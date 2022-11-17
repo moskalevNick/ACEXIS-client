@@ -8,15 +8,18 @@ import axios from 'axios';
 type authType = {
   username: string;
   password: string;
+  isRemember: boolean;
 };
 
 export const globalActions = {
   login: createAsyncThunk(
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].login),
-    async ({ username, password }: authType) => {
+    async ({ username, password, isRemember }: authType) => {
       const response = await AuthService.login(username, password);
       localStorage.setItem('access-token', response.data.accessToken);
-      localStorage.setItem('refresh-token', response.data.refreshToken);
+      if (isRemember) {
+        localStorage.setItem('refresh-token', response.data.refreshToken);
+      }
       return true;
     },
   ),
@@ -25,6 +28,9 @@ export const globalActions = {
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].checkAuth),
     async () => {
       const refreshToken = localStorage.getItem('refresh-token');
+      if (!refreshToken) {
+        return false;
+      }
       const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/refresh`, {
         refreshToken,
       });
@@ -37,9 +43,20 @@ export const globalActions = {
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].logout),
     async () => {
       const refreshToken = localStorage.getItem('refresh-token');
+      let response;
       if (refreshToken) {
-        await AuthService.logout(refreshToken);
+        response = await AuthService.logout(refreshToken);
+      } else {
+        localStorage.removeItem('access-token');
+        window.location.href = '/';
       }
+
+      if (response?.status === 201) {
+        localStorage.removeItem('refresh-token');
+        localStorage.removeItem('access-token');
+        window.location.href = '/';
+      }
+
       return true;
     },
   ),

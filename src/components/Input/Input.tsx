@@ -1,10 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FocusEvent } from 'react';
 import classNames from 'classnames';
 import styles from './Input.module.css';
 
 export type InputProps = {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent) => void;
+  onBlur?: (e: FocusEvent) => void;
   autoFocus?: boolean;
   disabled?: boolean;
   hasError?: boolean;
@@ -44,6 +45,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       onKeyDown,
       id,
       ariaLabel,
+      onBlur,
     },
     ref,
   ) => {
@@ -66,6 +68,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           onKeyDown={onKeyDown}
           className={inputClass}
           onChange={onChange}
+          onBlur={onBlur}
           autoFocus={autoFocus}
           name={name}
           type={type}

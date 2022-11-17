@@ -7,9 +7,9 @@
 }
 
 .clientNameInput {
-  height: 23px;
+  height: 43px;
   width: 440px;
-  margin: 20px 36px;
+  margin: 10px 36px;
   background-color: transparent;
   padding: 0;
   font-weight: 600;
@@ -25,7 +25,6 @@
 .clientNameInput:focus {
   border: none;
 }
-
 .headerClientNameWrapper {
   display: flex;
   align-items: center;
@@ -281,6 +280,7 @@
   border: none;
   background: transparent;
   position: absolute;
+  opacity: 0;
 }
 
 .photoGallery {

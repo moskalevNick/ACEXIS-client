@@ -13,7 +13,8 @@ import uuid from 'react-uuid';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ExisType, VisitsType } from '../../redux/types';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { imageSettingsActions } from '../../redux/images/reducers';
 
 type CardType = {
   client: ClientType;
@@ -25,6 +26,7 @@ type CardType = {
 const CLICK_DURATION = 2500; // in ms
 
 export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInfo }) => {
+  const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
   const [downTarget, setDownTarget] = useState<EventTarget>();
   const [isShortDescription, setShortDescription] = useState(false);
@@ -52,7 +54,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   // }, [client.coincidentIds]);
 
   useEffect(() => {
-    if (client.images) {
+    if (client.images?.length) {
       setClientAvatar(client.images[client.images.length - 1].publicUrl);
     }
   }, [client]);
@@ -107,6 +109,10 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     },
     [openDescription, downTarget],
   );
+
+  useEffect(() => {
+    if (!openDescription) dispatch(imageSettingsActions.clearState());
+  }, [openDescription]);
 
   return (
     <>

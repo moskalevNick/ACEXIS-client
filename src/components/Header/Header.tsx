@@ -56,7 +56,7 @@ export const Header = () => {
   };
 
   const logout = async () => {
-    const responce = await dispatch(globalActions.logout());
+    await dispatch(globalActions.logout());
     setOpenLogoutModal(false);
   };
 

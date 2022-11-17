@@ -14,7 +14,17 @@ export default class ClientsService {
     return response.data;
   }
 
-  static async editClient(newClient: ClientType): Promise<ClientType> {
-    return $api.put(`${path}/${newClient.id}`, { ...newClient });
+  static async editClient(newClient: ClientType, id: string): Promise<ClientType> {
+    const response = await $api.put(`${path}/${id}`, { ...newClient });
+    return response.data;
+  }
+  static async addClient(newClient: ClientType): Promise<ClientType> {
+    const response = await $api.post(`${path}`, { ...newClient });
+    return response.data;
+  }
+
+  static async deleteClient(id: string): Promise<ClientType> {
+    const response = await $api.delete(`${path}/${id}`);
+    return response.data;
   }
 }

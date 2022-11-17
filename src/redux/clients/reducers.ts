@@ -47,6 +47,28 @@ const clientSlice = createSlice({
       })
       .addCase(clientActions.editClient.rejected, (state) => {
         state.isClientLoading = false;
+      })
+
+      .addCase(clientActions.addClient.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(clientActions.addClient.fulfilled, (state, action) => {
+        state.clients = [...state.clients, action.payload];
+        state.isLoading = false;
+      })
+      .addCase(clientActions.addClient.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(clientActions.deleteClient.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(clientActions.deleteClient.fulfilled, (state, action) => {
+        state.clients = state.clients.filter((el) => el.id !== action.payload.id);
+        state.isLoading = false;
+      })
+      .addCase(clientActions.deleteClient.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

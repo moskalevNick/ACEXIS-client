@@ -5,7 +5,7 @@ import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import classNames from 'classnames';
 import Draggable, { DraggableData } from 'react-draggable';
-import { ClientType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../redux/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { ModalDeleteClient } from './ModalDeleteClient';
@@ -13,6 +13,7 @@ import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
 import { ClientDataContainer, formDataType } from './ClientDataContainer';
 import { Loader } from '../Loader/Loader';
+import { imageSettingsActions } from '../../redux/images/reducers';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -32,17 +33,17 @@ export const ClientCard: React.FC<ClientCardType> = ({
   clientId,
 }) => {
   const dispatch = useAppDispatch();
-  const [values, setValues] = useState<ClientType>(defaultValues);
+  const client = useAppSelector((state) => state.clientReducer.client);
+  const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
+
+  const [values, setValues] = useState<ClientType>(client || defaultValues);
   const [isVisits, toggleVisits] = useState(false);
   const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [position, setPosition] = useState<any>({ positionX: 320 });
-  const [clientAvatar, setClientAvatar] = useState<string | null>(null);
-  const [clientName, setClientName] = useState<string>('');
+  const [clientAvatar, setClientAvatar] = useState<ImageType | null>(null);
+  const [newClientName, setNewClientName] = useState<string>('');
   const [formData, setFormData] = useState<any>();
-
-  const client = useAppSelector((state) => state.clientReducer.client);
-  const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
 
   useEffect(() => {
     if (clientId) {
@@ -86,7 +87,12 @@ export const ClientCard: React.FC<ClientCardType> = ({
   // };
 
   const submit = () => {
-    console.log(formData);
+    if (clientId && client.id) {
+      dispatch(clientActions.editClient({ newClient: formData, id: client.id }));
+    } else {
+      dispatch(clientActions.addClient({ ...formData, name: newClientName }));
+    }
+    setOpenClientModal(false);
   };
 
   const getFormData = (formData: formDataType) => {
@@ -114,8 +120,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
             <Input
               placeholder="Enter client name"
               className={styles.clientNameInput}
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
+              value={newClientName}
+              onChange={(e) => setNewClientName(e.target.value)}
+              // onBlur={(e) => setNewClientName()}
             />
           )}
           <div className={styles.horizontalLine} />
@@ -150,8 +157,11 @@ export const ClientCard: React.FC<ClientCardType> = ({
                       lastVisit={lastVisit}
                       client={values}
                       isNew={!Boolean(clientId)}
+                      newClientName={newClientName}
                       setOpenDeleteClient={setOpenDeleteClient}
                       getFormData={getFormData}
+                      setClientAvatar={setClientAvatar}
+                      clientAvatar={clientAvatar}
                     />
                   )}
                 </div>

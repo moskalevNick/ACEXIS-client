@@ -20,12 +20,15 @@ type ClientDataContainerType = {
   isNew: boolean;
   setOpenDeleteClient: (state: boolean) => void;
   getFormData: (data: formDataType) => void;
+  setClientAvatar: (state: ImageType | null) => void;
+  clientAvatar: ImageType | null;
+  newClientName: string | undefined;
 };
 
 export type formDataType = {
   bills?: number[];
   status?: string;
-  phone?: string;
+  phone?: string | null;
 };
 
 export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
@@ -34,17 +37,19 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   isNew,
   setOpenDeleteClient,
   getFormData,
+  setClientAvatar,
+  clientAvatar,
+  newClientName,
 }) => {
   const dispatch = useAppDispatch();
-  const [clientAvatar, setClientAvatar] = useState<ImageType | null>(null);
   const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
   const [billValue, setBillValue] = useState<string>('');
-  const [phoneInputStr, setPhoneInputStr] = useState<string>(client.phone);
-  const [bills, setBills] = useState<number[]>(client.bills || []);
+  const [phoneInputStr, setPhoneInputStr] = useState<string>('');
+  const [bills, setBills] = useState<number[]>([]);
   const [status, setStatus] = useState<string>();
 
-  let storeImages = useAppSelector((state) => state.imageReducer.images);
-  let isLoading = useAppSelector((state) => state.imageReducer.isLoading);
+  const storeImages = useAppSelector((state) => state.imageReducer.images);
+  const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
 
   useEffect(() => {
     getFormData({
@@ -52,13 +57,23 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       status,
       phone: phoneInputStr,
     });
-  }, [status, bills, phoneInputStr]);
+  }, [status, bills, phoneInputStr, getFormData]);
 
   useEffect(() => {
     if (client.id) {
       dispatch(imagesActions.getImages(client.id));
     }
-  }, [client]);
+    if (client.phone) {
+      setPhoneInputStr(client.phone);
+    }
+    if (client.bills) {
+      setBills(client.bills);
+    }
+    if (!client) {
+      setClientAvatar(null);
+      setClientPhotoGallery([]);
+    }
+  }, [client, dispatch, setClientAvatar]);
 
   useEffect(() => {
     if (storeImages?.length !== 0) {
@@ -71,8 +86,11 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
         }
       });
       setClientPhotoGallery(imageGallery.reverse());
+    } else {
+      setClientPhotoGallery([]);
+      setClientAvatar(null);
     }
-  }, [storeImages]);
+  }, [storeImages, setClientAvatar]);
 
   const addBill = () => {
     if (billValue) {
@@ -150,7 +168,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       </div>
 
       <div className={styles.clientContent}>
-        <div className={styles.clientName}>{client.name}</div>
+        <div className={styles.clientName}>{isNew ? newClientName : client.name}</div>
         <div className={styles.textWrapper}>
           <div className={styles.labelContent}>Last visit</div>
           {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
