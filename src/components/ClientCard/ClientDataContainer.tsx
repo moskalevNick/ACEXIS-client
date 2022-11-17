@@ -57,7 +57,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       status,
       phone: phoneInputStr,
     });
-  }, [status, bills, phoneInputStr, getFormData]);
+  }, [status, bills, phoneInputStr]);
 
   useEffect(() => {
     if (client.id) {

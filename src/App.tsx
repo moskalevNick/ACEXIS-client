@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
@@ -23,9 +23,21 @@ export default function App() {
     }
   }, []);
 
-  return isLoading ? (
-    <Loader />
-  ) : isAuth ? (
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!isAuth) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
+  return (
     <BrowserRouter>
       <div style={{ display: isOpenFullScreenCamera ? 'flex' : 'block' }}>
         <div>
@@ -33,19 +45,12 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
-              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>
         </div>
         {isOpenFullScreenCamera && <FullscreenCamera />}
       </div>
-    </BrowserRouter>
-  ) : (
-    <BrowserRouter>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="*" element={<Navigate to={'/login'} />} />
-      </Routes>
     </BrowserRouter>
   );
 }
