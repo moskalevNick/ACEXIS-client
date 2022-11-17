@@ -13,6 +13,7 @@ import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imagesActions } from '../../redux/images/actions';
 import { Loader } from '../Loader/Loader';
+import { clientActions } from '../../redux/clients/actions';
 
 type ClientDataContainerType = {
   lastVisit: VisitsType | null;
@@ -47,9 +48,11 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   const [phoneInputStr, setPhoneInputStr] = useState<string>('');
   const [bills, setBills] = useState<number[]>([]);
   const [status, setStatus] = useState<string>();
+  const [newClientImages, setNewClientImages] = useState<ImageType[]>([]);
 
   const storeImages = useAppSelector((state) => state.imageReducer.images);
   const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
+  const newClient = useAppSelector((state) => state.clientReducer.newClient);
 
   useEffect(() => {
     getFormData({
@@ -100,8 +103,14 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   };
 
   const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event?.target?.files && client.id) {
-      dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
+    if (event.target.files) {
+      if (client.id) {
+        dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
+      } else if (newClient?.id) {
+        dispatch(
+          imagesActions.uploadImage({ clientId: newClient.id, image: event.target.files[0] }),
+        );
+      }
     }
   };
 

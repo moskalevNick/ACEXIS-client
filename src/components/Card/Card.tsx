@@ -15,6 +15,7 @@ import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ExisType, VisitsType } from '../../redux/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imageSettingsActions } from '../../redux/images/reducers';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 type CardType = {
   client: ClientType;
@@ -35,12 +36,6 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [clientAvatar, setClientAvatar] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   if (client.pinnedExisId) {
-  //     setPinnedMessage(exises.find((exis) => exis.id === client.pinnedExisId));
-  //   }
-  // }, [exises]);
 
   // useEffect(() => {
   //   if (client.coincidentIds) {
@@ -111,7 +106,10 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   );
 
   useEffect(() => {
-    if (!openDescription) dispatch(imageSettingsActions.clearState());
+    if (!openDescription) {
+      dispatch(imageSettingsActions.clearState());
+      dispatch(clientSettingsActions.clearClient());
+    }
   }, [openDescription]);
 
   return (

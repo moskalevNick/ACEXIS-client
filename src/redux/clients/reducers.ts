@@ -7,12 +7,18 @@ const clientSlice = createSlice({
   name: modules.CLIENTS,
   initialState: {
     clients: [] as ClientType[],
-    client: {} as ClientType,
+    client: null as ClientType | null,
+    newClient: null as ClientType | null,
     images: [] as ImageType[],
     isLoading: false,
     isClientLoading: false,
   },
-  reducers: {},
+  reducers: {
+    clearClient: (state) => {
+      state.client = null;
+      state.images = [];
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -54,6 +60,7 @@ const clientSlice = createSlice({
       })
       .addCase(clientActions.addClient.fulfilled, (state, action) => {
         state.clients = [...state.clients, action.payload];
+        state.newClient = action.payload;
         state.isLoading = false;
       })
       .addCase(clientActions.addClient.rejected, (state) => {
@@ -74,3 +81,4 @@ const clientSlice = createSlice({
 });
 
 export const clientReducer = clientSlice.reducer;
+export const clientSettingsActions = clientSlice.actions;

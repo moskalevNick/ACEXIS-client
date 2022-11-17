@@ -30,14 +30,15 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
 
   let storeExises = useAppSelector((state) => state.exisReducer.exises);
   let storePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
+  let newClient = useAppSelector((state) => state.clientReducer.newClient);
 
   useEffect(() => {
-    if (clientId) {
+    if (clientId || newClient) {
       setExises(
         [...storeExises].sort((a, b) => -Number(new Date(a.date)) + Number(new Date(b.date))),
       );
     } else setExises([]);
-  }, [storeExises, clientId]);
+  }, [storeExises, clientId, newClient]);
 
   useEffect(() => {
     if (storePinnedExis) {
@@ -81,15 +82,13 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   };
 
   const addNewExis = () => {
-    if (clientId) {
-      dispatch(
-        exisActions.createExis({
-          clientId: clientId,
-          date: new Date(),
-          text: newExisText,
-        }),
-      );
-    }
+    dispatch(
+      exisActions.createExis({
+        clientId: clientId ? clientId : newClient?.id || '',
+        date: new Date(),
+        text: newExisText,
+      }),
+    );
     setNewExisText('');
   };
 

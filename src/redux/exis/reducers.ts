@@ -44,8 +44,10 @@ const exisSlice = createSlice({
       .addCase(exisActions.deleteExis.fulfilled, (state, action) => {
         const newArr = state.exises.filter((el) => el.id !== action.payload.id);
         state.exises = newArr;
+        if (action.payload.isPinned) {
+          state.pinnedExis = null;
+        }
       })
-
       .addCase(exisActions.createExis.fulfilled, (state, action) => {
         state.exises = [...state.exises, action.payload];
       });

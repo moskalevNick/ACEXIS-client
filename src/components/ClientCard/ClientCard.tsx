@@ -13,7 +13,7 @@ import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
 import { ClientDataContainer, formDataType } from './ClientDataContainer';
 import { Loader } from '../Loader/Loader';
-import { imageSettingsActions } from '../../redux/images/reducers';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -34,6 +34,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
 }) => {
   const dispatch = useAppDispatch();
   const client = useAppSelector((state) => state.clientReducer.client);
+  const newClient = useAppSelector((state) => state.clientReducer.newClient);
   const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
 
   const [values, setValues] = useState<ClientType>(client || defaultValues);
@@ -52,18 +53,10 @@ export const ClientCard: React.FC<ClientCardType> = ({
   }, [clientId]);
 
   useEffect(() => {
-    if (Object.keys(client).length !== 0 && isOpenClientModal) {
+    if (client && Object.keys(client).length !== 0 && isOpenClientModal) {
       setValues(client);
     }
   }, [client]);
-
-  // useEffect(() => {
-  //   if (values.pinnedExisId) {
-  //     setPinnedMessage(values?.exises?.find((exis) => exis.id === values.pinnedExisId));
-  //   } else {
-  //     setPinnedMessage(undefined);
-  //   }
-  // }, [values]);
 
   useEffect(() => {
     values.visits?.forEach((el) => {
@@ -81,22 +74,26 @@ export const ClientCard: React.FC<ClientCardType> = ({
     if (x > max) setPosition({ positionX: max });
   };
 
-  // const pinExis = (exisId: string) => {
-  //   exisId === '' && setPinnedMessage(undefined);
-  //   dispatch(clientActions.editClient({ ...values, pinnedExisId: exisId }));
-  // };
-
   const submit = () => {
-    if (clientId && client.id) {
+    if (clientId && client?.id) {
       dispatch(clientActions.editClient({ newClient: formData, id: client.id }));
-    } else {
-      dispatch(clientActions.addClient({ ...formData, name: newClientName }));
+    } else if (newClient?.id) {
+      dispatch(
+        clientActions.editClient({
+          newClient: { ...formData, name: newClientName },
+          id: newClient.id,
+        }),
+      );
     }
     setOpenClientModal(false);
   };
 
   const getFormData = (formData: formDataType) => {
     setFormData(formData);
+  };
+
+  const cancelAddingClient = () => {
+    setOpenClientModal(false);
   };
 
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
@@ -122,7 +119,6 @@ export const ClientCard: React.FC<ClientCardType> = ({
               className={styles.clientNameInput}
               value={newClientName}
               onChange={(e) => setNewClientName(e.target.value)}
-              // onBlur={(e) => setNewClientName()}
             />
           )}
           <div className={styles.horizontalLine} />
@@ -169,11 +165,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                 <div>
                   {!isVisits && <div className={styles.horizontalLine} />}
                   <div className={styles.submitButtonsWrapper}>
-                    <Button
-                      outlined
-                      className={styles.submitButton}
-                      onClick={() => setOpenClientModal(false)}
-                    >
+                    <Button outlined className={styles.submitButton} onClick={cancelAddingClient}>
                       Cancel
                     </Button>
                     <Button className={styles.submitButton} onClick={submit}>
