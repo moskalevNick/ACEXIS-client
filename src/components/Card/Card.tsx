@@ -52,7 +52,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   // }, [client.coincidentIds]);
 
   useEffect(() => {
-    if (client.images?.length) {
+    if (client.images) {
       setClientAvatar(client.images[client.images.length - 1].publicUrl);
     }
   }, [client]);

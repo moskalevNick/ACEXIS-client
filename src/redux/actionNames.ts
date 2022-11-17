@@ -5,6 +5,7 @@ export const actionNames = {
     getClients: 'GET_CLIENTS',
     getClient: 'GET_CLIENT',
     editClient: 'EDIT_CLIENT',
+    uploadImage: 'UPLOAD_IMAGE',
   },
   [modules.EXIS]: {
     getExis: 'GET_EXIS',
@@ -12,7 +13,11 @@ export const actionNames = {
     createExis: 'CREATE_EXIS',
     deleteExis: 'DELETE_EXIS',
   },
-  [modules.AVATAR]: { getAvatar: 'GET_AVATAR' },
+  [modules.IMAGE]: {
+    getImages: 'GET_IMAGES',
+    uploadImage: 'UPLOAD_IMAGE',
+    deleteImage: 'DELETE_IMAGE',
+  },
   [modules.GLOBAL]: {
     setTheme: 'SET_THEME',
     setFSCamera: 'SET_FS_CAMERA',

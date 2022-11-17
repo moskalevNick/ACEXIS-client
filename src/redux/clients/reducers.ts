@@ -1,4 +1,4 @@
-import { ClientType } from '../types';
+import { ClientType, ImageType } from '../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { clientActions } from './actions';
@@ -8,6 +8,7 @@ const clientSlice = createSlice({
   initialState: {
     clients: [] as ClientType[],
     client: {} as ClientType,
+    images: [] as ImageType[],
     isLoading: false,
     isClientLoading: false,
   },

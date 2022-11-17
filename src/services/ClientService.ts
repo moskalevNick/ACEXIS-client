@@ -1,5 +1,5 @@
 import $api from '../http';
-import { ClientType } from '../redux/types';
+import { ClientType, ImageType } from '../redux/types';
 
 const path = 'clients';
 

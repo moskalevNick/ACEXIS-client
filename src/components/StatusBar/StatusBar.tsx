@@ -38,17 +38,11 @@ export const StatusBar: React.FC<StatusBarType> = ({
   oneStatus = false,
   prevStatuses,
 }) => {
-  const [statuses, setStatuses] = useState<string[]>([]);
+  const [statuses, setStatuses] = useState<string[]>(prevStatuses || []);
 
   useEffect(() => {
     getStatus(statuses);
   }, [statuses]);
-
-  useEffect(() => {
-    if (prevStatuses?.length) {
-      setStatuses(prevStatuses);
-    }
-  }, [prevStatuses]);
 
   const checkStatus = (status: string) => {
     const el = statuses.find((el) => el === status);
@@ -72,40 +66,45 @@ export const StatusBar: React.FC<StatusBarType> = ({
     <div className={styles.wrapper}>
       <div className={styles.label}>{label}</div>
       <div className={statusBarClasses}>
-        {statusesArray.map(({ status, id, icon }, i) => (
-          <button
-            className={classNames(
-              styles.button,
-              isActive(status) && styles.activeButton,
-              !oneStatus &&
-                isActive(status) &&
-                i < statusesArray.length - 1 &&
-                isActive(statusesArray[i + 1].status) &&
-                styles.activeButtonRight,
-              !oneStatus &&
-                isActive(status) &&
-                i > 0 &&
-                isActive(statusesArray[i - 1].status) &&
-                styles.activeButtonLeft,
-              !oneStatus &&
-                isActive(status) &&
-                i > 0 &&
-                isActive(statusesArray[i - 1].status) &&
-                i < statusesArray.length - 1 &&
-                isActive(statusesArray[i + 1].status) &&
-                styles.activeButtonBoth,
-              disableGhost && status === 'ghost' && styles.disableGhost,
-            )}
-            onClick={(e) => {
-              e.preventDefault();
-              oneStatus ? setStatus(status) : checkStatus(status);
-            }}
-            key={id}
-            disabled={disableGhost && status === 'ghost' && styles.disableGhost}
-          >
-            {icon}
-          </button>
-        ))}
+        {statusesArray.map(({ status, id, icon }, i) => {
+          if (withoutGhost && i === 0) {
+            return;
+          }
+          return (
+            <button
+              className={classNames(
+                styles.button,
+                isActive(status) && styles.activeButton,
+                !oneStatus &&
+                  isActive(status) &&
+                  i < statusesArray.length - 1 &&
+                  isActive(statusesArray[i + 1].status) &&
+                  styles.activeButtonRight,
+                !oneStatus &&
+                  isActive(status) &&
+                  i > 0 &&
+                  isActive(statusesArray[i - 1].status) &&
+                  styles.activeButtonLeft,
+                !oneStatus &&
+                  isActive(status) &&
+                  i > 0 &&
+                  isActive(statusesArray[i - 1].status) &&
+                  i < statusesArray.length - 1 &&
+                  isActive(statusesArray[i + 1].status) &&
+                  styles.activeButtonBoth,
+                disableGhost && status === 'ghost' && styles.disableGhost,
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                oneStatus ? setStatus(status) : checkStatus(status);
+              }}
+              key={id}
+              disabled={disableGhost && status === 'ghost' && styles.disableGhost}
+            >
+              {icon}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

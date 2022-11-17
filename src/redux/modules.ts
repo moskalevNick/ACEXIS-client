@@ -3,5 +3,5 @@ export enum modules {
   AUTH = 'AUTH',
   CLIENTS = 'CLIENTS',
   EXIS = 'EXIS',
-  AVATAR = 'AVATAR',
+  IMAGE = 'IMAGE',
 }

@@ -1,5 +1,5 @@
 import styles from './ClientCard.module.css';
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '../Input/Input';
 import { UploadBigIcon } from '../Icons/UploadBigIcon';
 import { Button } from '../Button/Button';
@@ -8,70 +8,110 @@ import classNames from 'classnames';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../redux/types';
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { imagesActions } from '../../redux/images/actions';
+import { Loader } from '../Loader/Loader';
 
 type ClientDataContainerType = {
   lastVisit: VisitsType | null;
   client: ClientType;
-  isDefault: boolean;
+  isNew: boolean;
   setOpenDeleteClient: (state: boolean) => void;
+  getFormData: (data: formDataType) => void;
+};
+
+export type formDataType = {
+  bills?: number[];
+  status?: string;
+  phone?: string;
 };
 
 export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   lastVisit,
   client,
-  isDefault,
+  isNew,
   setOpenDeleteClient,
+  getFormData,
 }) => {
-  const [clientAvatar, setClientAvatar] = useState<string | null>(null);
-  const [clientPhotoGallery, setClientPhotoGallery] = useState<string[]>([]);
-  const [billValue, setBillValue] = useState('');
+  const dispatch = useAppDispatch();
+  const [clientAvatar, setClientAvatar] = useState<ImageType | null>(null);
+  const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
+  const [billValue, setBillValue] = useState<string>('');
+  const [phoneInputStr, setPhoneInputStr] = useState<string>(client.phone);
+  const [bills, setBills] = useState<number[]>(client.bills || []);
+  const [status, setStatus] = useState<string>();
 
-  const setBill = () => {
-    //console.log(billValue);
-  };
-
-  const getStatus = (status: string[]) => {
-    // console.log(status);
-  };
+  let storeImages = useAppSelector((state) => state.imageReducer.images);
+  let isLoading = useAppSelector((state) => state.imageReducer.isLoading);
 
   useEffect(() => {
-    if (client.images?.length !== 0) {
-      client.images?.forEach((image, i, array) => {
-        if (i === array.length - 1) {
-          setClientAvatar(image.publicUrl);
-        } else setClientPhotoGallery((prev) => [...prev, image.publicUrl]);
-      });
+    getFormData({
+      bills,
+      status,
+      phone: phoneInputStr,
+    });
+  }, [status, bills, phoneInputStr]);
+
+  useEffect(() => {
+    if (client.id) {
+      dispatch(imagesActions.getImages(client.id));
     }
   }, [client]);
 
   useEffect(() => {
-    return resetState();
-  }, []);
+    if (storeImages?.length !== 0) {
+      const imageGallery: ImageType[] = [];
+      storeImages?.forEach((image, i, array) => {
+        if (i === array.length - 1) {
+          setClientAvatar(image);
+        } else {
+          imageGallery.push(image);
+        }
+      });
+      setClientPhotoGallery(imageGallery.reverse());
+    }
+  }, [storeImages]);
 
-  const resetState = () => {
-    setClientAvatar(null);
-    setClientPhotoGallery([]);
+  const addBill = () => {
+    if (billValue) {
+      setBills((prev) => [...prev, Number(billValue)]);
+    }
+    setBillValue('');
   };
 
-  const uploadImage = (event: any) => {
-    console.log(event.target.files[0]);
+  const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event?.target?.files && client.id) {
+      dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
+    }
+  };
+
+  const deleteAvatar = () => {
+    if (clientAvatar) {
+      dispatch(imagesActions.deleteImage(clientAvatar.id));
+    }
+  };
+
+  const getStatus = (status: string[]) => {
+    setStatus(status[0]);
   };
 
   const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className={styles.clientData}>
       <div className={styles.uploadPhotoWrapper}>
         {clientAvatar ? (
           <div className={styles.photosWrapper}>
             <div className={styles.avatarPhoto}>
-              <button className={styles.removePhotoButton}>
+              <button className={styles.removePhotoButton} onClick={deleteAvatar}>
                 <CrossIcon />
               </button>
               <ImageWrapper
-                src={clientAvatar}
+                src={clientAvatar.publicUrl}
                 alt={`avatar_${client.name}`}
                 className={styles.img}
                 effect="opacity"
@@ -82,7 +122,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
                 clientPhotoGallery?.map((photo, i) => (
                   <div className={styles.smallPhotoWrapper} key={`${photo}_${i}`}>
                     <ImageWrapper
-                      src={photo}
+                      src={photo.publicUrl}
                       alt={`small_photo_${i}_${photo}`}
                       className={styles.smallImg}
                       effect="opacity"
@@ -116,9 +156,9 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
           {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
         </div>
         <div className={styles.textWrapper}>
-          <div className={styles.labelContent}>Average bill</div>{' '}
-          {client.bills?.length
-            ? Math.round(client.bills.reduce((acc, num) => acc + num, 0) / client.bills.length)
+          <div className={styles.labelContent}>Average bill</div>
+          {bills?.length
+            ? Math.round(bills.reduce((acc, num) => acc + num, 0) / bills.length)
             : 'No bills'}
         </div>
         <div className={styles.textWrapper}>
@@ -126,7 +166,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
           <StatusBar
             getStatus={getStatus}
             label=""
-            withoutGhost
+            withoutGhost={!isNew}
             oneStatus
             prevStatuses={[client.status]}
           />
@@ -134,9 +174,11 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
         <div className={styles.textWrapper}>
           <div className={labelFixContent}>Phone number</div>
           <Input
-            placeholder={client.phone ? client.phone : 'Enter phone number'}
+            placeholder={'Enter phone number'}
             className={styles.inputPhone}
             containerClassName={styles.containerInput}
+            value={phoneInputStr}
+            onChange={(e) => setPhoneInputStr(e.target.value)}
           />
         </div>
         <div className={styles.textWrapper}>
@@ -147,14 +189,15 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
               containerClassName={styles.containerInputBill}
               placeholder="Bill"
               value={billValue}
+              type="number"
               onChange={(e) => setBillValue(e.target.value)}
             />
-            <Button onClick={setBill} className={styles.modalBillButton}>
+            <Button onClick={addBill} className={styles.modalBillButton}>
               Enter
             </Button>
           </div>
         </div>
-        {isDefault && (
+        {!isNew && (
           <div className={styles.textWrapper}>
             <div className={labelFixContent}>Delete client</div>
             <div className={styles.deleteClientWrapper}>

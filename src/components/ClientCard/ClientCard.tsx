@@ -1,5 +1,5 @@
 import styles from './ClientCard.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Modal } from '../Modal/Modal';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
@@ -11,7 +11,7 @@ import { clientActions } from '../../redux/clients/actions';
 import { ModalDeleteClient } from './ModalDeleteClient';
 import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
-import { ClientDataContainer } from './ClientDataContainer';
+import { ClientDataContainer, formDataType } from './ClientDataContainer';
 import { Loader } from '../Loader/Loader';
 
 type ClientCardType = {
@@ -38,6 +38,8 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [position, setPosition] = useState<any>({ positionX: 320 });
   const [clientAvatar, setClientAvatar] = useState<string | null>(null);
+  const [clientName, setClientName] = useState<string>('');
+  const [formData, setFormData] = useState<any>();
 
   const client = useAppSelector((state) => state.clientReducer.client);
   const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
@@ -78,16 +80,18 @@ export const ClientCard: React.FC<ClientCardType> = ({
     if (x > max) setPosition({ positionX: max });
   };
 
-  useEffect(() => {
-    if (values.images?.length) {
-      setClientAvatar(values.images[values.images.length - 1].publicUrl);
-    }
-  }, [client]);
-
   // const pinExis = (exisId: string) => {
   //   exisId === '' && setPinnedMessage(undefined);
   //   dispatch(clientActions.editClient({ ...values, pinnedExisId: exisId }));
   // };
+
+  const submit = () => {
+    console.log(formData);
+  };
+
+  const getFormData = (formData: formDataType) => {
+    setFormData(formData);
+  };
 
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
@@ -107,7 +111,12 @@ export const ClientCard: React.FC<ClientCardType> = ({
               <div className={styles.headerClientName}>{values.name}</div>
             </div>
           ) : (
-            <Input placeholder="Enter client name" className={styles.clientNameInput} />
+            <Input
+              placeholder="Enter client name"
+              className={styles.clientNameInput}
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+            />
           )}
           <div className={styles.horizontalLine} />
           <div className={styles.contentWrapper}>
@@ -140,8 +149,9 @@ export const ClientCard: React.FC<ClientCardType> = ({
                     <ClientDataContainer
                       lastVisit={lastVisit}
                       client={values}
-                      isDefault={Boolean(clientId)}
+                      isNew={!Boolean(clientId)}
                       setOpenDeleteClient={setOpenDeleteClient}
+                      getFormData={getFormData}
                     />
                   )}
                 </div>
@@ -156,10 +166,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
                     >
                       Cancel
                     </Button>
-                    <Button
-                      className={styles.submitButton}
-                      onClick={() => setOpenClientModal(false)}
-                    >
+                    <Button className={styles.submitButton} onClick={submit}>
                       {clientId ? 'Save' : 'Add visitor'}
                     </Button>
                   </div>

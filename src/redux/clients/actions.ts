@@ -3,7 +3,7 @@ import ClientsService from '../../services/ClientService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
-import { ClientType } from '../types';
+import { ClientType, ImageType } from '../types';
 
 export const clientActions = {
   getClients: createAsyncThunk(

@@ -300,6 +300,7 @@
   width: 64px;
   height: 64px;
   border: none;
+  opacity: 0;
 }
 
 .smallPhotoWrapper {

@@ -1,3 +1,4 @@
+import { imageReducer } from './images/reducers';
 import { exisReducer } from './exis/reducers';
 import { clientReducer } from './clients/reducers';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -7,6 +8,7 @@ const rootReducer = combineReducers({
   globalReducer,
   clientReducer,
   exisReducer,
+  imageReducer,
 });
 
 const store = configureStore({
