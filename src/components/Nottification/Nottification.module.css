@@ -1,3 +1,44 @@
 .container {
-  padding: 14px;
+  min-width: 364px;
+  padding: 14px 20px 14px 14px;
+  background-color: var(--background-datepicker);
+  border-radius: 15px;
+  box-shadow: var(--shadow-nottification);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: auto;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+}
+
+.contentWrapper {
+  width: 100%;
+}
+
+.clientNameWrapper {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0682f6;
+  margin-bottom: 12px;
+  white-space: nowrap;
+}
+
+.text {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.iconWrapper {
+  fill: #0682f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

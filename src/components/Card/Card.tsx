@@ -16,17 +16,16 @@ import { ClientType, ExisType, VisitsType } from '../../redux/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imageSettingsActions } from '../../redux/images/reducers';
 import { clientSettingsActions } from '../../redux/clients/reducers';
-
+import { exisSettingsActions } from '../../redux/exis/reducers';
 type CardType = {
   client: ClientType;
   clients: ClientType[];
   showInfo?: null | { id: string; x: number; y: number };
-  setShowInfo: (val: null | { id: string; x: number; y: number }) => void;
 };
 
 const CLICK_DURATION = 2500; // in ms
 
-export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInfo }) => {
+export const Card: React.FC<CardType> = ({ client, clients, showInfo }) => {
   const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
   const [downTarget, setDownTarget] = useState<EventTarget>();
@@ -36,6 +35,10 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [clientAvatar, setClientAvatar] = useState<string | null>(null);
+  const [currentClient, setCurrentClient] = useState(client);
+
+  const stateClient = useAppSelector((state) => state.clientReducer.client);
+  const statePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
 
   // useEffect(() => {
   //   if (client.coincidentIds) {
@@ -49,16 +52,22 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
   // }, [client.coincidentIds]);
 
   useEffect(() => {
-    if (client.images?.length) {
-      setClientAvatar(client.images[client.images.length - 1].publicUrl);
+    if (stateClient?.id === client.id && stateClient) {
+      setCurrentClient(stateClient);
     }
-  }, [client]);
+  }, [stateClient, statePinnedExis]);
 
   useEffect(() => {
-    if (client?.visits) {
+    if (currentClient.images?.length) {
+      setClientAvatar(currentClient.images[currentClient.images.length - 1].publicUrl);
+    }
+  }, [currentClient]);
+
+  useEffect(() => {
+    if (currentClient?.visits) {
       let latest: VisitsType | undefined;
 
-      client.visits.forEach((el) => {
+      currentClient.visits.forEach((el) => {
         if (Number(el.date) > (Number(latest?.date) || 0)) {
           latest = el;
         }
@@ -68,7 +77,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
         setLastVisit(latest);
       }
     }
-  }, [client.visits]);
+  }, [currentClient.visits]);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -109,6 +118,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
     if (!openDescription) {
       dispatch(imageSettingsActions.clearState());
       dispatch(clientSettingsActions.clearClient());
+      dispatch(exisSettingsActions.clearExises());
     }
   }, [openDescription]);
 
@@ -121,18 +131,20 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
       >
         <div className={styles.contentWrapper}>
           <div className={styles.imgWrapper}>
-            {clientAvatar && <img src={clientAvatar} alt={`avatar_${client.name}`} />}
+            {clientAvatar && <img src={clientAvatar} alt={`avatar_${currentClient.name}`} />}
           </div>
-          <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
+          <div className={styles.name}>
+            {currentClient.name ? currentClient.name : 'Unknown client'}
+          </div>
           <div className={styles.lastVisit}>
             {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
           </div>
-          {/* {client.coincidentIds?.length !== 0 && (
+          {/* {currentClient.coincidentIds?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
               <div
                 className={styles.warningIconWrapper}
                 onMouseEnter={(ev) =>
-                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
+                  !showInfo && setShowInfo({ id: currentClient.id, x: ev.clientX, y: ev.clientY })
                 }
               >
                 <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
@@ -140,7 +152,7 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
             </div>
           )} */}
         </div>
-        <div className={styles.status}>{chooseIcon(client.status)}</div>
+        <div className={styles.status}>{chooseIcon(currentClient.status)}</div>
         {openDescription &&
           (isShortDescription ? (
             <div
@@ -152,16 +164,17 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
               }}
             >
               <div className={styles.shortDescription}>
-                <div className={styles.nameClient}>{client.name}</div>
+                <div className={styles.nameClient}>{currentClient.name}</div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Last visit</div>
                   {lastVisit ? getInterval(lastVisit.date) : 'No visits'}
                 </div>
                 <div className={styles.textWrapper}>
                   <div className={styles.labelContent}>Average bill</div>
-                  {client.bills?.length
+                  {currentClient.bills?.length
                     ? Math.round(
-                        client.bills.reduce((acc, num) => acc + num, 0) / client.bills.length,
+                        currentClient.bills.reduce((acc, num) => acc + num, 0) /
+                          currentClient.bills.length,
                       )
                     : 'No bills'}
                 </div>
@@ -171,7 +184,11 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
                     <div className={styles.pinnedMessageDateWrapper}>
                       <PinnedIcon />
                       <div className={styles.pinnedMessageDate}>
-                        {new Date(pinnedMessage.date).toLocaleDateString()}
+                        {new Date(pinnedMessage.date).toLocaleDateString()}{' '}
+                        {new Date(pinnedMessage.date).toLocaleTimeString('en-GB', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </div>
                     </div>
                     <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
@@ -181,13 +198,13 @@ export const Card: React.FC<CardType> = ({ client, clients, showInfo, setShowInf
             </div>
           ) : (
             <ClientCard
-              clientId={client.id}
+              clientId={currentClient.id}
               isOpenClientModal={openDescription}
               setOpenClientModal={setOpenDescription}
             />
           ))}
       </div>
-      {showInfo && showInfo.id === client.id && (
+      {showInfo && showInfo.id === currentClient.id && (
         <div
           className={styles.coincidentContainer}
           style={{ left: showInfo.x + 30, top: showInfo.y - 170 }}

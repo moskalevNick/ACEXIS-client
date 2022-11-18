@@ -19,6 +19,7 @@ export type ClientType = {
   bills?: number[];
   images?: ImageType[];
   visits?: VisitsType[];
+  UserId?: string;
 };
 
 export type ExisType = {

@@ -1,22 +1,28 @@
 import React from 'react';
+import { CrossIcon } from '../Icons/CrossIcon';
 import styles from './Nottification.module.css';
 
-type nottificationMarkupType = {
-  clientName?: string;
-  clientAvatar?: string;
+export type nottificationType = {
+  name?: string;
+  avatar?: string;
   text?: string;
 };
 
-export const NottificationMarkup: React.FC<nottificationMarkupType> = ({
-  clientName = 'nikolay',
-  clientAvatar = 'https://static.boredpanda.com/blog/wp-content/uploads/2017/11/My-most-popular-pic-since-I-started-dog-photography-5a0b38cbd5e1e__880.jpg',
-  text = 'success',
+export const NottificationMarkup: React.FC<nottificationType> = ({
+  name = 'ACEXIS',
+  text,
+  avatar,
 }) => {
   return (
     <div className={styles.container}>
-      <img className={styles.avatar} src={clientAvatar} />
-      <div className={styles.clientNameWrapper}>{clientName}</div>
-      <div className={styles.text}>{text}</div>
+      {avatar && <img className={styles.avatar} src={avatar} />}
+      <div className={styles.contentWrapper}>
+        <div className={styles.clientNameWrapper}>{name}</div>
+        <div className={styles.text}>{text}</div>
+      </div>
+      <div className={styles.iconWrapper}>
+        <CrossIcon />
+      </div>
     </div>
   );
 };

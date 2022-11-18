@@ -11,8 +11,6 @@ import styles from './Cloud.module.css';
 import { clientActions } from '../../redux/clients/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
-import { ReactNotifications } from 'react-notifications-component';
-import { Nottification } from '../../components/Nottification/Nottification';
 
 const wording = ['Customers added yesterday', 'Customers added for selected period'];
 
@@ -59,15 +57,9 @@ export const CloudModule = () => {
     setFilters((prev) => ({ ...prev, status: status }));
   };
 
-  useEffect(() => {
-    if (isOpenAddClientModal) {
-      dispatch(clientActions.addClient({ name: '', status: 'ghost', phone: '' }));
-    }
-  }, [isOpenAddClientModal]);
-
   const addNewClient = () => {
-    Nottification({});
-    // setOpenAddClientModal(true);
+    setOpenAddClientModal(true);
+    dispatch(clientActions.addClient({ name: '', status: 'ghost', phone: '' }));
   };
 
   const containerClassnames = classNames(
@@ -79,7 +71,6 @@ export const CloudModule = () => {
     <Loader />
   ) : (
     <div className={containerClassnames}>
-      <ReactNotifications />
       <div className={styles.labelWrapper}>
         <div className={styles.label}>Cloud</div>
         <Button beforeIcon={<PlusIcon />} className={styles.addButton} onClick={addNewClient} />

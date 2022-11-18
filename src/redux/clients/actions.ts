@@ -45,8 +45,8 @@ export const clientActions = {
 
   deleteClient: createAsyncThunk(
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].deleteClient),
-    async (clientId: string) => {
-      const data = await ClientsService.deleteClient(clientId);
+    async (id: string) => {
+      const data = await ClientsService.deleteClient(id);
       return data;
     },
   ),

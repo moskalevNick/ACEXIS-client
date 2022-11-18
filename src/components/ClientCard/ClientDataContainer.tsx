@@ -20,16 +20,9 @@ type ClientDataContainerType = {
   client: ClientType;
   isNew: boolean;
   setOpenDeleteClient: (state: boolean) => void;
-  getFormData: (data: formDataType) => void;
   setClientAvatar: (state: ImageType | null) => void;
   clientAvatar: ImageType | null;
-  newClientName: string | undefined;
-};
-
-export type formDataType = {
-  bills?: number[];
-  status?: string;
-  phone?: string | null;
+  updateFormData: (state: any) => void;
 };
 
 export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
@@ -37,29 +30,23 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   client,
   isNew,
   setOpenDeleteClient,
-  getFormData,
   setClientAvatar,
   clientAvatar,
-  newClientName,
+  updateFormData,
 }) => {
   const dispatch = useAppDispatch();
   const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
   const [billValue, setBillValue] = useState<string>('');
   const [phoneInputStr, setPhoneInputStr] = useState<string>('');
   const [bills, setBills] = useState<number[]>([]);
-  const [status, setStatus] = useState<string>();
-  const [newClientImages, setNewClientImages] = useState<ImageType[]>([]);
+  const [status, setStatus] = useState<string>(client.status);
 
   const storeImages = useAppSelector((state) => state.imageReducer.images);
   const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
   const newClient = useAppSelector((state) => state.clientReducer.newClient);
 
   useEffect(() => {
-    getFormData({
-      bills,
-      status,
-      phone: phoneInputStr,
-    });
+    updateFormData({ status, bills, phoneInputStr });
   }, [status, bills, phoneInputStr]);
 
   useEffect(() => {
@@ -76,7 +63,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       setClientAvatar(null);
       setClientPhotoGallery([]);
     }
-  }, [client, dispatch, setClientAvatar]);
+  }, [client.id, dispatch, setClientAvatar]);
 
   useEffect(() => {
     if (storeImages?.length !== 0) {
@@ -177,7 +164,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       </div>
 
       <div className={styles.clientContent}>
-        <div className={styles.clientName}>{isNew ? newClientName : client.name}</div>
+        <div className={styles.clientName}>{client.name}</div>
         <div className={styles.textWrapper}>
           <div className={styles.labelContent}>Last visit</div>
           {lastVisit ? getInterval(lastVisit.date) : 'no visits'}

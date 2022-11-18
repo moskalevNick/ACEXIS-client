@@ -11,9 +11,8 @@ import { clientActions } from '../../redux/clients/actions';
 import { ModalDeleteClient } from './ModalDeleteClient';
 import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
-import { ClientDataContainer, formDataType } from './ClientDataContainer';
+import { ClientDataContainer } from './ClientDataContainer';
 import { Loader } from '../Loader/Loader';
-import { clientSettingsActions } from '../../redux/clients/reducers';
 
 type ClientCardType = {
   isOpenClientModal: boolean;
@@ -21,8 +20,14 @@ type ClientCardType = {
   clientId?: string;
 };
 
+type updateFormDataType = {
+  status: string;
+  phoneInputStr: string;
+  bills?: number[] | undefined;
+};
+
 const defaultValues: ClientType = {
-  name: 'Client name',
+  name: '',
   status: 'ghost',
   phone: '',
 };
@@ -43,8 +48,8 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [position, setPosition] = useState<any>({ positionX: 320 });
   const [clientAvatar, setClientAvatar] = useState<ImageType | null>(null);
-  const [newClientName, setNewClientName] = useState<string>('');
-  const [formData, setFormData] = useState<any>();
+  const [formData, setFormData] = useState<ClientType>();
+  const [nameInputStr, setNameInputStr] = useState<string>(values.name);
 
   useEffect(() => {
     if (clientId) {
@@ -55,6 +60,8 @@ export const ClientCard: React.FC<ClientCardType> = ({
   useEffect(() => {
     if (client && Object.keys(client).length !== 0 && isOpenClientModal) {
       setValues(client);
+      setFormData(client);
+      setNameInputStr(client.name);
     }
   }, [client]);
 
@@ -66,6 +73,23 @@ export const ClientCard: React.FC<ClientCardType> = ({
     });
   }, [values]);
 
+  useEffect(() => {
+    setValues((prev) => {
+      return {
+        ...prev,
+        name: nameInputStr,
+      };
+    });
+    setFormData((prev) => {
+      return {
+        ...prev,
+        status: values.status,
+        phone: values.phone,
+        name: nameInputStr,
+      };
+    });
+  }, [nameInputStr]);
+
   const onDrag = ({ x }: DraggableData) => {
     const min = 220;
     const max = 338;
@@ -75,12 +99,17 @@ export const ClientCard: React.FC<ClientCardType> = ({
   };
 
   const submit = () => {
-    if (clientId && client?.id) {
+    delete formData?.id;
+    delete formData?.UserId;
+    delete formData?.images;
+    delete formData?.visits;
+
+    if (clientId && client?.id && formData) {
       dispatch(clientActions.editClient({ newClient: formData, id: client.id }));
-    } else if (newClient?.id) {
+    } else if (newClient?.id && formData) {
       dispatch(
         clientActions.editClient({
-          newClient: { ...formData, name: newClientName },
+          newClient: { ...formData },
           id: newClient.id,
         }),
       );
@@ -88,12 +117,23 @@ export const ClientCard: React.FC<ClientCardType> = ({
     setOpenClientModal(false);
   };
 
-  const getFormData = (formData: formDataType) => {
-    setFormData(formData);
+  const cancelAddingClient = () => {
+    if (newClient?.id) {
+      dispatch(clientActions.deleteClient(newClient.id));
+    }
+    setOpenClientModal(false);
   };
 
-  const cancelAddingClient = () => {
-    setOpenClientModal(false);
+  const updateFormData = (data: updateFormDataType) => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        name: values.name,
+        status: data.status,
+        phone: data.phoneInputStr,
+        bills: data.bills,
+      };
+    });
   };
 
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
@@ -109,18 +149,12 @@ export const ClientCard: React.FC<ClientCardType> = ({
         <Loader />
       ) : (
         <>
-          {clientId ? (
-            <div className={styles.headerClientNameWrapper}>
-              <div className={styles.headerClientName}>{values.name}</div>
-            </div>
-          ) : (
-            <Input
-              placeholder="Enter client name"
-              className={styles.clientNameInput}
-              value={newClientName}
-              onChange={(e) => setNewClientName(e.target.value)}
-            />
-          )}
+          <Input
+            placeholder={values.name ? '' : 'Enter client name'}
+            className={styles.clientNameInput}
+            value={nameInputStr}
+            onChange={(e) => setNameInputStr(e.target.value)}
+          />
           <div className={styles.horizontalLine} />
           <div className={styles.contentWrapper}>
             <div
@@ -153,11 +187,10 @@ export const ClientCard: React.FC<ClientCardType> = ({
                       lastVisit={lastVisit}
                       client={values}
                       isNew={!Boolean(clientId)}
-                      newClientName={newClientName}
                       setOpenDeleteClient={setOpenDeleteClient}
-                      getFormData={getFormData}
                       setClientAvatar={setClientAvatar}
                       clientAvatar={clientAvatar}
+                      updateFormData={updateFormData}
                     />
                   )}
                 </div>

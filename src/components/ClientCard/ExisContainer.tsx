@@ -124,7 +124,11 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                     <PinnedIcon />
                   </div>
                   <div className={styles.pinnedMessageDate}>
-                    {new Date(pinnedExis.date).toLocaleDateString()}
+                    {new Date(pinnedExis.date).toLocaleDateString()}{' '}
+                    {new Date(pinnedExis.date).toLocaleTimeString('en-GB', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </div>
                 </div>
                 <button className={styles.unpinButton} onClick={unpinExis}>
@@ -140,7 +144,11 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                 <div className={styles.exisContentWrapper} key={exis.id}>
                   <div className={styles.messageDateWrapper}>
                     <div className={styles.messageDate}>
-                      {new Date(exis.date).toLocaleDateString()}
+                      {new Date(exis.date).toLocaleDateString()}{' '}
+                      {new Date(exis.date).toLocaleTimeString('en-GB', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
                     </div>
                     <div className={styles.buttonsWrapper}>
                       <button onClick={() => pinExis(exis)}>
@@ -167,7 +175,12 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                       </div>
                       <div className={styles.deleteExisWrapper}>
                         <div className={styles.deleteExisDate}>
-                          {deletingExis && new Date(deletingExis.date).toLocaleDateString()}
+                          {deletingExis && new Date(deletingExis.date).toLocaleDateString()}{' '}
+                          {deletingExis &&
+                            new Date(deletingExis.date).toLocaleTimeString('en-GB', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
                         </div>
                         <div className={styles.deleteExisText}>{deletingExis?.text}</div>
                       </div>

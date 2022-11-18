@@ -2,108 +2,118 @@
 @import './assets/css/fonts.css';
 @import './assets/css/vars.css';
 @import './assets/css/scrollbar.css';
-@import "rsuite/dist/rsuite.css";
+@import 'rsuite/dist/rsuite.css';
 
-.rs-slider-bar{
-    height: 2px;
-    background-color: var(--range-background);
-    transition: none;
+.rs-slider-bar {
+  height: 2px;
+  background-color: var(--range-background);
+  transition: none;
 }
 
 .rs-slider-handle::before {
-    margin-top: -2px;
-    width: 20px;
-    height: 10px;
-    border-radius: 7px;
-    background-color:  var(--rs-slider-progress);
-    border-color: var(--rs-slider-progress);
+  margin-top: -2px;
+  width: 20px;
+  height: 10px;
+  border-radius: 7px;
+  background-color: var(--rs-slider-progress);
+  border-color: var(--rs-slider-progress);
 }
 
-.rs-slider-progress-bar{
-    height: 4px;
+.rs-slider-progress-bar {
+  height: 4px;
 }
 
-.react-datepicker{
-    border: none;
-    background-color: var(--background-datepicker);
-    box-shadow: var(--button-hover-shadow);
-    position: relative;
+.react-datepicker {
+  border: none;
+  background-color: var(--background-datepicker);
+  box-shadow: var(--button-hover-shadow);
+  position: relative;
 }
 
-.react-datepicker__header{
-    background-color: var(--background-datepicker);
-    padding: 0;
-    border: none;
+.react-datepicker__header {
+  background-color: var(--background-datepicker);
+  padding: 0;
+  border: none;
 }
 
 .react-datepicker__triangle {
-    display: none;
+  display: none;
 }
 
-.react-datepicker-popper[data-placement^=bottom]{
-    padding-top: 24px;
+.react-datepicker-popper[data-placement^='bottom'] {
+  padding-top: 24px;
 }
 
-.react-datepicker__day-names{
-    display: none;
+.react-datepicker__day-names {
+  display: none;
 }
 
-.react-datepicker__month{
-    display: flex;
-    justify-content: var(--position-calendar);
-    background-color: var(--test-color);
-    width: 822px;
-    margin: 15px 55px;
-    overflow: hidden; 
+.react-datepicker__month {
+  display: flex;
+  justify-content: var(--position-calendar);
+  background-color: var(--test-color);
+  width: 822px;
+  margin: 15px 55px;
+  overflow: hidden;
 }
 
-.react-datepicker__week{
-    width: fit-content;
-    height: 135px;
+.react-datepicker__week {
+  width: fit-content;
+  height: 135px;
 }
 
-.react-datepicker__week::before{
-    display: flex;
-    justify-content: center;
-    content: 'Mo Tu We Th Fri Sa Su';
-    word-spacing: .7em;
-    padding-bottom: 9px;
-    color: var(--color-name-weekday);
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
+.react-datepicker__week::before {
+  display: flex;
+  justify-content: center;
+  content: 'Mo Tu We Th Fri Sa Su';
+  word-spacing: 0.7em;
+  padding-bottom: 9px;
+  color: var(--color-name-weekday);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
 }
 
-.react-datepicker__day{
-    color: var(--text-color);
-    margin: 0;
-    font-weight: 600;
-    font-size: 14px;
+.react-datepicker__day {
+  color: var(--text-color);
+  margin: 0;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-
-.react-datepicker__day--in-range{
-    color: #1487F2;
-    background-color: var(--background-range-day);
+.react-datepicker__day--in-range {
+  color: #1487f2;
+  background-color: var(--background-range-day);
 }
 
-.react-datepicker__day--range-start{
-    background: linear-gradient(180deg, #419CF0 0%, #0080F7 100%);
-    color: var(--text-color);
+.react-datepicker__day--range-start {
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  color: var(--text-color);
 }
 
 .react-datepicker__day--range-end {
-    background: linear-gradient(180deg, #419CF0 0%, #0080F7 100%);
-    color: var(--text-color);
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  color: var(--text-color);
 }
 
-.react-datepicker__day--in-selecting-range:hover{
-    background: linear-gradient(180deg, #419CF0 0%, #0080F7 100%);
-    color: #fff;
+.react-datepicker__day--in-selecting-range:hover {
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  color: #fff;
 }
 
-.fullscreenCameraWrapper{
-    width: 618px;
-    height: 100%;
-    background-color: blue;
+.fullscreenCameraWrapper {
+  width: 618px;
+  height: 100%;
+  background-color: blue;
+}
+
+.Toastify__toast,
+.Toastify__toast-body {
+  padding: 0;
+  height: auto;
+}
+
+.Toastify__toast-container {
+  width: fit-content;
+  max-width: 420px;
 }

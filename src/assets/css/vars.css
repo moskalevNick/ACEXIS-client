@@ -33,6 +33,7 @@ body[color-theme='light'] {
   --search-button-background: #f5faff;
   --range-background: #d2e2f2;
   --shadow-pinned-exis: 0px 3px 15px rgba(206, 219, 232, 0.66);
+  --shadow-nottification: 0px 0px 7px #d5dfed;
 }
 
 body[color-theme='dark'] {
@@ -70,6 +71,7 @@ body[color-theme='dark'] {
   --search-button-background: #1b3653;
   --range-background: #163e61;
   --shadow-pinned-exis: 0px 3px 15px #0e2f4b;
+  --shadow-nottification: 0px 0px 12px #15283d;
 }
 
 body[view-calendar='default'] {

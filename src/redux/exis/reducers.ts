@@ -9,7 +9,12 @@ const exisSlice = createSlice({
     exises: [] as ExisType[],
     pinnedExis: {} as ExisType | null,
   },
-  reducers: {},
+  reducers: {
+    clearExises: (state) => {
+      state.exises = [];
+      state.pinnedExis = null;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -55,3 +60,4 @@ const exisSlice = createSlice({
 });
 
 export const exisReducer = exisSlice.reducer;
+export const exisSettingsActions = exisSlice.actions;

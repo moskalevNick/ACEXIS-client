@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ImageType } from './../types';
 import { modules } from '../modules';
 import { imagesActions } from './actions';
+import { Nottification } from '../../components/Nottification/Nottification';
 
 const imageSlice = createSlice({
   name: modules.IMAGE,
@@ -37,6 +38,11 @@ const imageSlice = createSlice({
       .addCase(imagesActions.uploadImage.fulfilled, (state, action) => {
         state.images = [...state.images, action.payload];
         state.isLoading = false;
+
+        Nottification({
+          avatar: action.payload.publicUrl,
+          text: 'Image successfully upload',
+        });
       })
       .addCase(imagesActions.uploadImage.rejected, (state) => {
         state.isLoading = false;
@@ -48,6 +54,10 @@ const imageSlice = createSlice({
       .addCase(imagesActions.deleteImage.fulfilled, (state, action) => {
         state.images = state.images.filter((el) => el.id !== action.payload.id);
         state.isLoading = false;
+        Nottification({
+          avatar: action.payload.publicUrl,
+          text: 'Image successfully deleted',
+        });
       })
       .addCase(imagesActions.deleteImage.rejected, (state) => {
         state.isLoading = false;
