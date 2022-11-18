@@ -44,7 +44,7 @@ export default function App() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
-              <Route path="/cloud" element={<CloudModule />} />
+              <Route path="cloud" element={<CloudModule />} />
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>
