@@ -31,7 +31,7 @@ export const globalActions = {
       if (!refreshToken) {
         return false;
       }
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/refresh`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {
         refreshToken,
       });
       localStorage.setItem('access-token', response.data.accessToken);
