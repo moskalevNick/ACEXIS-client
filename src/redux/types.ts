@@ -52,3 +52,15 @@ export type ImageType = {
   path: string;
   publicUrl: string;
 };
+
+export type DatepickerDataType = [Date | null, Date | null];
+export type RangeDataType = {
+  min: number;
+  max: number;
+};
+
+export type FiltersType = {
+  date?: DatepickerDataType;
+  range: RangeDataType;
+  status?: string[];
+};

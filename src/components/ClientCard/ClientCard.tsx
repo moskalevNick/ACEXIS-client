@@ -1,5 +1,7 @@
 import styles from './ClientCard.module.css';
 import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Modal } from '../Modal/Modal';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
@@ -15,8 +17,7 @@ import { ClientDataContainer } from './ClientDataContainer';
 import { Loader } from '../Loader/Loader';
 
 type ClientCardType = {
-  isOpenClientModal: boolean;
-  setOpenClientModal: (state: boolean) => void;
+  isNew: boolean;
   clientId?: string;
 };
 
@@ -32,11 +33,8 @@ const defaultValues: ClientType = {
   phone: '',
 };
 
-export const ClientCard: React.FC<ClientCardType> = ({
-  isOpenClientModal,
-  setOpenClientModal,
-  clientId,
-}) => {
+export const ClientCard: React.FC<ClientCardType> = ({ isNew, clientId }) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const client = useAppSelector((state) => state.clientReducer.client);
   const newClient = useAppSelector((state) => state.clientReducer.newClient);
@@ -52,43 +50,43 @@ export const ClientCard: React.FC<ClientCardType> = ({
   const [nameInputStr, setNameInputStr] = useState<string>(values.name);
 
   useEffect(() => {
-    if (clientId) {
+    if (!isNew && clientId) {
       dispatch(clientActions.getClient(clientId));
     }
-  }, [clientId]);
+  }, [clientId, isNew, dispatch]);
 
-  useEffect(() => {
-    if (client && Object.keys(client).length !== 0 && isOpenClientModal) {
-      setValues(client);
-      setFormData(client);
-      setNameInputStr(client.name);
-    }
-  }, [client]);
+  // useEffect(() => {
+  //   if (client && Object.keys(client).length !== 0 && isOpenClientModal) {
+  //     setValues(client);
+  //     setFormData(client);
+  //     setNameInputStr(client.name);
+  //   }
+  // }, [client]);
 
-  useEffect(() => {
-    values.visits?.forEach((el) => {
-      if (Number(el.date) > Number(lastVisit)) {
-        setLastVisit(el);
-      }
-    });
-  }, [values]);
+  // useEffect(() => {
+  //   values.visits?.forEach((el) => {
+  //     if (Number(el.date) > Number(lastVisit)) {
+  //       setLastVisit(el);
+  //     }
+  //   });
+  // }, [values]);
 
-  useEffect(() => {
-    setValues((prev) => {
-      return {
-        ...prev,
-        name: nameInputStr,
-      };
-    });
-    setFormData((prev) => {
-      return {
-        ...prev,
-        status: values.status,
-        phone: values.phone,
-        name: nameInputStr,
-      };
-    });
-  }, [nameInputStr]);
+  // useEffect(() => {
+  //   setValues((prev) => {
+  //     return {
+  //       ...prev,
+  //       name: nameInputStr,
+  //     };
+  //   });
+  //   setFormData((prev) => {
+  //     return {
+  //       ...prev,
+  //       status: values.status,
+  //       phone: values.phone,
+  //       name: nameInputStr,
+  //     };
+  //   });
+  // }, [nameInputStr]);
 
   const onDrag = ({ x }: DraggableData) => {
     const min = 220;
@@ -114,14 +112,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
         }),
       );
     }
-    setOpenClientModal(false);
-  };
-
-  const cancelAddingClient = () => {
-    if (newClient?.id) {
-      dispatch(clientActions.deleteClient(newClient.id));
-    }
-    setOpenClientModal(false);
+    // setOpenClientModal(false);
   };
 
   const updateFormData = (data: updateFormDataType) => {
@@ -136,15 +127,22 @@ export const ClientCard: React.FC<ClientCardType> = ({
     });
   };
 
+  const onClose = () => {
+    navigate(-1);
+  };
+
+  const cancelAddingClient = () => {
+    if (newClient?.id) {
+      dispatch(clientActions.deleteClient(newClient.id));
+    }
+    onClose();
+  };
+
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
 
   return (
-    <Modal
-      onClose={() => setOpenClientModal(false)}
-      open={isOpenClientModal}
-      className={styles.modalClient}
-    >
+    <Modal open={true} onClose={onClose} className={styles.modalClient}>
       {isClientLoading ? (
         <Loader />
       ) : (
@@ -219,7 +217,7 @@ export const ClientCard: React.FC<ClientCardType> = ({
               </Draggable>
             </div>
 
-            <ExisContainer clientId={clientId} />
+            {/* <ExisContainer clientId={clientId} /> */}
           </div>
           <ModalDeleteClient
             isOpenDeleteClient={isOpenDeleteClient}

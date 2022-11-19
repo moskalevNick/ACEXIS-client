@@ -23,10 +23,14 @@ export const CardContainer: React.FC<CardContainerType> = ({
   );
   const [showInfo, setShowInfo] = useState<null | { id: string; x: number; y: number }>(null);
 
+  const onClick = () => {
+    setShowInfo(null);
+  };
+
   return (
-    <div className={containerClasses} onClick={() => setShowInfo(null)}>
+    <div className={containerClasses} onClick={onClick}>
       {clients.map((client) => (
-        <Card client={client} key={uuid()} clients={clients} showInfo={showInfo} />
+        <Card key={client.id} client={client} showInfo={showInfo} />
       ))}
     </div>
   );
