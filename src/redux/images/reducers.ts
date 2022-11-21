@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ImageType } from './../types';
+import { CameraFrameType, ImageType } from '../../types';
 import { modules } from '../modules';
 import { imagesActions } from './actions';
 import { Nottification } from '../../components/Nottification/Nottification';
@@ -9,12 +9,16 @@ const imageSlice = createSlice({
   initialState: {
     images: [] as ImageType[],
     avatar: {} as ImageType | null,
+    cameraFrame: null as CameraFrameType | null,
     isLoading: false,
   },
   reducers: {
     clearState: (state) => {
       state.images = [];
       state.avatar = null;
+    },
+    resetCameraFrame: (state) => {
+      state.cameraFrame = null;
     },
   },
 
@@ -60,6 +64,17 @@ const imageSlice = createSlice({
         });
       })
       .addCase(imagesActions.deleteImage.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(imagesActions.getCameraFrame.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(imagesActions.getCameraFrame.fulfilled, (state, action) => {
+        state.cameraFrame = action.payload[0];
+        state.isLoading = false;
+      })
+      .addCase(imagesActions.getCameraFrame.rejected, (state) => {
         state.isLoading = false;
       });
   },

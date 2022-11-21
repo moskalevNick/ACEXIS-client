@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card } from '../Card/Card';
 import classNames from 'classnames';
 import uuid from 'react-uuid';
-import { ClientType } from '../../redux/types';
+import { ClientType } from '../../types';
 
 type CardContainerType = {
   clients: ClientType[];

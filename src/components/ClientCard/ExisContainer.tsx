@@ -9,7 +9,7 @@ import { PinnedIcon } from '../Icons/PinnedIcon';
 import { EditIcon } from '../Icons/EditIcon';
 import { CrossInSquareIcon } from '../Icons/CrossInSquareIcon';
 import { SquareTickIcon } from '../Icons/SquareTickIcon';
-import { ExisType } from '../../redux/types';
+import { ExisType } from '../../types';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { exisActions } from '../../redux/exis/actions';

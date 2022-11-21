@@ -1,4 +1,4 @@
-import { ClientType, ImageType } from '../types';
+import { ClientType, ImageType } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { clientActions } from './actions';

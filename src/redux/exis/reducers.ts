@@ -1,4 +1,4 @@
-import { ExisType } from './../types';
+import { ExisType } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { exisActions } from './actions';

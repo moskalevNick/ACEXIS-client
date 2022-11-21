@@ -1,7 +1,7 @@
 import styles from './ClientCard.module.css';
 import React, { useState } from 'react';
 import { getInterval } from '../../helpers/getInterval';
-import { VisitsType } from '../../redux/types';
+import { VisitsType } from '../../types';
 import { useAppSelector } from '../../hooks/redux';
 
 type VisisitsContainerType = {

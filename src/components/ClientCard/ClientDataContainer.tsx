@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, ImageType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../types';
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imagesActions } from '../../redux/images/actions';

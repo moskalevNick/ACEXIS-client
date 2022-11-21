@@ -1,5 +1,5 @@
 import $api from '../http';
-import { CreateExisType, EditExisType, ExisType } from '../redux/types';
+import { CreateExisType, EditExisType, ExisType } from '../types';
 
 const path = 'exises';
 

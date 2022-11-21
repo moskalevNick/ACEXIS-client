@@ -52,3 +52,7 @@ export type ImageType = {
   path: string;
   publicUrl: string;
 };
+
+export type CameraFrameType = {
+  img_small: string;
+};

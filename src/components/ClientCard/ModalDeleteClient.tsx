@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../Button/Button';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, ImageType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../types';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';

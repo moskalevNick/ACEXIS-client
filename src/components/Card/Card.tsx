@@ -12,7 +12,7 @@ import { Button } from '../Button/Button';
 import uuid from 'react-uuid';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, ExisType, VisitsType } from '../../redux/types';
+import { ClientType, ExisType, VisitsType } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imageSettingsActions } from '../../redux/images/reducers';
 import { clientSettingsActions } from '../../redux/clients/reducers';

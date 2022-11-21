@@ -18,6 +18,7 @@ export const actionNames = {
     getImages: 'GET_IMAGES',
     uploadImage: 'UPLOAD_IMAGE',
     deleteImage: 'DELETE_IMAGE',
+    getCameraFrame: 'GET_CAMERA_FRAME',
   },
   [modules.GLOBAL]: {
     setTheme: 'SET_THEME',

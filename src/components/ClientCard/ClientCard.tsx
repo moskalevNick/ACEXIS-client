@@ -5,7 +5,7 @@ import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import classNames from 'classnames';
 import Draggable, { DraggableData } from 'react-draggable';
-import { ClientType, ImageType, VisitsType } from '../../redux/types';
+import { ClientType, ImageType, VisitsType } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { ModalDeleteClient } from './ModalDeleteClient';

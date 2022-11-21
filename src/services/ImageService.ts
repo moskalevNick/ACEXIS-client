@@ -1,5 +1,6 @@
+import axios from 'axios';
 import $api from '../http';
-import { ImageType } from '../redux/types';
+import { CameraFrameType, ImageType } from '../types';
 
 export default class ImageService {
   static async getImages(clientId: string): Promise<ImageType[]> {
@@ -18,6 +19,17 @@ export default class ImageService {
   }
   static async deleteImage(imageId: string): Promise<ImageType> {
     const response = await $api.delete(`clients/image/${imageId}`);
+    return response.data;
+  }
+
+  static async getCameraFrame(): Promise<CameraFrameType[]> {
+    const response = await axios.request({
+      url: 'http://192.168.1.106/get_stream.php?token=cam01',
+      method: 'get',
+      headers: {
+        cookies: 'SameSite=None; Secure',
+      },
+    });
     return response.data;
   }
 }

@@ -1,4 +1,4 @@
-import { CreateExisType, EditExisType } from './../types';
+import { CreateExisType, EditExisType } from '../../types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ExisService from '../../services/ExisService';
 import { actionNames } from '../actionNames';
