@@ -1,40 +1,43 @@
 import styles from './RangeSlider.module.css';
-import React, { useEffect, useState } from 'react';
-import { RangeSlider as Rangeslider } from 'rsuite';
-import { RangeDataType } from '../../modules/CloudModule/CloudModule';
+import React, { useMemo } from 'react';
+import { RangeSlider as RsuiteRangeslider } from 'rsuite';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { globalSettingActions } from '../../redux/global/reducer';
 
 type RangeSliderType = {
   label?: string;
-  min: number;
-  max: number;
-  getRangeValue: (rangeValue: RangeDataType) => void;
 };
 
-export const RangeSlider: React.FC<RangeSliderType> = ({
-  label,
-  min = 0,
-  max = 1000,
-  getRangeValue,
-}) => {
-  const [rangeValue, setRangeValue] = useState<[number, number]>([min, max / 2]);
+export const RangeSlider: React.FC<RangeSliderType> = ({ label }) => {
+  const dispatch = useAppDispatch();
+  const { range } = useAppSelector((state) => state.globalReducer.filters);
 
-  useEffect(() => {
-    getRangeValue(rangeValue);
-  }, [rangeValue]);
+  const borders = {
+    min: 0,
+    max: 1500,
+  };
+
+  const value: [number, number] = useMemo(() => [range.min, range.max], [range]);
+
+  const setRangeValue = ([min, max]: [number, number]) => {
+    // FIXMY: add setTimeout
+    dispatch(globalSettingActions.setFilterRange({ min, max }));
+  };
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.label}>{label}</div>
       <div className={styles.wrapperRange}>
-        <div className={styles.min}>{min}</div>
-        <Rangeslider
+        <div className={styles.min}>{borders.min}</div>
+        <RsuiteRangeslider
           className={styles.range}
-          min={min}
-          max={max}
+          min={borders.min}
+          max={borders.max}
           onChange={setRangeValue}
-          value={rangeValue}
+          value={value}
         />
-        <div className={styles.max}>{max}</div>
+        <div className={styles.max}>{borders.max}</div>
       </div>
     </div>
   );

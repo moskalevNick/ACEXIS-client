@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
+import { ClientModule } from './modules/ClientModule';
 import { TodayModule } from './modules/TodayModule/TodayModule';
 import { Layout } from './modules/Layout/Layout';
 import { FullscreenCamera } from './components/FullscreenCamera/FullscreenCamera';
@@ -45,6 +46,7 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
+              <Route path="cloud/:id" element={<ClientModule />} />
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>

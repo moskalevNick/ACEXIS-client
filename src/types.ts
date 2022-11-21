@@ -56,3 +56,15 @@ export type ImageType = {
 export type CameraFrameType = {
   img_small: string;
 };
+
+export type DatepickerDataType = [Date | null, Date | null];
+export type RangeDataType = {
+  min: number;
+  max: number;
+};
+
+export type FiltersType = {
+  date?: DatepickerDataType;
+  range: RangeDataType;
+  status?: string[];
+};
