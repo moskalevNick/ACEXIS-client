@@ -18,7 +18,7 @@ export default class ClientsService {
     const response = await $api.put(`${path}/${id}`, { ...newClient });
     return response.data;
   }
-  static async addClient(newClient: ClientType): Promise<ClientType> {
+  static async addClient(newClient: Omit<ClientType, 'id' | 'images'>): Promise<ClientType> {
     const response = await $api.post(`${path}`, { ...newClient });
     return response.data;
   }

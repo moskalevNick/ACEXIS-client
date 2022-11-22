@@ -16,40 +16,38 @@ import { Loader } from '../Loader/Loader';
 import { clientActions } from '../../redux/clients/actions';
 
 type ClientDataContainerType = {
-  // setClientAvatar: (state: ImageType | null) => void;
-  clientImages: ImageType[] | [];
-  clientAvatar: ImageType | null;
+  lastVisit: VisitsType | null;
   client: ClientType;
-  // lastVisit: VisitsType | null;
-  // isNew: boolean;
-  // setOpenDeleteClient: (state: boolean) => void;
-  // updateFormData: (state: any) => void;
+  isNew: boolean;
+  setOpenDeleteClient: (state: boolean) => void;
+  setClientAvatar: (state: ImageType | null) => void;
+  clientAvatar: ImageType | null;
+  updateFormData: (state: any) => void;
 };
 
 export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
-  // lastVisit,
+  lastVisit,
   client,
-  // isNew,
-  // setOpenDeleteClient,
-  // setClientAvatar,
-  clientImages,
+  isNew,
+  setOpenDeleteClient,
+  setClientAvatar,
   clientAvatar,
-  // updateFormData,
+  updateFormData,
 }) => {
   const dispatch = useAppDispatch();
-  // const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
-  // const [billValue, setBillValue] = useState<string>('');
-  // const [phoneInputStr, setPhoneInputStr] = useState<string>('');
-  // const [bills, setBills] = useState<number[]>([]);
-  // const [status, setStatus] = useState<string>(client.status);
+  const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
+  const [billValue, setBillValue] = useState<string>('');
+  const [phoneInputStr, setPhoneInputStr] = useState<string>('');
+  const [bills, setBills] = useState<number[]>([]);
+  const [status, setStatus] = useState<string>(client.status);
 
   // const currentClient = useAppSelector(state => state.clientReducer.currentClient);
-  // console.log(client);
+  console.log(client);
 
-  // const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
-  // const images = useAppSelector((state) => state.imageReducer.images[client.id]);
+  const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
+  const images = useAppSelector((state) => state.imageReducer.images[client.id]);
 
-  // console.log(images);
+  console.log(images);
 
   // const newClient = useAppSelector((state) => state.clientReducer.currentClient);
 
@@ -96,50 +94,49 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   // }
   // }, [storeImages, setClientAvatar]);
 
-  // const addBill = () => {
-  //   if (billValue) {
-  //     setBills((prev) => [...prev, Number(billValue)]);
-  //   }
-  //   setBillValue('');
-  // };
-
-  const { avatarImage, imageGalery } = useMemo(() => {
-    return {
-      avatarImage: clientAvatar && (
-        <ImageWrapper
-          src={clientAvatar.publicUrl}
-          alt={`avatar_${clientAvatar.id}`}
-          className={styles.img}
-          effect="opacity"
-        />
-      ),
-      imageGalery:
-        clientImages.length > 0 &&
-        clientImages.map((photo, i) => (
-          <div className={styles.smallPhotoWrapper} key={`${photo}_${i}`}>
-            <ImageWrapper
-              src={photo.publicUrl}
-              alt={`small_photo_${i}_${photo}`}
-              className={styles.smallImg}
-              effect="opacity"
-            />
-          </div>
-        )),
-    };
-  }, [clientImages, clientAvatar]);
-
-  const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
-      // if (client.id) {
-      //   dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
-      // } else if (newClient?.id) {
-      //   dispatch(
-      //     imagesActions.uploadImage({ clientId: newClient.id, image: event.target.files[0] }),
-      //   );
-      // }
+  const addBill = () => {
+    if (billValue) {
+      setBills((prev) => [...prev, Number(billValue)]);
     }
+    setBillValue('');
   };
+
+  // const { avatarImage, imageGalery } = useMemo(() => {
+  //   return {
+  //     avatarImage: images?.length > 0 && (
+  //       <ImageWrapper
+  //         src={images[images.length - 1]?.publicUrl}
+  //         alt={`avatar_${images[images.length - 1].id}`}
+  //         className={styles.img}
+  //         effect="opacity"
+  //       />
+  //     ),
+  //     imageGalery:
+  //       images?.length > 0 &&
+  //       images.map((photo, i) => (
+  //         <div className={styles.smallPhotoWrapper} key={`${photo}_${i}`}>
+  //           <ImageWrapper
+  //             src={photo.publicUrl}
+  //             alt={`small_photo_${i}_${photo}`}
+  //             className={styles.smallImg}
+  //             effect="opacity"
+  //           />
+  //         </div>
+  //       )),
+  //   };
+  // }, [images]);
+
+  // const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     if (client.id) {
+  //       dispatch(imagesActions.uploadImage({ clientId: client.id, image: event.target.files[0] }));
+  //     } else if (newClient?.id) {
+  //       dispatch(
+  //         imagesActions.uploadImage({ clientId: newClient.id, image: event.target.files[0] }),
+  //       );
+  //     }
+  //   }
+  // };
 
   const deleteAvatar = () => {
     if (clientAvatar) {
@@ -147,13 +144,15 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
     }
   };
 
-  // const getStatus = (status: string[]) => {
-  //   setStatus(status[0]);
-  // };
+  const getStatus = (status: string[]) => {
+    setStatus(status[0]);
+  };
 
-  // const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
+  const labelFixContent = classNames(styles.labelContent, styles.labelFixContent);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className={styles.clientData}>
       <div className={styles.uploadPhotoWrapper}>
         {clientAvatar ? (
@@ -162,18 +161,18 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
               <button className={styles.removePhotoButton} onClick={deleteAvatar}>
                 <CrossIcon />
               </button>
-              {avatarImage}
+              {/* {avatarImage} */}
             </div>
             <div className={styles.photoGallery}>
-              {imageGalery}
+              {/* {imageGalery} */}
 
-              {imageGalery && imageGalery.length < 4 && (
+              {clientPhotoGallery && clientPhotoGallery.length < 4 && (
                 <div>
-                  <input
+                  {/* <input
                     className={styles.smallUploadButtonWrapper}
                     type="file"
                     onChange={uploadImage}
-                  />
+                  /> */}
                   <SquareUploadIcon />
                 </div>
               )}
@@ -187,7 +186,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
         )}
       </div>
 
-      {/* <div className={styles.clientContent}>
+      <div className={styles.clientContent}>
         <div className={styles.clientName}>{client.name}</div>
         <div className={styles.textWrapper}>
           <div className={styles.labelContent}>Last visit</div>
@@ -251,13 +250,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
             </div>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
-
-  // return isLoading ? (
-  //   <Loader />
-  // ) : (
-
-  // );
 };

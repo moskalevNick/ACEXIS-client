@@ -12,12 +12,12 @@ export type State = {
 };
 
 export type ClientType = {
-  id?: string;
+  id: string;
   name: string;
   status: string;
   phone: string;
   bills?: number[];
-  images?: ImageType[];
+  images: ImageType[];
   visits?: VisitsType[];
   UserId?: string;
 };
@@ -51,8 +51,21 @@ export type ImageType = {
   id: string;
   path: string;
   publicUrl: string;
+  clientId: string;
 };
 
 export type CameraFrameType = {
   img_small: string;
+};
+
+export type DatepickerDataType = [Date | null, Date | null];
+export type RangeDataType = {
+  min: number;
+  max: number;
+};
+
+export type FiltersType = {
+  date?: DatepickerDataType;
+  range: RangeDataType;
+  status?: string[];
 };

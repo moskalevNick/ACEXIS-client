@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
+import { ClientModule } from './modules/ClientModule';
 import { TodayModule } from './modules/TodayModule/TodayModule';
 import { Layout } from './modules/Layout/Layout';
 import { FullscreenCamera } from './components/FullscreenCamera/FullscreenCamera';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { globalActions } from './redux/global/actions';
 import { Loader } from './components/Loader/Loader';
+import { Founder } from './containers/Founder';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +47,8 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
+              <Route path="cloud/:id" element={<Founder component={ClientModule} />} />
+              {/* <Route path="cloud/:id" element={<ClientModule />} /> */}
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>

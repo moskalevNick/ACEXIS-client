@@ -8,16 +8,18 @@ const clientSlice = createSlice({
   name: modules.CLIENTS,
   initialState: {
     clients: [] as ClientType[],
-    client: null as ClientType | null,
-    newClient: null as ClientType | null,
-    images: [] as ImageType[],
+    currentClient: null as ClientType | null,
+    // newClient: null as ClientType | null,
+    // images: [] as ImageType[],
     isLoading: false,
     isClientLoading: false,
   },
   reducers: {
-    clearClient: (state) => {
-      state.client = null;
-      state.images = [];
+    setCurrentClient: (state, action) => {
+      state.currentClient = action.payload;
+    },
+    clearCurrentClient: (state) => {
+      state.currentClient = null;
     },
   },
 
@@ -38,7 +40,7 @@ const clientSlice = createSlice({
         state.isClientLoading = true;
       })
       .addCase(clientActions.getClient.fulfilled, (state, action) => {
-        state.client = action.payload;
+        state.currentClient = action.payload;
         state.isClientLoading = false;
       })
       .addCase(clientActions.getClient.rejected, (state) => {
@@ -49,7 +51,7 @@ const clientSlice = createSlice({
         state.isClientLoading = true;
       })
       .addCase(clientActions.editClient.fulfilled, (state, action) => {
-        state.client = action.payload;
+        state.currentClient = action.payload;
         state.isClientLoading = false;
 
         let avatar: string = '';
@@ -57,9 +59,9 @@ const clientSlice = createSlice({
           avatar = action.payload.images[action.payload.images.length - 1].publicUrl;
         }
 
-        if (action.payload.id === state.newClient?.id) {
+        if (action.payload.id === state.currentClient?.id) {
           state.clients = [...state.clients, action.payload];
-          state.newClient = null;
+          state.currentClient = null;
           Nottification({
             name: action.payload.name,
             avatar: avatar,
@@ -81,7 +83,7 @@ const clientSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(clientActions.addClient.fulfilled, (state, action) => {
-        state.newClient = action.payload;
+        state.currentClient = action.payload;
         state.isLoading = false;
       })
       .addCase(clientActions.addClient.rejected, (state) => {
@@ -99,7 +101,7 @@ const clientSlice = createSlice({
         if (action.payload.images?.length) {
           avatar = action.payload.images[action.payload.images.length - 1].publicUrl;
         }
-        if (action.payload.id !== state.newClient?.id) {
+        if (action.payload.id !== state.currentClient?.id) {
           Nottification({
             name: action.payload.name,
             avatar: avatar,
