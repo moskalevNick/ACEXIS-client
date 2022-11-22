@@ -1,20 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { CameraFrameType, ImageType } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CameraFrameType, ClientType, ImageType } from '../../types';
 import { modules } from '../modules';
 import { imagesActions } from './actions';
 import { Nottification } from '../../components/Nottification/Nottification';
+import { clientActions } from '../clients/actions';
+
+type ImagesType = Record<string, Array<ImageType>>;
 
 const imageSlice = createSlice({
   name: modules.IMAGE,
   initialState: {
-    images: [] as ImageType[],
+    // images: [] as ImageType[],
+    images: {} as ImagesType,
     avatar: {} as ImageType | null,
     cameraFrame: null as CameraFrameType | null,
     isLoading: false,
   },
   reducers: {
     clearState: (state) => {
-      state.images = [];
+      // state.images = [];
       state.avatar = null;
     },
     resetCameraFrame: (state) => {
@@ -24,11 +28,19 @@ const imageSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      .addCase(clientActions.getClients.fulfilled, (state, action: PayloadAction<ClientType[]>) => {
+        action.payload.forEach((client) => {
+          state.images[client.id] = client.images;
+        });
+      })
+      .addCase(clientActions.getClient.fulfilled, (state, action: PayloadAction<ClientType>) => {
+        state.images[action.payload.id] = action.payload.images;
+      })
       .addCase(imagesActions.getImages.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(imagesActions.getImages.fulfilled, (state, action) => {
-        state.images = action.payload;
+        // state.images = action.payload;
         state.avatar = action.payload[action.payload.length - 1];
         state.isLoading = false;
       })
@@ -40,7 +52,10 @@ const imageSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(imagesActions.uploadImage.fulfilled, (state, action) => {
-        state.images = [...state.images, action.payload];
+        state.images = {
+          ...state.images,
+          [action.payload.clientId]: [...state.images[action.payload.clientId], action.payload],
+        };
         state.isLoading = false;
 
         Nottification({
@@ -56,7 +71,7 @@ const imageSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(imagesActions.deleteImage.fulfilled, (state, action) => {
-        state.images = state.images.filter((el) => el.id !== action.payload.id);
+        // state.images = state.images.filter((el) => el.id !== action.payload.id);
         state.isLoading = false;
         Nottification({
           avatar: action.payload.publicUrl,

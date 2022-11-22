@@ -7,7 +7,7 @@ import { Datepicker } from '../../components/DatePicker/DatePicker';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 
-import { DatepickerDataType } from '../../redux/types';
+import { DatepickerDataType } from '../../types';
 import styles from './CloudFilters.module.css';
 
 export const CloudFilters = () => {

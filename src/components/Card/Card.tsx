@@ -36,8 +36,9 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   const [clientAvatar, setClientAvatar] = useState<string | null>(null);
   const [currentClient, setCurrentClient] = useState(client);
 
-  const stateClient = useAppSelector((state) => state.clientReducer.client);
+  const stateClient = useAppSelector((state) => state.clientReducer.currentClient);
   const statePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
+  const images = useAppSelector((state) => state.imageReducer.images[client.id]);
 
   // useEffect(() => {
   //   if (client.coincidentIds) {
@@ -55,12 +56,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   //     setCurrentClient(stateClient);
   //   }
   // }, [stateClient, statePinnedExis]);
-
-  // useEffect(() => {
-  //   if (currentClient.images?.length) {
-  //     setClientAvatar(currentClient.images[currentClient.images.length - 1].publicUrl);
-  //   }
-  // }, [currentClient]);
 
   // useEffect(() => {
   //   if (currentClient?.visits) {
@@ -141,7 +136,9 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
       <div className={styles.wrapper} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
         <div className={styles.contentWrapper}>
           <div className={styles.imgWrapper}>
-            {clientAvatar && <img src={clientAvatar} alt={`avatar_${currentClient.name}`} />}
+            {images.length > 0 && (
+              <img src={images.at(-1)?.publicUrl} alt={`avatar_${images.at(-1)?.id}`} />
+            )}
           </div>
           <div className={styles.name}>
             {currentClient.name ? currentClient.name : 'Unknown client'}

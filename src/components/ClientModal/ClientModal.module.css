@@ -1,0 +1,795 @@
+.modalClient {
+  position: relative;
+  width: 1208px;
+  height: 639px;
+  padding: 0 !important;
+  color: var(--text-color);
+}
+
+.clientNameInput {
+  height: 43px;
+  width: 440px;
+  margin: 10px 36px;
+  background-color: transparent;
+  padding: 0;
+  font-weight: 600;
+  font-size: 29px;
+  border-radius: 0px;
+}
+
+.clientNameInput::placeholder {
+  font-weight: 600;
+  font-size: 29px;
+}
+
+.clientNameInput:focus {
+  border: none;
+}
+.headerClientNameWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 15px 34px 25px;
+  height: 23px;
+}
+
+.headerClientName {
+  font-weight: 600;
+  font-size: 32px;
+  margin-left: 34px;
+}
+
+.horizontalLine {
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: var(--line-color);
+}
+
+.contentWrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.clientDataWrapper {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 575px;
+}
+
+.clientDataContainer {
+  height: calc(100% - 60px - 86px);
+}
+
+.clientData {
+  position: relative;
+  width: 776px;
+  display: flex;
+}
+
+.visitsData {
+  height: 100%;
+}
+
+.visitsWrapper {
+  border: 1px solid var(--line-color);
+  margin: 24px 36px;
+  height: calc(100% - 25px);
+  border-radius: 8px;
+}
+
+.visitsHeader {
+  height: 52px;
+  border-bottom: 1px solid var(--line-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.visitsHeaderItem {
+  width: 100%;
+}
+
+.visitsHeaderlabel {
+  font-weight: 600;
+  font-size: 16px;
+  font-style: normal;
+}
+
+.visitsContainer {
+  height: 337px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.visitItemWrapper {
+  margin: 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.visitItem {
+  position: relative;
+  width: 100%;
+}
+
+.exisPointWrapper {
+  width: 6px;
+}
+
+.exisPoint {
+  position: relative;
+  margin: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: #1487f2;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.exisPoint::before,
+.exisPoint::after,
+.exisBadge {
+  opacity: 0;
+}
+
+.exisPointWrapper:hover > .exisPoint::before {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.exisPointWrapper:hover > .exisPoint::after {
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}
+
+.exisPointWrapper:hover > .exisBadge {
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.exisPoint::before {
+  position: absolute;
+  top: calc(-50% - 1px);
+  left: calc(-50% - 1px);
+  content: '';
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #1487f2;
+  width: 14px;
+  height: 14px;
+}
+
+.exisPoint::after {
+  position: absolute;
+  top: calc(-50% - 4px);
+  left: calc(-50% - 4px);
+  content: '';
+  display: block;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #9fcefa;
+  width: 20px;
+  height: 20px;
+}
+
+.exisBadge {
+  position: fixed;
+  z-index: 999;
+  padding: 20px;
+  border: 1px solid var(--line-color);
+  border-radius: 10px;
+  width: 220px;
+  background-color: var(--login-background);
+}
+
+.exisBadgeTime {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.exisBadgeText {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.settingsToggle {
+  position: relative;
+  height: 59px;
+  width: 100%;
+}
+
+.wrapperSectionToggle {
+  display: flex;
+  margin-left: 36px;
+}
+
+.section {
+  height: 59px;
+  background-color: transparent;
+  border: none;
+  color: var(--input-placeholder-color);
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 24px;
+  transition: all 1s;
+}
+
+.section:hover {
+  color: #1487f2;
+}
+
+.activeSection {
+  color: #1487f2;
+  border-bottom: 3px solid #1487f2;
+  transition: all 0.3s;
+}
+
+.uploadPhotoWrapper {
+  margin: 33px 28px 0 36px;
+}
+
+.avatarPhoto {
+  position: relative;
+  height: 171px;
+  width: 286px;
+}
+
+.img {
+  height: 171px;
+  width: 286px;
+}
+
+.removePhotoButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: #0682f6;
+  width: 24px;
+  height: 24px;
+  background-color: var(--icons-background);
+  border-radius: 4px;
+}
+
+.noPhotos {
+  margin: 24px 28px 0 36px;
+  height: 171px;
+  width: 286px;
+}
+
+.uploadButton,
+.uploadButton:hover {
+  width: 286px;
+  height: 171px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  position: absolute;
+  opacity: 0;
+}
+
+.photoGallery {
+  margin-top: 10px;
+  display: flex;
+}
+
+.smallUploadButtonWrapper {
+  outline: none;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 10px;
+  background-color: transparent;
+  width: 64px;
+  height: 64px;
+  border: none;
+  opacity: 0;
+}
+
+.smallPhotoWrapper {
+  height: 64px;
+  margin-right: 10px;
+}
+
+.smallPhotoWrapper:last-child {
+  margin-right: 0px;
+}
+
+.smallImg {
+  width: 64px;
+  height: 64px;
+}
+
+.clientContent {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.clientName {
+  font-weight: 600;
+  font-size: 24px;
+  height: 18px;
+  margin-bottom: 31px;
+}
+
+.textWrapper {
+  display: flex;
+  margin-top: 23px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.labelContent {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.labelFixContent {
+  width: 143px;
+}
+
+.containerInput {
+  width: fit-content;
+}
+
+.inputPhone {
+  width: 198px;
+  height: 38px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.billWrapper {
+  display: flex;
+}
+
+.billInput {
+  display: flex;
+  width: 72px;
+  height: 38px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.containerInputBill {
+  width: 72px;
+  margin-right: 10px;
+}
+
+.modalBillButton {
+  width: 116px;
+  height: 38px;
+}
+
+.deleteClientButton {
+  width: 124px;
+  height: 38px;
+  fill: currentColor;
+}
+
+.submitButtonsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 36px 26px;
+}
+
+.submitButton {
+  width: 149px;
+  height: 40px;
+  margin-left: 12px;
+}
+
+.handler {
+  position: absolute;
+  right: 58.5%;
+  width: 4px;
+  height: 100%;
+  top: 0;
+  cursor: col-resize;
+}
+
+.exisBackground {
+  flex: 1 1 auto;
+  background: linear-gradient(
+    296.09deg,
+    #fb5c64 8.05%,
+    #ea6dab 20.43%,
+    #6e5fe8 35.32%,
+    #408ff5 45.53%,
+    #38b3eb 55.13%,
+    #397ef6 71%
+  );
+  border-radius: 0px 0px 15px 0px;
+}
+
+.exisContainer {
+  position: relative;
+  margin: 20px;
+  height: calc(100% - 19px);
+  background: var(--login-background);
+  border-radius: 12px 12px 0px 0px;
+}
+
+.exisesWrapper {
+  position: absolute;
+  height: 453px;
+  bottom: 89px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+
+.exisesWrapperWithPin {
+  height: calc(100% - 210px);
+}
+
+.exisInputWrapper {
+  background: var(--login-background);
+  position: absolute;
+  height: 88px;
+  width: 100%;
+  bottom: 0;
+}
+
+.exisEditInputWrapper {
+  height: 130px;
+}
+
+.exisInput {
+  height: 40px;
+  margin: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.exisSubmitButton {
+  position: absolute;
+  top: 23px;
+  right: 22px;
+  width: 48px;
+  height: 36px;
+}
+
+.wrapperEdittingInpt {
+  position: relative;
+  padding: 14px 20px 0px;
+}
+
+.labelEdittingInput {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.labelEdittingInput svg {
+  margin-right: 13px;
+}
+
+.editingExisText {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0 48px 0 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.buttonCloseEdit {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: transparent;
+  position: absolute;
+  right: 22px;
+  top: 24px;
+}
+
+.buttonCloseEdit svg {
+  fill: #1487f2;
+}
+
+.exisEditInput {
+  height: 40px;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.exisSubmitEditButton {
+  position: absolute;
+  bottom: 2px;
+  right: 22px;
+  width: 48px;
+  height: 36px;
+}
+
+.noExis {
+  height: calc(100% - 88px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--input-placeholder-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.pinnedExisWrapper {
+  position: absolute;
+  z-index: 1;
+  background: var(--search-button-background);
+  box-shadow: var(--shadow-pinned-exis);
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+}
+
+.pinnedMessageDateWrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.unpinButton {
+  display: none;
+}
+
+.labelUnpinButton {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: 8px;
+}
+
+.pinnedMessageDateWrapper:hover + .unpinButton {
+  position: absolute;
+  top: 14px;
+  width: 136px;
+  height: 31px;
+  padding-left: 11px;
+  display: flex;
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  border-radius: 7px;
+  align-items: center;
+}
+
+.unpinButton:hover {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  width: 136px;
+  height: 31px;
+  padding-left: 11px;
+  display: flex;
+  background: linear-gradient(180deg, #419cf0 0%, #0080f7 100%);
+  border-radius: 7px;
+  align-items: center;
+}
+
+.pinnedMessageDate {
+  color: var(--description-color);
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.pinnedMessageText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  height: 30px;
+  margin-top: 24px;
+}
+
+.exisContentWrapper {
+  background: var(--search-button-background);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 12px;
+}
+
+.messageDateWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.buttonsWrapper {
+  position: absolute;
+  right: 0;
+  display: none;
+}
+
+.exisContentWrapper:hover > .messageDateWrapper > .buttonsWrapper {
+  display: block;
+}
+
+.buttonsWrapper > button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin-left: 8px;
+  background-color: transparent;
+}
+
+.messageDate {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.messageText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  height: 30px;
+  margin-top: 18px;
+}
+
+.modalDeleteClient {
+  width: 816px;
+  height: 369px;
+}
+
+.contentWrapperDeleteClientModal {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding-top: 26px;
+}
+
+.contentDeleteModal {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 24px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.deleteClientInfoWrapper {
+  height: calc(100% - 78px);
+  display: flex;
+}
+
+.deleteClientImg {
+  width: 235px;
+  height: 127px;
+}
+
+.deleteClientDataWrapper {
+  margin-left: 21px;
+}
+
+.deleteClientName {
+  height: 15px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.deleteClientTextWrapper {
+  display: flex;
+  align-items: center;
+  height: 10px;
+  margin: 16px 0;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.deleteClientLabelContent {
+  color: var(--description-color);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.deleteClientStatus {
+  width: 44px;
+  height: 28px;
+  background-color: var(--icon-background);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.deleteClientStatus svg {
+  fill: #1487f2;
+  stroke: #1487f2;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancelButton,
+.logoutButton {
+  width: 148px;
+}
+
+.logoutButton {
+  margin-left: 12px;
+}
+
+.deleteExisWrapper {
+  background-color: var(--input-background);
+  border-radius: 12px;
+  margin-bottom: 35px;
+}
+
+.deleteExisDate {
+  color: var(--description-color);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  height: 10px;
+  padding: 22px 0 16px 21px;
+  display: flex;
+  align-items: center;
+}
+
+.deleteExisText {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0 24px 22px 21px;
+}

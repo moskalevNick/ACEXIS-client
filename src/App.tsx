@@ -9,6 +9,7 @@ import { FullscreenCamera } from './components/FullscreenCamera/FullscreenCamera
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { globalActions } from './redux/global/actions';
 import { Loader } from './components/Loader/Loader';
+import { Founder } from './containers/Founder';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -46,7 +47,8 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
-              <Route path="cloud/:id" element={<ClientModule />} />
+              <Route path="cloud/:id" element={<Founder component={ClientModule} />} />
+              {/* <Route path="cloud/:id" element={<ClientModule />} /> */}
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>

@@ -37,7 +37,7 @@ export const clientActions = {
 
   addClient: createAsyncThunk(
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].addClient),
-    async (newClient: ClientType) => {
+    async (newClient: Omit<ClientType, 'id' | 'images'>) => {
       const data = await ClientsService.addClient(newClient);
       return data;
     },

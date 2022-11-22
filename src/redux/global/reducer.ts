@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { globalActions } from './actions';
 
-import { FiltersType } from '../types';
+import { FiltersType } from '../../types';
 
 const defaultValues: FiltersType = {
   date: undefined, // FIXME: set default dates like { startDate: 1234, endDate: 4132 }

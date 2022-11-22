@@ -6,7 +6,7 @@ import { Button } from '../Button/Button';
 import { ArrowLeftIcon } from '../Icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '../Icons/ArrowRightIcon';
 import { CrossIcon } from '../Icons/CrossIcon';
-import { DatepickerDataType } from '../../redux/types';
+import { DatepickerDataType } from '../../types';
 import styles from './DatePicker.module.css';
 
 type DatepickerType = {

@@ -1,16 +1,13 @@
-import React, { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+
 import { CloudModule } from '../CloudModule/CloudModule';
-import { ClientCard } from '../../components/ClientCard/ClientCard';
+import { ClientModal } from '../../components/ClientModal/ClientModal';
 
 export const ClientModule = () => {
-  const { id } = useParams();
-  const isNew = useMemo(() => id === 'new', [id]);
-
   return (
     <>
       <CloudModule />
-      <ClientCard clientId={id} isNew={isNew} />
+      <ClientModal />
     </>
   );
 };

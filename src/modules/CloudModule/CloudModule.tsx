@@ -12,6 +12,7 @@ import { clientActions } from '../../redux/clients/actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
 import { CloudFilters } from '../../components/CloudFilters';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 const wording = ['Customers added yesterday', 'Customers added for selected period'];
 
@@ -36,7 +37,6 @@ export const CloudModule = () => {
 
   const addNewClient = () => {
     navigate('/cloud/new');
-    // dispatch(clientActions.addClient({ name: '', status: 'ghost', phone: '' }));
   };
 
   if (isLoading) {
