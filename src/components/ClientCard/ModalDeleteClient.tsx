@@ -11,6 +11,7 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { useAppDispatch } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
+import { useNavigate } from 'react-router-dom';
 
 type DeleteClientModalType = {
   isOpenDeleteClient: boolean;
@@ -43,11 +44,15 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
   lastVisit,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const deleteClient = () => {
     if (client.id) {
       dispatch(clientActions.deleteClient(client.id));
     }
+    setOpenDeleteClient(false);
+
+    navigate(`/cloud`);
   };
 
   return (

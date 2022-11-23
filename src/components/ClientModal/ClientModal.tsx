@@ -9,8 +9,7 @@ import { ClientCard } from '../ClientCard/ClientCard';
 import styles from './ClientModal.module.css';
 
 export const ClientModal = () => {
-  const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
-  const currentClient = useAppSelector((state) => state.clientReducer.currentClient);
+  const { isClientLoading, currentClient } = useAppSelector((state) => state.clientReducer);
   const navigate = useNavigate();
 
   const onClose = () => {
@@ -19,7 +18,11 @@ export const ClientModal = () => {
 
   return (
     <Modal open={true} onClose={onClose} className={styles.modalClient}>
-      {isClientLoading ? <Loader /> : <ClientCard currentClient={currentClient} />}
+      {isClientLoading || !currentClient ? (
+        <Loader />
+      ) : (
+        <ClientCard currentClient={currentClient} />
+      )}
     </Modal>
   );
 };

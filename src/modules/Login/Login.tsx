@@ -32,7 +32,7 @@ export const Login = () => {
   const [isRemember, setRemember] = useState(true);
   const [loginError, setLoginError] = useState(false);
   const theme = useAppSelector((state) => state.globalReducer.theme);
-  const isRus = useAppSelector((state) => state.globalReducer.isRussian);
+  const isRus = useAppSelector((state) => state.globalReducer.isRus);
 
   const methods = useForm<FormType>({
     mode: 'onChange',

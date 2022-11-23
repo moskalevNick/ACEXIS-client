@@ -161,10 +161,19 @@
 
 .avatarContainer {
   cursor: pointer;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
 }
 
 .avatarContainer > svg {
   fill: var(--icon-background);
+}
+
+.avatar {
+  height: 44px;
+  width: 44px;
+  border-radius: 10px;
 }
 
 .badge {
@@ -271,6 +280,8 @@
   padding: 0;
   border: none;
   background: transparent;
+  position: absolute;
+  opacity: 0;
 }
 
 .labelUpload {

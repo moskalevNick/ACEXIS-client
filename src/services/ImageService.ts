@@ -7,6 +7,7 @@ export default class ImageService {
     const response = await $api.get(`images/${clientId}`);
     return response.data;
   }
+
   static async uploadImage(clientId: string, image: File): Promise<ImageType> {
     const formData = new FormData();
     formData.append('file', image);
@@ -17,6 +18,7 @@ export default class ImageService {
     });
     return response.data;
   }
+
   static async deleteImage(imageId: string): Promise<ImageType> {
     const response = await $api.delete(`clients/image/${imageId}`);
     return response.data;

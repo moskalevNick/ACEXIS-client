@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -28,6 +28,10 @@ export const CloudModule = () => {
     styles.container,
     isFullScreenCameraOpen && styles.containerWithCamera,
   );
+
+  useEffect(() => {
+    dispatch(clientSettingsActions.clearCurrentClient());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!id) {

@@ -73,14 +73,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   //   }
   // }, [currentClient.visits]);
 
-  // useEffect(() => {
-  //   if (!openDescription) {
-  //     dispatch(imageSettingsActions.clearState());
-  //     dispatch(clientSettingsActions.clearClient());
-  //     dispatch(exisSettingsActions.clearExises());
-  //   }
-  // }, [openDescription]);
-
   const chooseIcon = (status: string) => {
     switch (status) {
       case 'ghost':

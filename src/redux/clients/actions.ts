@@ -3,10 +3,10 @@ import ClientsService from '../../services/ClientService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
-import { ClientType } from '../../types';
+import { ClientType, CreateClientType } from '../../types';
 
 type editClientType = {
-  newClient: ClientType;
+  newClient: CreateClientType;
   id: string;
 };
 

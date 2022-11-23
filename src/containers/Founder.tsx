@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/redux';
 import { clientActions } from '../redux/clients/actions';
-import { clientSettingsActions } from '../redux/clients/reducers';
 
 export type FounderProps = {
   component: FC<any>;
@@ -25,13 +24,6 @@ export const Founder: FC<FounderProps> = ({ component: Component }) => {
         phone: '',
       };
 
-      const newClientData = {
-        ...newClientForServer,
-        id: 'new',
-        images: [],
-      };
-
-      dispatch(clientSettingsActions.setCurrentClient(newClientData));
       dispatch(clientActions.addClient(newClientForServer));
     }
 

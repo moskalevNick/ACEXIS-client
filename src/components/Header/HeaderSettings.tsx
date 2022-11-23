@@ -11,6 +11,7 @@ import { UploadIcon } from '../Icons/UploadIcon';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 import { globalActions } from '../../redux/global/actions';
+import { Loader } from '../Loader/Loader';
 
 type HeaderSettingsType = {};
 
@@ -19,10 +20,15 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
-  const [isRus, setIsRus] = useState(false);
-  const theme = useAppSelector((state) => state.globalReducer.theme);
+  const { minBill, maxBill, linkBot, isRus, theme, avatar, isAvatarLoading } = useAppSelector(
+    (state) => state.globalReducer,
+  );
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
+  const [minBillInputValue, setMinBillInputValue] = useState(minBill);
+  const [maxBillInputValue, setMaxBillInputValue] = useState(maxBill);
+  const [botInputValue, setBotInputValue] = useState(linkBot || '');
+  const [isRusToggle, setRusToggle] = useState(isRus);
 
   const handleClickOutside = useCallback((e: any) => {
     if (refBadge.current !== null && refAvatar.current !== null) {
@@ -41,17 +47,40 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
     setOpenLogoutModal(false);
   };
 
+  const submit = () => {
+    dispatch(
+      globalActions.editSettings({
+        minBill: minBillInputValue,
+        maxBill: maxBillInputValue,
+        linkBot: botInputValue,
+        isRus: isRusToggle,
+      }),
+    );
+
+    setOpenSettingModal(false);
+  };
+
+  const changeTheme = () => {
+    dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
+
+    dispatch(
+      globalActions.editSettings({
+        isDark: theme === 'light' ? true : false,
+      }),
+    );
+  };
+
+  const uploadAvatar = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      dispatch(globalActions.uploadAvatar(event.target.files[0]));
+    }
+  };
+
   return (
     <>
       <div className={styles.settingsContainer}>
         <div className={styles.toggleThemeContainer}>
-          <ToggleSwitch
-            checked={theme === 'light'}
-            size="short"
-            onChange={() => {
-              dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
-            }}
-          />
+          <ToggleSwitch checked={theme === 'light'} size="short" onChange={changeTheme} />
         </div>
         <div
           className={styles.avatarContainer}
@@ -59,7 +88,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
           onClick={() => setOpenBadge((prev) => !prev)}
           onMouseEnter={() => !isOpenBadge && setOpenBadge(true)}
         >
-          <AvatarIcon />
+          {avatar ? <img src={avatar.publicUrl} className={styles.avatar} /> : <AvatarIcon />}
         </div>
         {isOpenBadge && (
           <div className={styles.badge} ref={refBadge}>
@@ -90,47 +119,67 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         className={styles.modalSettings}
         label="Settings"
       >
-        <div>
-          <div className={styles.billsWrapper}>
-            <div className={styles.minBillWrapper}>
-              <div className={styles.labelInput}>Min bill</div>
-              <Input className={styles.billInput} placeholder="000000" />
+        {isAvatarLoading ? (
+          <Loader />
+        ) : (
+          <div>
+            <div className={styles.billsWrapper}>
+              <div className={styles.minBillWrapper}>
+                <div className={styles.labelInput}>Min bill</div>
+                <Input
+                  className={styles.billInput}
+                  value={minBillInputValue}
+                  type="number"
+                  onChange={(e) => setMinBillInputValue(Number(e.target.value))}
+                />
+              </div>
+              <div className={styles.labelInput}>Max bill</div>
+              <Input
+                className={styles.billInput}
+                value={maxBillInputValue}
+                type="number"
+                onChange={(e) => setMaxBillInputValue(Number(e.target.value))}
+              />
             </div>
-            <div className={styles.labelInput}>Max bill</div>
-            <Input className={styles.billInput} placeholder="000000" />
+            <hr className={styles.line} />
+            <div className={styles.botWrapper}>
+              <div className={styles.botLabel}>Chat bot telegram</div>
+              <Input
+                className={styles.botInput}
+                placeholder="Link chat bot telegram"
+                value={botInputValue}
+                onChange={(e) => setBotInputValue(e.target.value)}
+              />
+            </div>
+            <hr className={styles.line} />
+            <div className={styles.uploadPhotoWrapper}>
+              <input className={styles.uploadButton} type="file" onChange={uploadAvatar} />
+              <UploadIcon />
+              <div className={styles.labelUpload}>Upload your profile photo</div>
+            </div>
+            <hr className={styles.line} />
+            <div className={styles.languageWrapper}>
+              <div className={styles.languageLabel}>Language</div>
+              <ToggleSwitch
+                labels={['РУС', 'ENG']}
+                checked={isRusToggle}
+                onChange={() => setRusToggle((prev) => !prev)}
+              />
+            </div>
+            <div className={styles.buttonWrapper}>
+              <Button
+                className={styles.cancelButton}
+                outlined
+                onClick={() => setOpenSettingModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button className={styles.logoutButton} onClick={submit}>
+                Save
+              </Button>
+            </div>
           </div>
-          <hr className={styles.line} />
-          <div className={styles.botWrapper}>
-            <div className={styles.botLabel}>Chat bot telegram</div>
-            <Input className={styles.botInput} placeholder="Link chat bot telegram" />
-          </div>
-          <hr className={styles.line} />
-          <div className={styles.uploadPhotoWrapper}>
-            <Button beforeIcon={<UploadIcon />} className={styles.uploadButton} outlined />
-            <div className={styles.labelUpload}>Upload your profile photo</div>
-          </div>
-          <hr className={styles.line} />
-          <div className={styles.languageWrapper}>
-            <div className={styles.languageLabel}>Language</div>
-            <ToggleSwitch
-              labels={['РУС', 'ENG']}
-              checked={isRus}
-              onChange={() => setIsRus((prev) => !prev)}
-            />
-          </div>
-          <div className={styles.buttonWrapper}>
-            <Button
-              className={styles.cancelButton}
-              outlined
-              onClick={() => setOpenSettingModal(false)}
-            >
-              Cancel
-            </Button>
-            <Button className={styles.logoutButton} onClick={() => setOpenSettingModal(false)}>
-              Save
-            </Button>
-          </div>
-        </div>
+        )}
       </Modal>
 
       <Modal

@@ -1,25 +1,18 @@
 import styles from './ClientCard.module.css';
 import React, { useEffect, useState, useMemo, FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { Modal } from '../Modal/Modal';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import classNames from 'classnames';
 import Draggable, { DraggableData } from 'react-draggable';
-import { ClientType, ImageType, VisitsType } from '../../types';
+import { ClientType, CreateClientType, ImageType, VisitsType } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { ModalDeleteClient } from './ModalDeleteClient';
 import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
 import { ClientDataContainer } from './ClientDataContainer';
-import { Loader } from '../Loader/Loader';
-
-type ClientCardType = {
-  isNew: boolean;
-  clientId?: string;
-};
 
 type updateFormDataType = {
   status: string;
@@ -27,21 +20,20 @@ type updateFormDataType = {
   bills?: number[] | undefined;
 };
 
-// const defaultValues: ClientType = {
-//   id: 'new',
-//   name: '',
-//   status: 'ghost',
-//   phone: '',
-//   images: [],
-// };
+const defaultValues: CreateClientType = {
+  name: '',
+  status: 'ghost',
+  phone: '',
+};
 
-export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentClient }) => {
+export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient }) => {
   const [client, setClient] = useState(currentClient);
   const [position, setPosition] = useState<{ positionX: number }>({ positionX: 320 });
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [isVisits, toggleVisits] = useState(false);
   const [clientImages, setClientImages] = useState<ImageType[] | []>([]);
   const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
+  const [formData, setFormData] = useState<CreateClientType>(defaultValues);
 
   const settingsClassnames = classNames(styles.section, !isVisits && styles.activeSection);
   const visitsClassnames = classNames(styles.section, isVisits && styles.activeSection);
@@ -50,6 +42,19 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    client?.visits?.forEach((el) => {
+      if (Number(el.date) > Number(lastVisit)) {
+        setLastVisit(el);
+      }
+    });
+    client?.name &&
+      setFormData((prev) => {
+        return { ...prev, name: client.name };
+      });
+  }, [client]);
 
   useEffect(() => {
     if (client && images[client?.id]) {
@@ -62,7 +67,6 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
     if (clientImages.length > 0) {
       return clientImages[clientImages.length - 1];
     }
-
     return null;
   }, [clientImages]);
 
@@ -72,7 +76,12 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
     }
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    if (formData && client?.id) {
+      dispatch(clientActions.editClient({ newClient: formData, id: client.id }));
+    }
+    onClose();
+  };
 
   const onClose = () => {
     navigate('/cloud');
@@ -87,15 +96,20 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
   };
 
   const cancelAddingClient = () => {
-    if (client?.id) {
-      dispatch(clientActions.deleteClient(client.id));
-    }
+    dispatch(clientActions.deleteClient(client.id));
     onClose();
   };
 
-  if (!client) {
-    return null;
-  }
+  const updateFormData = (data: updateFormDataType) => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        status: data.status,
+        phone: data.phoneInputStr,
+        bills: data.bills,
+      };
+    });
+  };
 
   return (
     <>
@@ -136,12 +150,11 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
                 <ClientDataContainer
                   clientImages={clientImages}
                   client={client}
-                  // lastVisit={lastVisit}
-                  // isNew={!Boolean(clientId)}
-                  // setOpenDeleteClient={setOpenDeleteClient}
+                  lastVisit={lastVisit}
+                  setOpenDeleteClient={setOpenDeleteClient}
                   // setClientAvatar={setClientAvatar}
                   clientAvatar={clientAvatar}
-                  // updateFormData={updateFormData}
+                  updateFormData={updateFormData}
                 />
               )}
             </div>
@@ -153,7 +166,7 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
                   Cancel
                 </Button>
                 <Button className={styles.submitButton} onClick={onSubmit}>
-                  {client.id ? 'Save' : 'Add visitor'}
+                  {id !== 'new' ? 'Save' : 'Add visitor'}
                 </Button>
               </div>
             </div>
@@ -181,81 +194,4 @@ export const ClientCard: FC<{ currentClient: ClientType | null }> = ({ currentCl
       />
     </>
   );
-
-  // const client = useAppSelector((state) => state.clientReducer.currentClient);
-  // const newClient = useAppSelector((state) => state.clientReducer.newClient);
-  // const isClientLoading = useAppSelector((state) => state.clientReducer.isClientLoading);
-
-  // const [values, setValues] = useState<ClientType>(client);
-  // const [isVisits, toggleVisits] = useState(false);
-  // const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
-  // const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
-  // const [position, setPosition] = useState<any>({ positionX: 320 });
-  // const [clientAvatar, setClientAvatar] = useState<ImageType | null>(null);
-  // const [formData, setFormData] = useState<ClientType>();
-  // const [nameInputStr, setNameInputStr] = useState<string>(values.name);
-
-  // useEffect(() => {
-  //   if (client && Object.keys(client).length !== 0 && isOpenClientModal) {
-  //     setValues(client);
-  //     setFormData(client);
-  //     setNameInputStr(client.name);
-  //   }
-  // }, [client]);
-
-  // useEffect(() => {
-  //   values.visits?.forEach((el) => {
-  //     if (Number(el.date) > Number(lastVisit)) {
-  //       setLastVisit(el);
-  //     }
-  //   });
-  // }, [values]);
-
-  // useEffect(() => {
-  //   setValues((prev) => {
-  //     return {
-  //       ...prev,
-  //       name: nameInputStr,
-  //     };
-  //   });
-  //   setFormData((prev) => {
-  //     return {
-  //       ...prev,
-  //       status: values.status,
-  //       phone: values.phone,
-  //       name: nameInputStr,
-  //     };
-  //   });
-  // }, [nameInputStr]);
-
-  // const submit = () => {
-  // delete formData?.id;
-  // delete formData?.UserId;
-  // delete formData?.images;
-  // delete formData?.visits;
-
-  // if (clientId && client?.id && formData) {
-  //   dispatch(clientActions.editClient({ newClient: formData, id: client.id }));
-  // } else if (newClient?.id && formData) {
-  //   dispatch(
-  //     clientActions.editClient({
-  //       newClient: { ...formData },
-  //       id: newClient.id,
-  //     }),
-  //   );
-  // }
-  // setOpenClientModal(false);
-  // };
-
-  // const updateFormData = (data: updateFormDataType) => {
-  // setFormData((prev) => {
-  //   return {
-  //     ...prev,
-  //     name: values.name,
-  //     status: data.status,
-  //     phone: data.phoneInputStr,
-  //     bills: data.bills,
-  //   };
-  // });
-  // };
 };

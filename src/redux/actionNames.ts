@@ -21,11 +21,11 @@ export const actionNames = {
     getCameraFrame: 'GET_CAMERA_FRAME',
   },
   [modules.GLOBAL]: {
-    setTheme: 'SET_THEME',
     setFSCamera: 'SET_FS_CAMERA',
-    setRussian: 'SET_RUSSIAN',
     login: 'LOGIN',
     logout: 'LOGOUT',
     checkAuth: 'CHECK_AUTH',
+    edit: 'EDIT_USER',
+    uploadAvatar: 'UPLOAD_AVATAR',
   },
 };

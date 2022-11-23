@@ -65,3 +65,14 @@
   font-size: 14px;
   line-height: 19px;
 }
+
+.noClientsWrapper {
+  font-weight: 600;
+  margin-top: 162px;
+  font-size: 14px;
+  color: var(--input-placeholder-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}

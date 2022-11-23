@@ -1,4 +1,5 @@
 import $api from '../http';
+import { UserType } from '../types';
 
 const path = 'auth';
 

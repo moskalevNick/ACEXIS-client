@@ -4,6 +4,10 @@
 @import './assets/css/scrollbar.css';
 @import 'rsuite/dist/rsuite.css';
 
+body {
+  background-color: var(--login-background);
+}
+
 .rs-slider-bar {
   height: 2px;
   background-color: var(--range-background);

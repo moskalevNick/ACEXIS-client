@@ -48,7 +48,6 @@ export default function App() {
               <Route path="/" element={<TodayModule />} />
               <Route path="cloud" element={<CloudModule />} />
               <Route path="cloud/:id" element={<Founder component={ClientModule} />} />
-              {/* <Route path="cloud/:id" element={<ClientModule />} /> */}
               <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Route>
           </Routes>

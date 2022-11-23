@@ -4,6 +4,8 @@ import { getActionName } from '../getActionName';
 import { modules } from '../modules';
 import AuthService from '../../services/AuthService';
 import axios from 'axios';
+import { UserType } from '../../types';
+import UserService from '../../services/UserService';
 
 type authType = {
   username: string;
@@ -20,7 +22,10 @@ export const globalActions = {
       if (isRemember) {
         localStorage.setItem('refresh-token', response.data.refreshToken);
       }
-      return true;
+      return {
+        isAuth: true,
+        ...response.data,
+      };
     },
   ),
 
@@ -34,8 +39,12 @@ export const globalActions = {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/refresh`, {
         refreshToken,
       });
+
       localStorage.setItem('access-token', response.data.accessToken);
-      return true;
+      return {
+        isAuth: true,
+        ...response.data.user,
+      };
     },
   ),
 
@@ -59,5 +68,18 @@ export const globalActions = {
 
       return true;
     },
+  ),
+
+  editSettings: createAsyncThunk(
+    getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].edit),
+    async (newUser: UserType) => {
+      const data = await UserService.editUser(newUser);
+      return data;
+    },
+  ),
+
+  uploadAvatar: createAsyncThunk(
+    getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].uploadAvatar),
+    async (image: File) => await UserService.uploadAvatar(image),
   ),
 };

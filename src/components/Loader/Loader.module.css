@@ -1,12 +1,11 @@
 .container {
   position: fixed;
-
   width: 205px;
   height: 187px;
   left: 50vw;
   top: 50vh;
-  background: #ffffff;
-  box-shadow: 0px 0px 19px #b8c0cc;
+  background: var(--background-loader);
+  box-shadow: var(--shadow-spinner);
   border-radius: 20px;
   display: flex;
   justify-content: center;
@@ -23,11 +22,11 @@
 }
 
 .text {
+  color: var(--text-color);
   font-family: 'Open Sans';
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
-  color: #103252;
 }
 
 .loader,
@@ -38,7 +37,7 @@
 }
 
 .loader {
-  border: 5px solid #d6e5fb;
+  border: 5px solid var(--background-spinner);
   border-top: 5px solid #1487f2;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);

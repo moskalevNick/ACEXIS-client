@@ -17,7 +17,17 @@ export type ClientType = {
   status: string;
   phone: string;
   bills?: number[];
-  images: ImageType[];
+  images?: ImageType[];
+  visits?: VisitsType[];
+  UserId?: string;
+};
+
+export type CreateClientType = {
+  name: string;
+  status: string;
+  phone: string;
+  bills?: number[];
+  images?: ImageType[];
   visits?: VisitsType[];
   UserId?: string;
 };
@@ -54,6 +64,13 @@ export type ImageType = {
   clientId: string;
 };
 
+export type UserAvatarType = {
+  id: string;
+  path: string;
+  publicUrl: string;
+  userId?: string;
+};
+
 export type CameraFrameType = {
   img_small: string;
 };
@@ -68,4 +85,14 @@ export type FiltersType = {
   date?: DatepickerDataType;
   range: RangeDataType;
   status?: string[];
+};
+
+export type UserType = {
+  username?: string;
+  password?: string;
+  minBill?: number;
+  maxBill?: number;
+  linkBot?: string;
+  isRus?: boolean;
+  isDark?: boolean;
 };

@@ -11,14 +11,17 @@ type RangeSliderType = {
 
 export const RangeSlider: React.FC<RangeSliderType> = ({ label }) => {
   const dispatch = useAppDispatch();
-  const { range } = useAppSelector((state) => state.globalReducer.filters);
+  const { minBill, maxBill, filters } = useAppSelector((state) => state.globalReducer);
 
   const borders = {
-    min: 0,
-    max: 1500,
+    min: minBill,
+    max: maxBill,
   };
 
-  const value: [number, number] = useMemo(() => [range.min, range.max], [range]);
+  const value: [number, number] = useMemo(
+    () => [filters.range.min, filters.range.max],
+    [filters.range],
+  );
 
   const setRangeValue = ([min, max]: [number, number]) => {
     // FIXMY: add setTimeout
