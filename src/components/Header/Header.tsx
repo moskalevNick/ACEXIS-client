@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 import { HeaderSettings } from './HeaderSettings';
 import { imagesActions } from '../../redux/images/actions';
+import { clientActions } from '../../redux/clients/actions';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -56,6 +58,10 @@ export const Header = () => {
   const onClickWidget = () => {
     setOpenCameraWidget((prev) => !prev);
     dispatch(globalSettingActions.setFSCamera(false));
+  };
+
+  const onInputChange = (e: string) => {
+    dispatch(clientSettingsActions.setSearchString(e));
   };
 
   return (
@@ -122,6 +128,7 @@ export const Header = () => {
               beforeIcon={<SearchIcon />}
               placeholder="Name or phone number"
               containerClassName={styles.inputHeader}
+              onChange={(e) => onInputChange(e.target.value)}
             />
           )}
         </>
@@ -131,6 +138,7 @@ export const Header = () => {
             beforeIcon={<SearchIcon />}
             placeholder="Name or phone number"
             containerClassName={styles.inputHeader}
+            onChange={(e) => onInputChange(e.target.value)}
           />
           <div className={styles.wrapperSectionToggle}>
             <NavLink

@@ -19,6 +19,7 @@ export type ClientType = {
   bills?: number[];
   images?: ImageType[];
   visits?: VisitsType[];
+  exises?: ExisType[];
   UserId?: string;
 };
 
@@ -37,6 +38,7 @@ export type ExisType = {
   date: Date | string;
   text: string;
   isPinned?: boolean;
+  clientId?: string;
 };
 
 export type EditExisType = {
@@ -75,16 +77,30 @@ export type CameraFrameType = {
   img_small: string;
 };
 
-export type DatepickerDataType = [Date | null, Date | null];
+export type DatepickerDataType = {
+  startDate: Date | string;
+  endDate: Date | string;
+};
+
 export type RangeDataType = {
   min: number;
   max: number;
 };
 
 export type FiltersType = {
-  date?: DatepickerDataType;
+  date: DatepickerDataType;
   range: RangeDataType;
-  status?: string[];
+  status: string[];
+  searchString: string;
+};
+
+export type clientFilterType = {
+  searchString?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  billFrom?: number;
+  billTo?: number;
+  status?: string;
 };
 
 export type UserType = {

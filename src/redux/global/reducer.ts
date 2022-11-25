@@ -3,17 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { globalActions } from './actions';
 
-import { FiltersType, ImageType } from '../../types';
+import { FiltersType } from '../../types';
 import { Nottification } from '../../components/Nottification/Nottification';
-
-const defaultValues: FiltersType = {
-  date: undefined, // FIXME: set default dates like { startDate: 1234, endDate: 4132 }
-  range: {
-    min: 0,
-    max: 1000,
-  },
-  status: [],
-};
+import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
 
 const globalSlice = createSlice({
   name: modules.GLOBAL,
@@ -27,7 +19,6 @@ const globalSlice = createSlice({
     minBill: 0,
     isLoading: false,
     isAvatarLoading: false,
-    filters: defaultValues,
     avatar: null as UserAvatarType | null,
   },
   reducers: {
@@ -42,15 +33,6 @@ const globalSlice = createSlice({
     },
     setIsAuth: (state, action) => {
       state.isAuth = action.payload;
-    },
-    setFilterDate: (state, action) => {
-      state.filters.date = action.payload;
-    },
-    setFilterRange: (state, action) => {
-      state.filters.range = action.payload;
-    },
-    setFilterStatus: (state, action) => {
-      state.filters.status = action.payload;
     },
   },
 
@@ -96,13 +78,6 @@ const globalSlice = createSlice({
         state.isRus = action.payload.isRus;
         state.minBill = action.payload.minBill;
         state.maxBill = action.payload.maxBill;
-        state.filters = {
-          ...state.filters,
-          range: {
-            min: action.payload.minBill,
-            max: action.payload.minBill + (action.payload.maxBill - action.payload.minBill) / 2,
-          },
-        };
       })
 
       .addCase(globalActions.uploadAvatar.pending, (state) => {

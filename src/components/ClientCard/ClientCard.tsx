@@ -96,7 +96,9 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
   };
 
   const cancelAddingClient = () => {
-    dispatch(clientActions.deleteClient(client.id));
+    if (id === 'new') {
+      dispatch(clientActions.deleteClient(client.id));
+    }
     onClose();
   };
 

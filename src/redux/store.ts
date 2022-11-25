@@ -1,7 +1,7 @@
 import { imageReducer } from './images/reducers';
 import { exisReducer } from './exis/reducers';
 import { clientReducer } from './clients/reducers';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, Slice } from '@reduxjs/toolkit';
 import { globalReducer } from './global/reducer';
 
 const rootReducer = combineReducers({
@@ -20,3 +20,6 @@ export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export type RootStateExtended<SL extends Slice> = ReturnType<typeof store.getState> &
+  Record<SL['name'], ReturnType<SL['reducer']>>;

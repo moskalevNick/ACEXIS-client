@@ -1,31 +1,44 @@
 import styles from './RangeSlider.module.css';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { RangeSlider as RsuiteRangeslider } from 'rsuite';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
+import { clientActions } from '../../redux/clients/actions';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 type RangeSliderType = {
   label?: string;
 };
 
+type rangeValueType = {
+  min: number;
+  max: number;
+};
+
 export const RangeSlider: React.FC<RangeSliderType> = ({ label }) => {
   const dispatch = useAppDispatch();
-  const { minBill, maxBill, filters } = useAppSelector((state) => state.globalReducer);
+  const { minBill, maxBill } = useAppSelector((state) => state.globalReducer);
+  const { filters } = useAppSelector((state) => state.clientReducer);
+  const [rangeValue, setRangeValue] = useState<rangeValueType>(filters.range);
 
   const borders = {
     min: minBill,
     max: maxBill,
   };
 
-  const value: [number, number] = useMemo(
-    () => [filters.range.min, filters.range.max],
-    [filters.range],
-  );
+  useEffect(() => {
+    setRangeValue(filters.range);
+  }, [filters]);
 
-  const setRangeValue = ([min, max]: [number, number]) => {
-    // FIXMY: add setTimeout
-    dispatch(globalSettingActions.setFilterRange({ min, max }));
+  const value: [number, number] = useMemo(() => [rangeValue.min, rangeValue.max], [rangeValue]);
+
+  const onChange = ([min, max]: [number, number]) => {
+    setRangeValue({ min, max });
+  };
+
+  const submitRangeSlider = () => {
+    dispatch(clientSettingsActions.setFilterRange(rangeValue));
   };
 
   return (
@@ -33,13 +46,15 @@ export const RangeSlider: React.FC<RangeSliderType> = ({ label }) => {
       <div className={styles.label}>{label}</div>
       <div className={styles.wrapperRange}>
         <div className={styles.min}>{borders.min}</div>
-        <RsuiteRangeslider
-          className={styles.range}
-          min={borders.min}
-          max={borders.max}
-          onChange={setRangeValue}
-          value={value}
-        />
+        <div onMouseUp={submitRangeSlider}>
+          <RsuiteRangeslider
+            className={styles.range}
+            min={borders.min}
+            max={borders.max}
+            onChange={onChange}
+            value={value}
+          />
+        </div>
         <div className={styles.max}>{borders.max}</div>
       </div>
     </div>

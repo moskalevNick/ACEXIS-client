@@ -73,8 +73,7 @@ export const globalActions = {
   editSettings: createAsyncThunk(
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].edit),
     async (newUser: UserType) => {
-      const data = await UserService.editUser(newUser);
-      return data;
+      return await UserService.editUser(newUser);
     },
   ),
 

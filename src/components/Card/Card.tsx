@@ -8,37 +8,29 @@ import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { PinnedIcon } from '../Icons/PinnedIcon';
-import { ClientCard } from '../ClientCard/ClientCard';
-import { CrossIcon } from '../Icons/CrossIcon';
-import { Button } from '../Button/Button';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ExisType, VisitsType } from '../../types';
+import { CLICK_DURATION } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { imageSettingsActions } from '../../redux/images/reducers';
 import { clientSettingsActions } from '../../redux/clients/reducers';
-import { exisSettingsActions } from '../../redux/exis/reducers';
+import { exisActions } from '../../redux/exis/actions';
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
 };
 
-const CLICK_DURATION = 2500; // in ms
-
 export const Card: React.FC<CardType> = ({ client, showInfo }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<Date | undefined>();
   const [isShortDescriptionVisible, setShortDescriptionVisible] = useState(false);
-  const [pinnedMessage, setPinnedMessage] = useState<ExisType>();
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
   const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
-  const [clientAvatar, setClientAvatar] = useState<string | null>(null);
   const [currentClient, setCurrentClient] = useState(client);
 
-  const stateClient = useAppSelector((state) => state.clientReducer.currentClient);
-  const statePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
   const images = useAppSelector((state) => state.imageReducer.images[client.id]);
+  const pinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis[client.id]);
 
   // useEffect(() => {
   //   if (client.coincidentIds) {
@@ -117,6 +109,8 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
 
   const onMouseDown = () => {
     setMouseDown(new Date());
+    dispatch(clientSettingsActions.setCurrentClient(client));
+    dispatch(exisActions.getExises(client.id));
   };
 
   const onMouseUp = () => {
@@ -165,20 +159,20 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
                 <div className={styles.labelContent}>Average bill</div>
                 {averageBill}
               </div>
-              {pinnedMessage && (
+              {pinnedExis && (
                 <>
                   <div className={styles.horizontalLineDescription} />
                   <div className={styles.pinnedMessageDateWrapper}>
                     <PinnedIcon />
                     <div className={styles.pinnedMessageDate}>
-                      {new Date(pinnedMessage.date).toLocaleDateString()}{' '}
-                      {new Date(pinnedMessage.date).toLocaleTimeString('en-GB', {
+                      {new Date(pinnedExis.date).toLocaleDateString()}{' '}
+                      {new Date(pinnedExis.date).toLocaleTimeString('en-GB', {
                         hour: '2-digit',
                         minute: '2-digit',
                       })}
                     </div>
                   </div>
-                  <div className={styles.pinnedMessageText}>{pinnedMessage.text}</div>
+                  <div className={styles.pinnedMessageText}>{pinnedExis.text}</div>
                 </>
               )}
             </div>

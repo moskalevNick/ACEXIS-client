@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
 import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
@@ -9,6 +9,7 @@ import { globalSettingActions } from '../../redux/global/reducer';
 
 import { DatepickerDataType } from '../../types';
 import styles from './CloudFilters.module.css';
+import { clientSettingsActions } from '../../redux/clients/reducers';
 
 export const CloudFilters = () => {
   const [isOpenRange, setOpenRange] = useState(false);
@@ -16,11 +17,18 @@ export const CloudFilters = () => {
   const dispatch = useAppDispatch();
 
   const onSubmitDatepicker = (date: DatepickerDataType | undefined) => {
-    dispatch(globalSettingActions.setFilterDate(date));
+    if (date) {
+      const dateForServer = {
+        startDate: new Date(new Date(date.startDate).setHours(0, 0, 1)).toISOString(),
+        endDate: new Date(new Date(date.endDate).setHours(23, 59, 59)).toISOString(),
+      };
+
+      dispatch(clientSettingsActions.setFilterDate(dateForServer));
+    }
   };
 
   const setStatus = (status: string[]) => {
-    dispatch(globalSettingActions.setFilterStatus(status));
+    dispatch(clientSettingsActions.setFilterStatus(status));
   };
 
   const onClick = () => {

@@ -21,7 +21,6 @@ export const actionNames = {
     getCameraFrame: 'GET_CAMERA_FRAME',
   },
   [modules.GLOBAL]: {
-    setFSCamera: 'SET_FS_CAMERA',
     login: 'LOGIN',
     logout: 'LOGOUT',
     checkAuth: 'CHECK_AUTH',

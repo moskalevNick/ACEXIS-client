@@ -17,7 +17,6 @@ const imageSlice = createSlice({
   },
   reducers: {
     clearState: (state) => {
-      // state.images = [];
       state.avatar = null;
     },
     resetCameraFrame: (state) => {

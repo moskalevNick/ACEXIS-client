@@ -29,7 +29,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   const [newExisText, setNewExisText] = useState<string>('');
 
   let storeExises = useAppSelector((state) => state.exisReducer.exises);
-  let storePinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis);
+  let storePinnedExises = useAppSelector((state) => state.exisReducer.pinnedExis);
   let newClient = useAppSelector((state) => state.clientReducer.currentClient);
 
   useEffect(() => {
@@ -41,12 +41,12 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   }, [storeExises, clientId, newClient]);
 
   useEffect(() => {
-    if (storePinnedExis) {
-      if (Object.keys(storePinnedExis).length !== 0) {
-        setPinnedExis(storePinnedExis);
+    if (storePinnedExises) {
+      if (Object.keys(storePinnedExises).length !== 0 && clientId) {
+        setPinnedExis(storePinnedExises[clientId]);
       } else setPinnedExis(undefined);
     } else setPinnedExis(undefined);
-  }, [storePinnedExis]);
+  }, [storePinnedExises]);
 
   useEffect(() => {
     if (clientId) {

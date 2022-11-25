@@ -8,34 +8,20 @@ import { ArrowRightIcon } from '../Icons/ArrowRightIcon';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { DatepickerDataType } from '../../types';
 import styles from './DatePicker.module.css';
+import { monthFullEng, yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
 
 type DatepickerType = {
   onSubmitDatepicker: (date: DatepickerDataType | undefined) => void;
   isShort?: boolean;
 };
 
-const monthFullEng: string[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
 export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isShort = false }) => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date>(yesterdayStartDay);
+  const [endDate, setEndDate] = useState<Date>(yesterdayEndDay);
   const [isDefaultMonthView, toggleMonthView] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onChange = (dates: [Date, Date | null]) => {
+  const onChange = (dates: [Date, Date]) => {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
@@ -55,14 +41,14 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
   }, [isDefaultMonthView]);
 
   const cancelRange = () => {
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate(yesterdayStartDay);
+    setEndDate(yesterdayEndDay);
     setIsOpen(false);
     onSubmitDatepicker(undefined);
   };
 
   const submitRange = () => {
-    onSubmitDatepicker([startDate, endDate]);
+    onSubmitDatepicker({ startDate, endDate });
     setIsOpen(false);
   };
 

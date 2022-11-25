@@ -1,9 +1,12 @@
+import { clientSlice, selectFilters } from './reducers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ClientsService from '../../services/ClientService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
-import { ClientType, CreateClientType } from '../../types';
+import { clientFilterType, ClientType, CreateClientType } from '../../types';
+import { useAppSelector } from '../../hooks/redux';
+import { RootStateExtended } from '../store';
 
 type editClientType = {
   newClient: CreateClientType;
@@ -13,8 +16,11 @@ type editClientType = {
 export const clientActions = {
   getClients: createAsyncThunk(
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].getClients),
-    async () => {
-      const data = await ClientsService.getClients();
+    async (_: void, thunkApi) => {
+      const state: any = thunkApi.getState();
+      const filters = selectFilters(state);
+
+      const data = await ClientsService.getClients(filters);
       return data;
     },
   ),

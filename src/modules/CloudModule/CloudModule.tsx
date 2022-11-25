@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -13,37 +13,53 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { Loader } from '../../components/Loader/Loader';
 import { CloudFilters } from '../../components/CloudFilters';
 import { clientSettingsActions } from '../../redux/clients/reducers';
-
-const wording = ['Customers added yesterday', 'Customers added for selected period'];
+import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
 
 export const CloudModule = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { isFullScreenCameraOpen, filters } = useAppSelector((state) => state.globalReducer);
-  const { clients, isLoading } = useAppSelector((state) => state.clientReducer);
+  const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
+  const { filters } = useAppSelector((state) => state.clientReducer);
+
+  const { clients, isLoading, isClientLoading } = useAppSelector((state) => state.clientReducer);
 
   const containerClassnames = classNames(
     styles.container,
     isFullScreenCameraOpen && styles.containerWithCamera,
   );
 
+  const isDefault = () => {
+    const defaultDateRange = {
+      startDate: yesterdayStartDay,
+      endDate: yesterdayEndDay,
+    };
+
+    if (
+      defaultDateRange.startDate.toDateString() ===
+        new Date(filters.date.startDate).toDateString() &&
+      defaultDateRange.endDate.toDateString() === new Date(filters.date.endDate).toDateString()
+    ) {
+      return 'Customers added yesterday';
+    } else return 'Customers added for selected period';
+  };
+
   useEffect(() => {
     dispatch(clientSettingsActions.clearCurrentClient());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!id) {
+    if (!id && !isClientLoading) {
       dispatch(clientActions.getClients());
     }
-  }, [dispatch, id]);
+  }, [dispatch, id, isClientLoading]);
 
   const addNewClient = () => {
     navigate('/cloud/new');
   };
 
-  if (isLoading) {
+  if (isLoading || isClientLoading) {
     return <Loader />;
   }
 
@@ -52,7 +68,7 @@ export const CloudModule = () => {
       <div className={styles.labelWrapper}>
         <div className={styles.label}>Cloud</div>
         <Button beforeIcon={<PlusIcon />} className={styles.addButton} onClick={addNewClient} />
-        <div className={styles.wordingWrapper}>{filters.date ? wording[1] : wording[0]}</div>
+        <div className={styles.wordingWrapper}>{isDefault()}</div>
         <div className={styles.counterWrapper}>
           <div className={styles.counter}>{`${clients.length} clients`}</div>
         </div>
