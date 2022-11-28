@@ -1,3 +1,4 @@
+import { Nottification } from './../../components/Nottification/Nottification';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
@@ -17,15 +18,24 @@ export const globalActions = {
   login: createAsyncThunk(
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].login),
     async ({ username, password, isRemember }: authType) => {
-      const response = await AuthService.login(username, password);
-      localStorage.setItem('access-token', response.data.accessToken);
-      if (isRemember) {
-        localStorage.setItem('refresh-token', response.data.refreshToken);
+      try {
+        const response = await AuthService.login(username, password);
+        localStorage.setItem('access-token', response.data.accessToken);
+        if (isRemember) {
+          localStorage.setItem('refresh-token', response.data.refreshToken);
+        }
+        return {
+          isAuth: true,
+          ...response.data,
+        };
+      } catch (e) {
+        Nottification({
+          text: 'there was a problem with your login or password',
+        });
+        return {
+          isAuth: false,
+        };
       }
-      return {
-        isAuth: true,
-        ...response.data,
-      };
     },
   ),
 

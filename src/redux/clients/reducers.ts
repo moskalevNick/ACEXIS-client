@@ -15,7 +15,7 @@ export const defaultFilterValues: FiltersType = {
   },
   range: {
     min: 0,
-    max: 1000,
+    max: 99999,
   },
   status: [],
 };
