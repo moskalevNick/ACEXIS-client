@@ -88,7 +88,11 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
           onClick={() => setOpenBadge((prev) => !prev)}
           onMouseEnter={() => !isOpenBadge && setOpenBadge(true)}
         >
-          {avatar ? <img src={avatar.publicUrl} className={styles.avatar} /> : <AvatarIcon />}
+          {avatar ? (
+            <img src={avatar.publicUrl} className={styles.avatar} alt="avatar" />
+          ) : (
+            <AvatarIcon />
+          )}
         </div>
         {isOpenBadge && (
           <div className={styles.badge} ref={refBadge}>
