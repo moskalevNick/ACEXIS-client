@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 import { HeaderSettings } from './HeaderSettings';
 import { imagesActions } from '../../redux/images/actions';
-import { clientActions } from '../../redux/clients/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 
 export const Header = () => {

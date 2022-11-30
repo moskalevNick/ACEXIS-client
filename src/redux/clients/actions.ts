@@ -1,12 +1,10 @@
-import { clientSlice, selectFilters } from './reducers';
+import { selectFilters } from './reducers';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ClientsService from '../../services/ClientService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
-import { clientFilterType, ClientType, CreateClientType } from '../../types';
-import { useAppSelector } from '../../hooks/redux';
-import { RootStateExtended } from '../store';
+import { ClientType, CreateClientType } from '../../types';
 
 type editClientType = {
   newClient: CreateClientType;

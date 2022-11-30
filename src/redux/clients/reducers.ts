@@ -1,5 +1,5 @@
-import { ClientType, FiltersType, ImageType } from '../../types';
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { ClientType, FiltersType } from '../../types';
 import { modules } from '../modules';
 import { clientActions } from './actions';
 import { Nottification } from '../../components/Nottification/Nottification';
@@ -15,7 +15,7 @@ export const defaultFilterValues: FiltersType = {
   },
   range: {
     min: 0,
-    max: 99999,
+    max: 9999,
   },
   status: [],
 };

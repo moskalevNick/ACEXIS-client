@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -14,6 +14,7 @@ import { Loader } from '../../components/Loader/Loader';
 import { CloudFilters } from '../../components/CloudFilters';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
+import { FiltersType } from '../../types';
 
 export const CloudModule = () => {
   const dispatch = useAppDispatch();
@@ -21,9 +22,11 @@ export const CloudModule = () => {
   const { id } = useParams();
 
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
-  const { filters } = useAppSelector((state) => state.clientReducer);
+  const { clients, isLoading, isClientLoading, filters } = useAppSelector(
+    (state) => state.clientReducer,
+  );
 
-  const { clients, isLoading, isClientLoading } = useAppSelector((state) => state.clientReducer);
+  const [actualFilters, setActualFilters] = useState<FiltersType>(filters);
 
   const containerClassnames = classNames(
     styles.container,
@@ -55,13 +58,16 @@ export const CloudModule = () => {
     }
   }, [dispatch, id, isClientLoading]);
 
+  useEffect(() => {
+    if (JSON.stringify(actualFilters) !== JSON.stringify(filters)) {
+      setActualFilters(filters);
+      dispatch(clientActions.getClients());
+    }
+  }, [filters]);
+
   const addNewClient = () => {
     navigate('/cloud/new');
   };
-
-  if (isLoading || isClientLoading) {
-    return <Loader />;
-  }
 
   return (
     <div className={containerClassnames}>
@@ -76,7 +82,9 @@ export const CloudModule = () => {
 
       <CloudFilters />
 
-      {clients.length ? (
+      {isLoading || isClientLoading ? (
+        <Loader />
+      ) : clients.length ? (
         <CardContainer clients={clients} withLongNavbar />
       ) : (
         <div className={styles.noClientsWrapper}>

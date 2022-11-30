@@ -5,7 +5,7 @@ import { clientFilterType, ClientType, CreateClientType, FiltersType, ImageType 
 const path = 'clients';
 
 export default class ClientsService {
-  static async getClients(filterParams: FiltersType): Promise<any> {
+  static async getClients(filterParams: FiltersType): Promise<ClientType[]> {
     const filtersForServer: clientFilterType = {};
 
     let filteredPath = '';

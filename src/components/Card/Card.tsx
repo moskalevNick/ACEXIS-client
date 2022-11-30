@@ -82,14 +82,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
     }
   };
 
-  const averageBill = useMemo(() => {
-    return currentClient.bills?.length
-      ? Math.round(
-          currentClient.bills.reduce((acc, num) => acc + num, 0) / currentClient.bills.length,
-        )
-      : 'No bills';
-  }, [currentClient.bills]);
-
   const closeShortDescription = (e: any) => {
     // FIXME: delete bobbling
     setShortDescriptionVisible(false);
@@ -157,7 +149,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
               </div>
               <div className={styles.textWrapper}>
                 <div className={styles.labelContent}>Average bill</div>
-                {averageBill}
+                {client.averageBill || 'no bills'}
               </div>
               {pinnedExis && (
                 <>

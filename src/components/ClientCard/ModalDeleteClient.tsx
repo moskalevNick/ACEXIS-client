@@ -80,9 +80,7 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
             </div>
             <div className={styles.deleteClientTextWrapper}>
               <div className={styles.deleteClientLabelContent}>Average bill</div>
-              {client.bills?.length
-                ? Math.round(client.bills.reduce((acc, num) => acc + num, 0) / client.bills.length)
-                : 'No bills'}
+              {client.averageBill || 'No bills'}
             </div>
             <div className={styles.deleteClientTextWrapper}>
               <div className={styles.deleteClientStatus}>{getDeleteIcon(client.status)}</div>

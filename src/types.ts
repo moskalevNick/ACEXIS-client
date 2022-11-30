@@ -16,7 +16,8 @@ export type ClientType = {
   name: string;
   status: string;
   phone: string;
-  bills?: number[];
+  averageBill?: number;
+  billsAmount?: number;
   images?: ImageType[];
   visits?: VisitsType[];
   exises?: ExisType[];
@@ -27,7 +28,8 @@ export type CreateClientType = {
   name: string;
   status: string;
   phone: string;
-  bills?: number[];
+  averageBill?: number;
+  billsAmount?: number;
   images?: ImageType[];
   visits?: VisitsType[];
   UserId?: string;

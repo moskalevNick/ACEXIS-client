@@ -1,11 +1,8 @@
-import { UserAvatarType } from './../../types';
 import { createSlice } from '@reduxjs/toolkit';
+import { UserAvatarType } from './../../types';
 import { modules } from '../modules';
 import { globalActions } from './actions';
-
-import { FiltersType } from '../../types';
 import { Nottification } from '../../components/Nottification/Nottification';
-import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
 
 const globalSlice = createSlice({
   name: modules.GLOBAL,

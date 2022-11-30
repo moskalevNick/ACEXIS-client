@@ -17,7 +17,8 @@ import { ClientDataContainer } from './ClientDataContainer';
 type updateFormDataType = {
   status: string;
   phoneInputStr: string;
-  bills?: number[] | undefined;
+  averageBill?: number;
+  billsAmount?: number;
 };
 
 const defaultValues: CreateClientType = {
@@ -108,7 +109,8 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
         ...prev,
         status: data.status,
         phone: data.phoneInputStr,
-        bills: data.bills,
+        averageBill: data.averageBill,
+        billsAmount: data.billsAmount,
       };
     });
   };

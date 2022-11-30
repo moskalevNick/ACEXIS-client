@@ -10,14 +10,11 @@ import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
 import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ImageType, VisitsType } from '../../types';
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { imagesActions } from '../../redux/images/actions';
-import { Loader } from '../Loader/Loader';
-import { clientActions } from '../../redux/clients/actions';
 import { useParams } from 'react-router-dom';
 
 type ClientDataContainerType = {
-  // setClientAvatar: (state: ImageType | null) => void;
   clientImages: ImageType[] | [];
   clientAvatar: ImageType | null;
   client: ClientType;
@@ -30,21 +27,18 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   lastVisit,
   client,
   setOpenDeleteClient,
-  // setClientAvatar,
   clientImages,
   clientAvatar,
   updateFormData,
 }) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  // const [clientPhotoGallery, setClientPhotoGallery] = useState<ImageType[]>([]);
-  const [billValue, setBillValue] = useState<string>('');
+  const [billValue, setBillValue] = useState<number>(0);
   const [phoneInputStr, setPhoneInputStr] = useState<string>(client.phone);
-  const [bills, setBills] = useState<number[]>([]);
+  const [averageBill, setAverageBill] = useState<number>(client.averageBill || 0);
+  const [billsAmount, setBillsAmount] = useState<number>(client.billsAmount || 0);
   const [isNew, setIsNew] = useState<boolean>(false);
   const [status, setStatus] = useState<string>(client.status);
-
-  const isLoading = useAppSelector((state) => state.imageReducer.isLoading);
 
   useEffect(() => {
     if (id === 'new') {
@@ -53,52 +47,16 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   }, [id]);
 
   useEffect(() => {
-    updateFormData({ status, bills, phoneInputStr });
-  }, [status, bills, phoneInputStr]);
-
-  // useEffect(() => {
-  //   if (client.id) {
-  //     dispatch(imagesActions.getImages(client.id));
-  //   }
-  //   if (client.phone) {
-  //     setPhoneInputStr(client.phone);
-  //   }
-  //   if (client.bills) {
-  //     setBills(client.bills);
-  //   }
-  //   if (!client) {
-  //     setClientAvatar(null);
-  //     setClientPhotoGallery([]);
-  //   }
-  // }, [client.id, dispatch, setClientAvatar]);
-
-  // useEffect(() => {
-  // if (storeImages?.length !== 0) {
-  //   const imageGallery: ImageType[] = [];
-  //   storeImages?.forEach((image, i, array) => {
-  //     if (i === array.length - 1) {
-  //       setClientAvatar(image);
-  //     } else {
-  //       imageGallery.push(image);
-  //     }
-  //   });
-  //   setClientPhotoGallery(imageGallery.reverse());
-  // } else {
-  //   setClientPhotoGallery([]);
-  //   setClientAvatar(null);
-  // }
-  // }, [storeImages, setClientAvatar]);
+    updateFormData({ status, averageBill, billsAmount, phoneInputStr });
+  }, [status, averageBill, billsAmount, phoneInputStr]);
 
   const addBill = () => {
     if (billValue) {
-      setBills((prev) => [...prev, Number(billValue)]);
+      setAverageBill((prev) => (prev + billValue) / (billsAmount + 1));
+      setBillsAmount((prev) => prev + 1);
     }
-    setBillValue('');
+    setBillValue(0);
   };
-
-  useEffect(() => {
-    client.bills && setBills(client.bills);
-  }, [client]);
 
   const { avatarImage, imageGalery } = useMemo(() => {
     return {
@@ -188,9 +146,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
         </div>
         <div className={styles.textWrapper}>
           <div className={styles.labelContent}>Average bill</div>
-          {bills?.length
-            ? Math.round(bills.reduce((acc, num) => acc + num, 0) / bills.length)
-            : 'No bills'}
+          {Math.round(averageBill) || 'No bills'}
         </div>
         <div className={styles.textWrapper}>
           <div className={styles.labelContent}>Status</div>
@@ -221,7 +177,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
               placeholder="Bill"
               value={billValue}
               type="number"
-              onChange={(e) => setBillValue(e.target.value)}
+              onChange={(e) => setBillValue(+e.target.value)}
             />
             <Button onClick={addBill} className={styles.modalBillButton}>
               Enter
