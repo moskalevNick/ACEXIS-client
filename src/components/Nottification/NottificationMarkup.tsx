@@ -15,7 +15,7 @@ export const NottificationMarkup: React.FC<nottificationType> = ({
 }) => {
   return (
     <div className={styles.container}>
-      {avatar && <img className={styles.avatar} src={avatar} />}
+      {avatar && <img className={styles.avatar} src={avatar} alt="avatar" />}
       <div className={styles.contentWrapper}>
         <div className={styles.clientNameWrapper}>{name}</div>
         <div className={styles.text}>{text}</div>

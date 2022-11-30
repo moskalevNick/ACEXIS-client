@@ -83,6 +83,7 @@ export const Header = () => {
                 src={`http://192.168.1.106/${cameraView.img_small}`}
                 width={570}
                 className={styles.webcam}
+                alt="webcam"
               />
             )}
             <button

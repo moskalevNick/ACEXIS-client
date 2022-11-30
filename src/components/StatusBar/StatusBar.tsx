@@ -68,7 +68,7 @@ export const StatusBar: React.FC<StatusBarType> = ({
       <div className={statusBarClasses}>
         {statusesArray.map(({ status, id, icon }, i) => {
           if (withoutGhost && i === 0) {
-            return;
+            return null;
           }
           return (
             <button
