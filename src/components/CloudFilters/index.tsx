@@ -5,7 +5,6 @@ import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
 import { StatusBar } from '../../components/StatusBar/StatusBar';
 import { Datepicker } from '../../components/DatePicker/DatePicker';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { globalSettingActions } from '../../redux/global/reducer';
 
 import { DatepickerDataType } from '../../types';
 import styles from './CloudFilters.module.css';

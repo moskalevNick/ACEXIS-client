@@ -85,7 +85,7 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
   };
 
   const onClose = () => {
-    navigate('/cloud');
+    navigate(-1);
   };
 
   const onDrag = ({ x }: DraggableData) => {

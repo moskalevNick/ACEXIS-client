@@ -52,7 +52,7 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
     }
     setOpenDeleteClient(false);
 
-    navigate(`/cloud`);
+    navigate(-1);
   };
 
   return (
