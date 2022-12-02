@@ -1,17 +1,43 @@
 import styles from './ClientCard.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getInterval } from '../../helpers/getInterval';
-import { VisitsType } from '../../types';
+import { ExisType, VisitsType } from '../../types';
 import { useAppSelector } from '../../hooks/redux';
+import { getDate } from '../../helpers/getDate';
 
 type VisisitsContainerType = {
   visits?: VisitsType[];
 };
 
+type ExisAtVisitsType = {
+  [key: string]: ExisType[];
+};
+
 export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => {
   const [point, setPoint] = useState<null | { x: number; y: number }>(null);
+  const [exisAtVisits, setExisAtVisits] = useState<ExisAtVisitsType>({});
+  const storeExises = useAppSelector((state) => state.exisReducer.exises);
 
-  let storeExises = useAppSelector((state) => state.exisReducer.exises);
+  useEffect(() => {
+    visits?.forEach((visit) => {
+      if (visit.exisId.length && storeExises.length) {
+        let currentExises: ExisType[] = [];
+        storeExises.forEach((exis) => {
+          visit.exisId.forEach((exisId) => {
+            if (exisId === exis.id) {
+              currentExises.push(exis);
+            }
+          });
+        });
+        setExisAtVisits((prev) => {
+          return {
+            ...prev,
+            [visit.id]: currentExises,
+          };
+        });
+      }
+    });
+  }, [storeExises]);
 
   return (
     <div className={styles.visitsData}>
@@ -63,18 +89,12 @@ export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => 
                         }
                       >
                         <div className={styles.exisBadgeTime}>
-                          {new Date(
-                            storeExises.find((exis) => exis.id === el.exisId)!.date,
-                          ).toLocaleDateString()}{' '}
-                          {new Date(
-                            storeExises.find((exis) => exis.id === el.exisId)!.date,
-                          ).toLocaleTimeString('en-GB', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
+                          {exisAtVisits[el.id] &&
+                            getDate(exisAtVisits[el.id][exisAtVisits[el.id].length - 1].date)}
                         </div>
                         <div className={styles.exisBadgeText}>
-                          {storeExises.find((exis) => exis.id === el.exisId)?.text}
+                          {exisAtVisits[el.id] &&
+                            exisAtVisits[el.id][exisAtVisits[el.id].length - 1].text}
                         </div>
                       </div>
                     </>

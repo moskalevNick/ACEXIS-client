@@ -58,7 +58,7 @@ export type CreateExisType = {
 export type VisitsType = {
   id: string;
   date: Date;
-  exisId: string | null;
+  exisId: string[];
 };
 
 export type ImageType = {
