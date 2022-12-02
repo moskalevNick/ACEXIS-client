@@ -46,7 +46,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
         setPinnedExis(storePinnedExises[clientId]);
       } else setPinnedExis(undefined);
     } else setPinnedExis(undefined);
-  }, [storePinnedExises]);
+  }, [storePinnedExises, clientId]);
 
   useEffect(() => {
     if (clientId) {

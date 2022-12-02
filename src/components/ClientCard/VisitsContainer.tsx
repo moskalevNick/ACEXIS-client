@@ -37,7 +37,7 @@ export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => 
         });
       }
     });
-  }, [storeExises]);
+  }, [storeExises, visits]);
 
   return (
     <div className={styles.visitsData}>
@@ -74,7 +74,7 @@ export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => 
                   onMouseEnter={(ev) => setPoint({ x: ev.clientX, y: ev.clientY })}
                   onMouseLeave={(ev) => setPoint(null)}
                 >
-                  {el.exisId && (
+                  {el.exisId.length !== 0 && (
                     <>
                       <div className={styles.exisPoint} />
                       <div
@@ -90,11 +90,13 @@ export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => 
                       >
                         <div className={styles.exisBadgeTime}>
                           {exisAtVisits[el.id] &&
-                            getDate(exisAtVisits[el.id][exisAtVisits[el.id].length - 1].date)}
+                            exisAtVisits[el.id].slice(-1)[0] &&
+                            getDate(exisAtVisits[el.id].slice(-1)[0].date)}
                         </div>
                         <div className={styles.exisBadgeText}>
                           {exisAtVisits[el.id] &&
-                            exisAtVisits[el.id][exisAtVisits[el.id].length - 1].text}
+                            exisAtVisits[el.id].slice(-1)[0] &&
+                            exisAtVisits[el.id].slice(-1)[0].text}
                         </div>
                       </div>
                     </>
