@@ -19,7 +19,7 @@ export const FullscreenCamera = () => {
       clearInterval(interval);
       dispatch(imageSettingsActions.resetCameraFrame());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={styles.wrapper}>

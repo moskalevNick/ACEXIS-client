@@ -31,7 +31,7 @@ export const Header = () => {
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [isOpenCameraWidget]);
+  }, [dispatch, isOpenCameraWidget]);
 
   const activeStyle = {
     fontWeight: '700',
