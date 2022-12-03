@@ -26,11 +26,11 @@ export default class ImageService {
 
   static async getCameraFrame(): Promise<CameraFrameType[]> {
     const response = await axios.request({
-      url: 'http://192.168.1.106/get_stream.php?token=cam01',
+      url: 'http://10.8.0.142/get_stream.php?token=2d94cf33650cb88fa4bb41287e668124',
       method: 'get',
-      headers: {
-        cookies: 'SameSite=None; Secure',
-      },
+      // headers: {
+      //   cookies: 'SameSite=None; Secure',
+      // },
     });
     return response.data;
   }

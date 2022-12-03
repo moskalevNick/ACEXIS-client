@@ -79,7 +79,7 @@ export const Header = () => {
           <div className={styles.smallCameraView}>
             {cameraView && (
               <img
-                src={`http://192.168.1.106/${cameraView.img_small}`}
+                src={`http://10.8.0.142/${cameraView.img_small}`}
                 width={570}
                 className={styles.webcam}
                 alt="webcam"
