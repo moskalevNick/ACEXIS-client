@@ -4,6 +4,7 @@ import { globalSettingActions } from '../../redux/global/reducer';
 import { imagesActions } from '../../redux/images/actions';
 import { imageSettingsActions } from '../../redux/images/reducers';
 import { SmallScreenIcon } from '../Icons/SmallScreenIcon';
+import { Loader } from '../Loader/Loader';
 import styles from './FullscreenCamera.module.css';
 
 export const FullscreenCamera = () => {
@@ -24,13 +25,15 @@ export const FullscreenCamera = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.webcamContainer}>
-        {cameraView && (
+        {cameraView ? (
           <img
             src={`http://10.8.0.142/${cameraView.img_small}`}
             width={570}
             className={styles.webcam}
             alt="webcam"
           />
+        ) : (
+          <Loader />
         )}
         <button
           className={styles.smallScreenButton}

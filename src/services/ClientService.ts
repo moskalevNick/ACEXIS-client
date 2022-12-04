@@ -1,6 +1,5 @@
-import { useAppSelector } from './../hooks/redux';
 import $api from '../http';
-import { clientFilterType, ClientType, CreateClientType, FiltersType, ImageType } from '../types';
+import { clientFilterType, ClientType, CreateClientType, FiltersType } from '../types';
 
 const path = 'clients';
 

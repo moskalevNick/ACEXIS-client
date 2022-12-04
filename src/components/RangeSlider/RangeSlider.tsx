@@ -3,8 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { RangeSlider as RsuiteRangeslider } from 'rsuite';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { globalSettingActions } from '../../redux/global/reducer';
-import { clientActions } from '../../redux/clients/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 
 type RangeSliderType = {

@@ -13,6 +13,7 @@ import { globalSettingActions } from '../../redux/global/reducer';
 import { HeaderSettings } from './HeaderSettings';
 import { imagesActions } from '../../redux/images/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
+import { Loader } from '../Loader/Loader';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -77,13 +78,15 @@ export const Header = () => {
             <ArrowLeftIcon />
           </button>
           <div className={styles.smallCameraView}>
-            {cameraView && (
+            {cameraView ? (
               <img
                 src={`http://10.8.0.142/${cameraView.img_small}`}
                 width={570}
                 className={styles.webcam}
                 alt="webcam"
               />
+            ) : (
+              <Loader />
             )}
             <button
               className={styles.fullScreenButton}

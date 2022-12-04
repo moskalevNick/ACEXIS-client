@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { WarninIcon } from '../Icons/WarningIcon';
@@ -10,7 +10,7 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, ExisType, VisitsType } from '../../types';
+import { ClientType, VisitsType } from '../../types';
 import { CLICK_DURATION } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientSettingsActions } from '../../redux/clients/reducers';
@@ -49,21 +49,23 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   //   }
   // }, [stateClient, statePinnedExis]);
 
-  // useEffect(() => {
-  //   if (currentClient?.visits) {
-  //     let latest: VisitsType | undefined;
+  useEffect(() => {
+    if (currentClient?.visits) {
+      let latest: VisitsType | undefined;
 
-  //     currentClient.visits.forEach((el) => {
-  //       if (Number(el.date) > (Number(latest?.date) || 0)) {
-  //         latest = el;
-  //       }
-  //     });
+      currentClient.visits.forEach((el) => {
+        if (latest) {
+          if (Number(new Date(el.date)) > (Number(new Date(latest.date)) || 0)) {
+            latest = el;
+          }
+        } else latest = el;
+      });
 
-  //     if ((latest && lastVisit && latest.date > lastVisit.date) || (!lastVisit && latest)) {
-  //       setLastVisit(latest);
-  //     }
-  //   }
-  // }, [currentClient.visits]);
+      if ((latest && lastVisit && latest.date > lastVisit.date) || (!lastVisit && latest)) {
+        setLastVisit(latest);
+      }
+    }
+  }, [currentClient.visits]);
 
   const chooseIcon = (status: string) => {
     switch (status) {

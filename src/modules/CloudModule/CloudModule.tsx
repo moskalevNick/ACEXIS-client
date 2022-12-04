@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -54,6 +54,12 @@ export const CloudModule = () => {
 
   useEffect(() => {
     if (!id && !isClientLoading) {
+      const dateForServer = {
+        startDate: yesterdayStartDay.toISOString(),
+        endDate: yesterdayEndDay.toISOString(),
+      };
+
+      dispatch(clientSettingsActions.setFilterDate(dateForServer));
       dispatch(clientActions.getClients());
     }
   }, [dispatch, id, isClientLoading]);
@@ -63,7 +69,7 @@ export const CloudModule = () => {
       setActualFilters(filters);
       dispatch(clientActions.getClients());
     }
-  }, [filters]);
+  }, [filters, actualFilters, dispatch]);
 
   const addNewClient = () => {
     navigate('/cloud/new');
