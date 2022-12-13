@@ -13,6 +13,10 @@ type authType = {
   password: string;
   isRemember: boolean;
 };
+type registrationType = {
+  username: string;
+  password: string;
+};
 
 export const globalActions = {
   login: createAsyncThunk(
@@ -36,6 +40,14 @@ export const globalActions = {
           isAuth: false,
         };
       }
+    },
+  ),
+
+  registration: createAsyncThunk(
+    getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].registration),
+    async ({ username, password }: registrationType) => {
+      const response = await AuthService.registration(username, password);
+      return response.data;
     },
   ),
 

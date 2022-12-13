@@ -10,7 +10,8 @@ body[color-theme='light'] {
   --text-color: #103252;
   --toggle-background: #dff0ff;
   --toggle-hover-background: #d2eaff;
-  --image-preview-login: url('/src/assets/images/loginPage/loginPage.png');
+  --image-previewEn-login: url('/src/assets/images/loginPage/loginPage.png');
+  --image-previewRu-login: url('/src/assets/images/loginPage/loginPageRus.png');
   --icons-background: #fff;
   --border-color: #cde0f2;
   --arrow-icon-color: #96afc8;
@@ -51,7 +52,8 @@ body[color-theme='dark'] {
   --text-color: #a3c2e0;
   --toggle-background: #133655;
   --toggle-hover-background: #1b3852;
-  --image-preview-login: url('/src/assets/images/loginPage/loginPageDark.png');
+  --image-previewEn-login: url('/src/assets/images/loginPage/loginPageDark.png');
+  --image-previewRu-login: url('/src/assets/images/loginPage/loginPageDarkRus.png');
   --icons-background: #1b3653;
   --border-color: #0f395f;
   --arrow-icon-color: #326999;

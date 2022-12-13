@@ -1,9 +1,14 @@
+import { visitActions } from './../visit/actions';
+import { UpdateVisitType, VisitsType } from './../../types';
+import { threeHoursAgo } from './../../helpers/constants';
+import { LastVisitType, selectVisits } from './../visit/reducers';
 import { CreateExisType, EditExisType } from '../../types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ExisService from '../../services/ExisService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
+import VisitService from '../../services/VisitService';
 
 export const exisActions = {
   getExises: createAsyncThunk(
@@ -18,11 +23,75 @@ export const exisActions = {
 
   createExis: createAsyncThunk(
     getActionName(modules.EXIS, actionNames[modules.EXIS].createExis),
-    async (newExis: CreateExisType) => await ExisService.createExis(newExis),
+    async (newExis: CreateExisType, thunkApi) => {
+      const data = await ExisService.createExis(newExis);
+
+      const state: any = thunkApi.getState();
+      const visits: VisitsType[] = selectVisits(state);
+
+      let lastClientVisit: VisitsType = visits[0];
+      visits.forEach((visit) => {
+        if (!lastClientVisit) {
+          lastClientVisit = visit;
+        } else {
+          if (visit.date > lastClientVisit.date) {
+            lastClientVisit = visit;
+          }
+        }
+      });
+      if (
+        lastClientVisit &&
+        lastClientVisit.date &&
+        lastClientVisit.id &&
+        new Date(lastClientVisit.date) > threeHoursAgo
+      ) {
+        const newExises = [...lastClientVisit.exisId, data.id];
+
+        const visitId = lastClientVisit.id;
+        const updateVisitDto: UpdateVisitType = {
+          date: lastClientVisit.date,
+          exisId: newExises,
+        };
+
+        thunkApi.dispatch(
+          visitActions.updateVisit({
+            id: visitId,
+            newVisit: updateVisitDto,
+          }),
+        );
+      }
+
+      return data;
+    },
   ),
 
   deleteExis: createAsyncThunk(
     getActionName(modules.EXIS, actionNames[modules.EXIS].deleteExis),
-    async (id: string) => await ExisService.deleteExis(id),
+    async (id: string, thunkApi) => {
+      const data = await ExisService.deleteExis(id);
+
+      const state: any = thunkApi.getState();
+      const visits: VisitsType[] = selectVisits(state);
+
+      const currentVisit = visits.find((visit) => visit.exisId.includes(data.id));
+
+      if (currentVisit) {
+        const newExisIds = currentVisit.exisId.filter((id) => id !== data.id);
+
+        const updateVisitDto: UpdateVisitType = {
+          date: currentVisit.date,
+          exisId: newExisIds,
+        };
+
+        thunkApi.dispatch(
+          visitActions.updateVisit({
+            id: currentVisit.id,
+            newVisit: updateVisitDto,
+          }),
+        );
+      }
+
+      return data;
+    },
   ),
 };

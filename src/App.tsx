@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
@@ -10,14 +10,15 @@ import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { globalActions } from './redux/global/actions';
 import { Loader } from './components/Loader/Loader';
 import { Founder } from './containers/Founder';
+import { Registration } from './modules/Registration/Registration';
+import i18next from 'i18next';
 
 export default function App() {
   const dispatch = useAppDispatch();
   const isOpenFullScreenCamera = useAppSelector(
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
-  const isAuth = useAppSelector((state) => state.globalReducer.isAuth);
-  const isLoading = useAppSelector((state) => state.globalReducer.isLoading);
+  const { isAuth, isLoading, role } = useAppSelector((state) => state.globalReducer);
 
   useEffect(() => {
     if (localStorage.getItem('access-token')) {
@@ -34,6 +35,17 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
+  if (role === 'admin') {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/registration" element={<Registration />} />
+          <Route path="*" element={<Navigate to="/registration" replace={true} />} />
         </Routes>
       </BrowserRouter>
     );

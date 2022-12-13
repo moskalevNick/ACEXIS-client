@@ -30,7 +30,6 @@ const defaultValues: CreateClientType = {
 export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient }) => {
   const [client, setClient] = useState(currentClient);
   const [position, setPosition] = useState<{ positionX: number }>({ positionX: 320 });
-  const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
   const [isVisits, toggleVisits] = useState(false);
   const [clientImages, setClientImages] = useState<ImageType[] | []>([]);
   const [isOpenDeleteClient, setOpenDeleteClient] = useState(false);
@@ -46,11 +45,6 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
   const { id } = useParams();
 
   useEffect(() => {
-    client?.visits?.forEach((el) => {
-      if (Number(el.date) > Number(lastVisit)) {
-        setLastVisit(el);
-      }
-    });
     client?.name &&
       setFormData((prev) => {
         return { ...prev, name: client.name };
@@ -149,12 +143,11 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
 
             <div className={styles.clientDataContainer}>
               {isVisits ? (
-                <VisitsContainer visits={client.visits} />
+                <VisitsContainer />
               ) : (
                 <ClientDataContainer
                   clientImages={clientImages}
                   client={client}
-                  lastVisit={lastVisit}
                   setOpenDeleteClient={setOpenDeleteClient}
                   // setClientAvatar={setClientAvatar}
                   clientAvatar={clientAvatar}
@@ -194,7 +187,6 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
         setOpenDeleteClient={setOpenDeleteClient}
         clientAvatar={clientAvatar}
         client={client}
-        lastVisit={lastVisit}
       />
     </>
   );

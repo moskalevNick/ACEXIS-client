@@ -232,7 +232,7 @@
 }
 
 .minBillWrapper {
-  width: 172px;
+  width: 202px;
   display: flex;
   margin-right: 24px;
 }
@@ -240,7 +240,7 @@
 .labelInput {
   display: flex;
   align-items: center;
-  width: 85px;
+  width: 105px;
   margin-right: 14px;
   font-weight: 600;
   font-size: 14px;

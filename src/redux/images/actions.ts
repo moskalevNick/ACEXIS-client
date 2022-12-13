@@ -22,8 +22,8 @@ export const imagesActions = {
     getActionName(modules.IMAGE, actionNames[modules.IMAGE].deleteImage),
     async (imageId: string) => await ImageService.deleteImage(imageId),
   ),
-  getCameraFrame: createAsyncThunk(
+  getStream: createAsyncThunk(
     getActionName(modules.IMAGE, actionNames[modules.IMAGE].getCameraFrame),
-    async () => await ImageService.getCameraFrame(),
+    async () => await ImageService.getStream(),
   ),
 };

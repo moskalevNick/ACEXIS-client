@@ -9,7 +9,7 @@ import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
 import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,7 +18,6 @@ type DeleteClientModalType = {
   setOpenDeleteClient: (state: boolean) => void;
   clientAvatar: ImageType | null;
   client: ClientType;
-  lastVisit: VisitsType | null;
 };
 
 const getDeleteIcon = (status: string) => {
@@ -41,10 +40,11 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
   setOpenDeleteClient,
   clientAvatar,
   client,
-  lastVisit,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
 
   const deleteClient = () => {
     if (client.id) {

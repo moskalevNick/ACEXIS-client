@@ -14,6 +14,7 @@ import { HeaderSettings } from './HeaderSettings';
 import { imagesActions } from '../../redux/images/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { Loader } from '../Loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -24,11 +25,12 @@ export const Header = () => {
   );
   const theme = useAppSelector((state) => state.globalReducer.theme);
   const cameraView = useAppSelector((state) => state.imageReducer.cameraFrame);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isOpenCameraWidget) {
       const interval = setInterval(() => {
-        dispatch(imagesActions.getCameraFrame());
+        dispatch(imagesActions.getStream());
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -78,9 +80,9 @@ export const Header = () => {
             <ArrowLeftIcon />
           </button>
           <div className={styles.smallCameraView}>
-            {cameraView ? (
+            {cameraView && cameraView.img_small ? (
               <img
-                src={`http://10.8.0.142/${cameraView.img_small}`}
+                src={`http://94.250.201.198${cameraView.img_small}`}
                 width={570}
                 className={styles.webcam}
                 alt="webcam"
@@ -129,7 +131,7 @@ export const Header = () => {
           ) : (
             <Input
               beforeIcon={<SearchIcon />}
-              placeholder="Name or phone number"
+              placeholder={t('name_phone_exis') as string}
               containerClassName={styles.inputHeader}
               onChange={(e) => onInputChange(e.target.value)}
             />
@@ -139,7 +141,7 @@ export const Header = () => {
         <>
           <Input
             beforeIcon={<SearchIcon />}
-            placeholder="Name or phone number"
+            placeholder={t('name_phone_exis') as string}
             containerClassName={styles.inputHeader}
             onChange={(e) => onInputChange(e.target.value)}
           />

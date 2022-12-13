@@ -7,11 +7,14 @@ import { Button } from '../Button/Button';
 import { LogoutIcon } from '../Icons/LogoutIcon';
 import { SettingIcon } from '../Icons/SettingIcon';
 import { Modal } from '../Modal/Modal';
-import { UploadIcon } from '../Icons/UploadIcon';
+import { UploadIconEng } from '../Icons/UploadIconEng';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 import { globalActions } from '../../redux/global/actions';
 import { Loader } from '../Loader/Loader';
+import { LanguageSelect } from '../LanguageSelect/LanguageSelect';
+import { useTranslation } from 'react-i18next';
+import { UploadIconRus } from '../Icons/UploadIconRus';
 
 type HeaderSettingsType = {};
 
@@ -28,7 +31,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [minBillInputValue, setMinBillInputValue] = useState(minBill);
   const [maxBillInputValue, setMaxBillInputValue] = useState(maxBill);
   const [botInputValue, setBotInputValue] = useState(linkBot || '');
-  const [isRusToggle, setRusToggle] = useState(isRus);
+  const { t, i18n } = useTranslation();
 
   const handleClickOutside = useCallback((e: any) => {
     if (refBadge.current !== null && refAvatar.current !== null) {
@@ -53,7 +56,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         minBill: minBillInputValue,
         maxBill: maxBillInputValue,
         linkBot: botInputValue,
-        isRus: isRusToggle,
+        isRus: i18n.resolvedLanguage === 'ru',
       }),
     );
 
@@ -80,7 +83,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
     <>
       <div className={styles.settingsContainer}>
         <div className={styles.toggleThemeContainer}>
-          <ToggleSwitch checked={theme === 'light'} size="short" onChange={changeTheme} />
+          <ToggleSwitch checked={theme === 'dark'} size="short" onChange={changeTheme} />
         </div>
         <div
           className={styles.avatarContainer}
@@ -103,7 +106,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
               }}
               beforeIcon={<SettingIcon />}
             >
-              <p className={styles.buttonLabel}>Settings</p>
+              <p className={styles.buttonLabel}>{t('settings')}</p>
             </Button>
             <Button
               className={styles.badgeButton}
@@ -112,7 +115,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
               }}
               beforeIcon={<LogoutIcon />}
             >
-              <p className={styles.buttonLabel}>Exit</p>
+              <p className={styles.buttonLabel}>{t('exit')}</p>
             </Button>
           </div>
         )}
@@ -121,7 +124,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         onClose={() => setOpenSettingModal(false)}
         open={isOpenSettingModal}
         className={styles.modalSettings}
-        label="Settings"
+        label={t('settings') as string}
       >
         {isAvatarLoading ? (
           <Loader />
@@ -129,7 +132,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
           <div>
             <div className={styles.billsWrapper}>
               <div className={styles.minBillWrapper}>
-                <div className={styles.labelInput}>Min bill</div>
+                <div className={styles.labelInput}>{t('min_bill')}</div>
                 <Input
                   className={styles.billInput}
                   value={minBillInputValue}
@@ -137,7 +140,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
                   onChange={(e) => setMinBillInputValue(Number(e.target.value))}
                 />
               </div>
-              <div className={styles.labelInput}>Max bill</div>
+              <div className={styles.labelInput}>{t('max_bill')}</div>
               <Input
                 className={styles.billInput}
                 value={maxBillInputValue}
@@ -147,10 +150,10 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
             </div>
             <hr className={styles.line} />
             <div className={styles.botWrapper}>
-              <div className={styles.botLabel}>Chat bot telegram</div>
+              <div className={styles.botLabel}>{t('chat_bot_telegram')}</div>
               <Input
                 className={styles.botInput}
-                placeholder="Link chat bot telegram"
+                placeholder={t('link_chat_bot_telegram') as string}
                 value={botInputValue}
                 onChange={(e) => setBotInputValue(e.target.value)}
               />
@@ -158,17 +161,13 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
             <hr className={styles.line} />
             <div className={styles.uploadPhotoWrapper}>
               <input className={styles.uploadButton} type="file" onChange={uploadAvatar} />
-              <UploadIcon />
-              <div className={styles.labelUpload}>Upload your profile photo</div>
+              {i18n.language === 'ru' ? <UploadIconRus /> : <UploadIconEng />}
+              <div className={styles.labelUpload}>{t('upload_your_profile_photo')}</div>
             </div>
             <hr className={styles.line} />
             <div className={styles.languageWrapper}>
-              <div className={styles.languageLabel}>Language</div>
-              <ToggleSwitch
-                labels={['РУС', 'ENG']}
-                checked={isRusToggle}
-                onChange={() => setRusToggle((prev) => !prev)}
-              />
+              <div className={styles.languageLabel}>{t('language')}</div>
+              <LanguageSelect />
             </div>
             <div className={styles.buttonWrapper}>
               <Button
@@ -176,10 +175,10 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
                 outlined
                 onClick={() => setOpenSettingModal(false)}
               >
-                Cancel
+                {t('cancel')}
               </Button>
               <Button className={styles.logoutButton} onClick={submit}>
-                Save
+                {t('save')}
               </Button>
             </div>
           </div>
@@ -190,20 +189,20 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         onClose={() => setOpenLogoutModal(false)}
         open={isOpenLogautModal}
         className={styles.modalLogout}
-        label="Log out"
+        label={t('log_out') as string}
       >
         <div className={styles.contentWrapperLogout}>
-          <div className={styles.contentLogout}>Are you sure you want to log out?</div>
+          <div className={styles.contentLogout}>{t('are_you_sure_you_want_to_log_out')}</div>
           <div className={styles.buttonWrapper}>
             <Button
               className={styles.cancelButton}
               outlined
               onClick={() => setOpenLogoutModal(false)}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button className={styles.logoutButton} onClick={logout}>
-              Log out
+              {t('log_out_2')}
             </Button>
           </div>
         </div>

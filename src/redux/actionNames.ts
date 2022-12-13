@@ -14,6 +14,10 @@ export const actionNames = {
     createExis: 'CREATE_EXIS',
     deleteExis: 'DELETE_EXIS',
   },
+  [modules.VISIT]: {
+    getVisits: 'GET_VISITS',
+    updateVisit: 'UPDATE_VISIT',
+  },
   [modules.IMAGE]: {
     getImages: 'GET_IMAGES',
     uploadImage: 'UPLOAD_IMAGE',
@@ -22,6 +26,7 @@ export const actionNames = {
   },
   [modules.GLOBAL]: {
     login: 'LOGIN',
+    registration: 'REGISTRATION',
     logout: 'LOGOUT',
     checkAuth: 'CHECK_AUTH',
     edit: 'EDIT_USER',

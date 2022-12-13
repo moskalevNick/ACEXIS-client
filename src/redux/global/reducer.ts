@@ -8,6 +8,7 @@ const globalSlice = createSlice({
   name: modules.GLOBAL,
   initialState: {
     theme: 'light',
+    role: 'user',
     isFullScreenCameraOpen: false,
     isRus: false,
     isAuth: false,
@@ -46,9 +47,26 @@ const globalSlice = createSlice({
         state.isRus = action.payload.isRus;
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
+        state.role = action.payload.role;
         state.isLoading = false;
       })
       .addCase(globalActions.login.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(globalActions.registration.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(globalActions.registration.fulfilled, (state, action) => {
+        state.isLoading = false;
+        Nottification({
+          text: `user ${action.payload.username} successfully registered`,
+        });
+      })
+      .addCase(globalActions.registration.rejected, (state) => {
+        Nottification({
+          text: 'there was a problem with registration',
+        });
         state.isLoading = false;
       })
 
@@ -61,8 +79,10 @@ const globalSlice = createSlice({
         state.theme = action.payload.isDark ? 'dark' : 'light';
         state.linkBot = action.payload.linkBot;
         state.isRus = action.payload.isRus;
+        document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
+        state.role = action.payload.role;
         state.isLoading = false;
       })
       .addCase(globalActions.checkAuth.rejected, (state) => {
@@ -73,6 +93,7 @@ const globalSlice = createSlice({
         state.theme = action.payload.isDark ? 'dark' : 'light';
         state.linkBot = action.payload.linkBot;
         state.isRus = action.payload.isRus;
+        document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.minBill = action.payload.minBill;
         state.maxBill = action.payload.maxBill;
       })

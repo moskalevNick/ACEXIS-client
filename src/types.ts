@@ -41,6 +41,7 @@ export type ExisType = {
   text: string;
   isPinned?: boolean;
   clientId?: string;
+  visitId?: string;
 };
 
 export type EditExisType = {
@@ -57,6 +58,10 @@ export type CreateExisType = {
 
 export type VisitsType = {
   id: string;
+  date: Date;
+  exisId: string[];
+};
+export type UpdateVisitType = {
   date: Date;
   exisId: string[];
 };
@@ -77,11 +82,12 @@ export type UserAvatarType = {
 
 export type CameraFrameType = {
   img_small: string;
+  faces: [];
 };
 
 export type DatepickerDataType = {
-  startDate: Date | string;
-  endDate: Date | string;
+  startDate: Date | string | null;
+  endDate: Date | string | null;
 };
 
 export type RangeDataType = {

@@ -30,7 +30,7 @@
 
 .wordingWrapper {
   background-color: var(--login-background);
-  width: 283px;
+  padding: 0px 16px;
   height: 44px;
   border-right: 1px solid var(--line-color);
   border-radius: 12px 0px 0px 12px;

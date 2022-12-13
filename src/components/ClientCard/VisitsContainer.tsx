@@ -1,28 +1,25 @@
 import styles from './ClientCard.module.css';
 import React, { useEffect, useState } from 'react';
 import { getInterval } from '../../helpers/getInterval';
-import { ExisType, VisitsType } from '../../types';
+import { ClientType, ExisType } from '../../types';
 import { useAppSelector } from '../../hooks/redux';
 import { getDate } from '../../helpers/getDate';
-
-type VisisitsContainerType = {
-  visits?: VisitsType[];
-};
 
 type ExisAtVisitsType = {
   [key: string]: ExisType[];
 };
 
-export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => {
+export const VisitsContainer: React.FC = () => {
   const [point, setPoint] = useState<null | { x: number; y: number }>(null);
   const [exisAtVisits, setExisAtVisits] = useState<ExisAtVisitsType>({});
-  const storeExises = useAppSelector((state) => state.exisReducer.exises);
+  const exises = useAppSelector((state) => state.exisReducer.exises);
+  const visits = useAppSelector((state) => state.visitReducer.visits);
 
   useEffect(() => {
     visits?.forEach((visit) => {
-      if (visit.exisId.length && storeExises.length) {
+      if (visit.exisId.length && exises.length) {
         let currentExises: ExisType[] = [];
-        storeExises.forEach((exis) => {
+        exises.forEach((exis) => {
           visit.exisId.forEach((exisId) => {
             if (exisId === exis.id) {
               currentExises.push(exis);
@@ -37,7 +34,7 @@ export const VisitsContainer: React.FC<VisisitsContainerType> = ({ visits }) => 
         });
       }
     });
-  }, [storeExises, visits]);
+  }, [exises, visits]);
 
   return (
     <div className={styles.visitsData}>

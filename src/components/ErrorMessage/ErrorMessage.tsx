@@ -1,6 +1,6 @@
 import styles from './ErrorMessage.module.css';
 import React from 'react';
-import { WarninIcon } from '../Icons/WarningIcon';
+import { WarningIcon } from '../Icons/WarningIcon';
 
 type ErrorMessageType = {
   msg: string;
@@ -9,7 +9,7 @@ type ErrorMessageType = {
 export const ErrorMessage: React.FC<ErrorMessageType> = ({ msg }) => {
   return (
     <div className={styles.wrapper}>
-      <WarninIcon />
+      <WarningIcon />
       {msg}
     </div>
   );

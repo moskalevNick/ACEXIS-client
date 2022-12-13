@@ -9,33 +9,26 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch';
 import { MoonIconPreview } from '../../components/Icons/MoonIconPreview';
 import { PlanetIcon } from '../../components/Icons/PlanetIcon';
-import styles from './Login.module.css';
+import styles from './Registration.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
 import { globalActions } from '../../redux/global/actions';
-import { Loader } from '../../components/Loader/Loader';
-import { LanguageSelect } from '../../components/LanguageSelect/LanguageSelect';
-import { useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 
 type FormType = {
   username: string;
   password: string;
-  isRemember: boolean;
 };
 
 const defaultValues: FormType = {
   username: '',
   password: '',
-  isRemember: false,
 };
 
-export const Login = () => {
+export const Registration = () => {
   const dispatch = useAppDispatch();
-  const [isRemember, setRemember] = useState(true);
-  const [loginError, setLoginError] = useState(false);
-  const { theme, isLoading } = useAppSelector((state) => state.globalReducer);
-  const { t, i18n } = useTranslation();
+  const [formError, setFormError] = useState(false);
+  const theme = useAppSelector((state) => state.globalReducer.theme);
+  const isRus = useAppSelector((state) => state.globalReducer.isRus);
 
   const methods = useForm<FormType>({
     mode: 'onChange',
@@ -50,60 +43,57 @@ export const Login = () => {
     document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
   }, [theme]);
 
-  const { handleSubmit, watch } = methods;
+  const { handleSubmit, watch, reset } = methods;
 
   let formData = watch();
 
-  const login = () => {
-    formData = { ...formData, isRemember: isRemember };
+  const register = () => {
     if (formData.username && formData.password) {
-      dispatch(globalActions.login(formData));
+      dispatch(globalActions.registration(formData));
+      reset();
+      setFormError(false);
     } else {
-      setLoginError(true);
+      setFormError(true);
     }
   };
 
-  const submit = handleSubmit(login);
+  const submit = handleSubmit(register);
 
-  const previewClassnames = classNames(
-    i18n.resolvedLanguage === 'ru' ? styles.previewRu : styles.previewEn,
-  );
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  const logout = async () => {
+    await dispatch(globalActions.logout());
+  };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.formContainer}>
           <img src={Logo} width="168" height="59" alt="ACEXIS logo" className={styles.logo} />
+          Registration new user
           <FormProvider {...methods}>
             <form noValidate onSubmit={submit} autoComplete="off">
-              <ControlWrapperForm label={t('login')} name="username" error={loginError}>
-                <Input placeholder={t('enter_your_login') as string} />
+              <ControlWrapperForm label="username" name="username" error={formError}>
+                <Input placeholder="Enter username" />
               </ControlWrapperForm>
-              <ControlWrapperForm label={t('password')} name="password" error={loginError}>
-                <Input placeholder={t('enter_your_password') as string} />
+              <ControlWrapperForm label="Password" name="password" error={formError}>
+                <Input placeholder="Enter password" />
               </ControlWrapperForm>
-              {loginError && <ErrorMessage msg="Wrong login or password" />}
+              {formError && <ErrorMessage msg="incorrect username or password" />}
               <div className={styles.buttonsContainer}>
-                <span className={styles.checkbox}>
-                  <Checkbox
-                    checked={isRemember}
-                    onChange={() => setRemember((prev) => !prev)}
-                    label={<div className={styles.label}>{t('remember')}</div>}
-                  />
-                </span>
                 <Button className={styles.button} type="submit">
-                  {t('log_in')}
+                  Register
                 </Button>
               </div>
             </form>
           </FormProvider>
         </div>
         <div className={styles.wrapperToggleEng}>
-          <LanguageSelect />
+          <ToggleSwitch
+            checked={isRus}
+            onChange={() => {
+              dispatch(globalSettingActions.setIsRussian(isRus ? false : true));
+            }}
+            labels={['РУС', 'ENG']}
+          />
         </div>
         <div className={styles.wrapperToggleTheme}>
           <ToggleSwitch
@@ -113,16 +103,12 @@ export const Login = () => {
             }}
           />
         </div>
+        <div className={styles.wrapperLogoutButton}>
+          <Button className={styles.button} onClick={logout}>
+            Logout
+          </Button>
+        </div>
       </main>
-      <div className={styles.side}>
-        <div className={previewClassnames} />
-        <div className={styles.moon}>
-          <MoonIconPreview />
-        </div>
-        <div className={styles.planet}>
-          <PlanetIcon />
-        </div>
-      </div>
     </div>
   );
 };

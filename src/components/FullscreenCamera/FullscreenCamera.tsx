@@ -14,8 +14,8 @@ export const FullscreenCamera = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(imagesActions.getCameraFrame());
-    }, 500);
+      dispatch(imagesActions.getStream());
+    }, 1000);
     return () => {
       clearInterval(interval);
       dispatch(imageSettingsActions.resetCameraFrame());
@@ -27,7 +27,7 @@ export const FullscreenCamera = () => {
       <div className={styles.webcamContainer}>
         {cameraView ? (
           <img
-            src={`http://10.8.0.142/${cameraView.img_small}`}
+            src={`http://94.250.201.198${cameraView.img_small}`}
             width={570}
             className={styles.webcam}
             alt="webcam"

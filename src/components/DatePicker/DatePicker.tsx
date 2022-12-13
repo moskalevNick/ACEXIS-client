@@ -8,7 +8,18 @@ import { ArrowRightIcon } from '../Icons/ArrowRightIcon';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { DatepickerDataType } from '../../types';
 import styles from './DatePicker.module.css';
-import { monthFullEng, yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
+import {
+  futureDate,
+  monthFullEng,
+  monthFullRus,
+  veryOldDate,
+  yesterdayEndDay,
+  yesterdayStartDay,
+} from '../../helpers/constants';
+import { useAppDispatch } from '../../hooks/redux';
+import { clientSettingsActions } from '../../redux/clients/reducers';
+import { useTranslation } from 'react-i18next';
+import ru from 'date-fns/locale/ru';
 
 type DatepickerType = {
   onSubmitDatepicker: (date: DatepickerDataType | undefined) => void;
@@ -16,10 +27,20 @@ type DatepickerType = {
 };
 
 export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isShort = false }) => {
-  const [startDate, setStartDate] = useState<Date>(yesterdayStartDay);
-  const [endDate, setEndDate] = useState<Date>(yesterdayEndDay);
+  const dispatch = useAppDispatch();
+  const [startDate, setStartDate] = useState<Date | null>(yesterdayStartDay);
+  const [endDate, setEndDate] = useState<Date | null>(yesterdayEndDay);
   const [isDefaultMonthView, toggleMonthView] = useState(true);
+  const [monthFull, setMonthFull] = useState(monthFullEng);
   const [isOpen, setIsOpen] = useState(false);
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    // console.log(document.body.getAttribute('dir'));
+    // if (i18n.resolvedLanguage === 'ru') {
+    //   setMonthFull(monthFullRus);
+    // } else setMonthFull(monthFullEng);
+  }, [document.body.getAttribute]);
 
   const onChange = (dates: [Date, Date]) => {
     const [start, end] = dates;
@@ -40,11 +61,16 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
     document.body.setAttribute('view-calendar', isDefaultMonthView ? 'default' : 'custom');
   }, [isDefaultMonthView]);
 
-  const cancelRange = () => {
-    setStartDate(yesterdayStartDay);
-    setEndDate(yesterdayEndDay);
+  const resetRange = () => {
+    setStartDate(null);
+    setEndDate(null);
     setIsOpen(false);
-    onSubmitDatepicker(undefined);
+    onSubmitDatepicker({ startDate: null, endDate: null });
+    const dateForServer = {
+      startDate: veryOldDate.toISOString(),
+      endDate: futureDate.toISOString(),
+    };
+    dispatch(clientSettingsActions.setFilterDate(dateForServer));
   };
 
   const submitRange = () => {
@@ -68,6 +94,7 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
         endDate={endDate}
         placeholderText="Select date"
         dateFormat={isShort ? 'dd/MM' : 'MMM dd'}
+        locale={i18n.resolvedLanguage === 'en' ? 'en' : ru}
         selectsRange
         open={isOpen}
         onClickOutside={() => setIsOpen(false)}
@@ -89,7 +116,7 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
                 >
                   <ArrowLeftIcon />
                 </Button>
-                <div className={styles.monthWrapper}>{`${monthFullEng[getMonth(date)]} ${getYear(
+                <div className={styles.monthWrapper}>{`${monthFull[getMonth(date)]} ${getYear(
                   date,
                 )}`}</div>
                 <Button
@@ -128,11 +155,11 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
             </div>
             <hr className={styles.secondLine} />
             <div className={styles.submitButtons}>
-              <Button className={styles.cancelButton} outlined onClick={cancelRange}>
-                Cancel
+              <Button className={styles.cancelButton} outlined onClick={resetRange}>
+                {t('reset_range')}
               </Button>
               <Button className={styles.showButton} onClick={submitRange}>
-                Show photos
+                {t('show_photos')}
               </Button>
             </div>
           </>

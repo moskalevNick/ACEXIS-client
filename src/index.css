@@ -66,10 +66,22 @@ body {
   height: 135px;
 }
 
-.react-datepicker__week::before {
+[dir='en'] .react-datepicker__week::before {
   display: flex;
   justify-content: center;
   content: 'Mo Tu We Th Fri Sa Su';
+  word-spacing: 0.7em;
+  padding-bottom: 9px;
+  color: var(--color-name-weekday);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+[dir='ru'] .react-datepicker__week::before {
+  display: flex;
+  justify-content: center;
+  content: 'Пн Вт Ср Чт Пт Сб Вс';
   word-spacing: 0.7em;
   padding-bottom: 9px;
   color: var(--color-name-weekday);

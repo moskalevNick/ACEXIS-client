@@ -8,7 +8,7 @@ type WarningType = {
   opacity?: string;
 };
 
-export const WarninIcon: React.FC<WarningType> = ({
+export const WarningIcon: React.FC<WarningType> = ({
   fill = '#FF382C',
   interfill = '#FF382C',
   height = '18',

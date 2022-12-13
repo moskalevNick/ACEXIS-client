@@ -14,8 +14,8 @@ export default class ClientsService {
       for (const param in filterParams) {
         switch (param) {
           case 'date':
-            filtersForServer.dateFrom = filterParams[param].startDate.toString();
-            filtersForServer.dateTo = filterParams[param].endDate.toString();
+            filtersForServer.dateFrom = filterParams[param].startDate?.toString();
+            filtersForServer.dateTo = filterParams[param].endDate?.toString();
             break;
           case 'range':
             filtersForServer.billFrom = filterParams[param].min;

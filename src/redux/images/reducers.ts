@@ -13,6 +13,7 @@ const imageSlice = createSlice({
     images: {} as ImagesType,
     avatar: {} as ImageType | null,
     cameraFrame: null as CameraFrameType | null,
+    isFaceOnCamera: false,
     isLoading: false,
   },
   reducers: {
@@ -21,6 +22,9 @@ const imageSlice = createSlice({
     },
     resetCameraFrame: (state) => {
       state.cameraFrame = null;
+    },
+    resetFaceOnCamera: (state) => {
+      state.isFaceOnCamera = false;
     },
   },
 
@@ -99,14 +103,21 @@ const imageSlice = createSlice({
         state.isLoading = false;
       })
 
-      .addCase(imagesActions.getCameraFrame.pending, (state) => {
+      .addCase(imagesActions.getStream.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(imagesActions.getCameraFrame.fulfilled, (state, action) => {
+      .addCase(imagesActions.getStream.fulfilled, (state, action) => {
         state.cameraFrame = action.payload[0];
+
+        if (action.payload[0] && action.payload[0].faces && action.payload[0].faces.length) {
+          state.isFaceOnCamera = true;
+        } else {
+          state.isFaceOnCamera = false;
+        }
+
         state.isLoading = false;
       })
-      .addCase(imagesActions.getCameraFrame.rejected, (state) => {
+      .addCase(imagesActions.getStream.rejected, (state) => {
         state.isLoading = false;
       });
   },

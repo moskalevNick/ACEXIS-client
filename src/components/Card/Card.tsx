@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { WarninIcon } from '../Icons/WarningIcon';
+import { WarningIcon } from '../Icons/WarningIcon';
 import { GhostStatusIcon } from '../Icons/StatusIcons/GhostStatusIcon';
 import { CookieStatusIcon } from '../Icons/StatusIcons/CookieStatusIcon';
 import { MoonStatusIcon } from '../Icons/StatusIcons/MoonStatusIcon';
@@ -15,6 +15,7 @@ import { CLICK_DURATION } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { exisActions } from '../../redux/exis/actions';
+import { visitActions } from '../../redux/visit/actions';
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
@@ -23,14 +24,13 @@ type CardType = {
 export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [mouseDown, setMouseDown] = useState<Date | undefined>();
+  const [mouseDown, setMouseDown] = useState<Date>(new Date());
   const [isShortDescriptionVisible, setShortDescriptionVisible] = useState(false);
   const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
-  const [lastVisit, setLastVisit] = useState<VisitsType | null>(null);
-  const [currentClient, setCurrentClient] = useState(client);
 
   const images = useAppSelector((state) => state.imageReducer.images[client.id]);
   const pinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis[client.id]);
+  const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
 
   // useEffect(() => {
   //   if (client.coincidentIds) {
@@ -42,30 +42,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
   //     setCoincidentClients(arr);
   //   }
   // }, [client.coincidentIds]);
-
-  // useEffect(() => {
-  //   if (stateClient?.id === client.id && stateClient) {
-  //     setCurrentClient(stateClient);
-  //   }
-  // }, [stateClient, statePinnedExis]);
-
-  useEffect(() => {
-    if (currentClient?.visits) {
-      let latest: VisitsType | undefined;
-
-      currentClient.visits.forEach((el) => {
-        if (latest) {
-          if (Number(new Date(el.date)) > (Number(new Date(latest.date)) || 0)) {
-            latest = el;
-          }
-        } else latest = el;
-      });
-
-      if ((latest && lastVisit && latest.date > lastVisit.date) || (!lastVisit && latest)) {
-        setLastVisit(latest);
-      }
-    }
-  }, [currentClient.visits]);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -89,7 +65,18 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
     setShortDescriptionVisible(false);
   };
 
-  const checkDelay = (down: Date | undefined, up: Date) => {
+  const onMouseDown = () => {
+    setMouseDown(new Date());
+    dispatch(clientSettingsActions.setCurrentClient(client));
+    dispatch(exisActions.getExises(client.id));
+    dispatch(visitActions.getVisits(client.id));
+  };
+
+  const onMouseUp = () => {
+    checkDelay(mouseDown, new Date());
+  };
+
+  const checkDelay = (down: Date, up: Date) => {
     const showShortDescription = Number(up) - Number(down) > CLICK_DURATION;
 
     if (showShortDescription) {
@@ -97,18 +84,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
     } else {
       navigate(`/cloud/${client.id}`);
     }
-
-    setMouseDown(undefined);
-  };
-
-  const onMouseDown = () => {
-    setMouseDown(new Date());
-    dispatch(clientSettingsActions.setCurrentClient(client));
-    dispatch(exisActions.getExises(client.id));
-  };
-
-  const onMouseUp = () => {
-    checkDelay(mouseDown, new Date());
   };
 
   return (
@@ -120,9 +95,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
               <img src={images.at(-1)?.publicUrl} alt={`avatar_${images.at(-1)?.id}`} />
             )}
           </div>
-          <div className={styles.name}>
-            {currentClient.name ? currentClient.name : 'Unknown client'}
-          </div>
+          <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
           <div className={styles.lastVisit}>
             {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
           </div>
@@ -140,11 +113,11 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
           )} */}
         </div>
 
-        <div className={styles.status}>{chooseIcon(currentClient.status)}</div>
+        <div className={styles.status}>{chooseIcon(client.status)}</div>
         {isShortDescriptionVisible && (
           <div className={styles.shortDescriptionWrapper} onClick={closeShortDescription}>
             <div className={styles.shortDescription}>
-              <div className={styles.nameClient}>{currentClient.name}</div>
+              <div className={styles.nameClient}>{client.name}</div>
               <div className={styles.textWrapper}>
                 <div className={styles.labelContent}>Last visit</div>
                 {lastVisit ? getInterval(lastVisit.date) : 'No visits'}
@@ -174,7 +147,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
         )}
       </div>
 
-      {showInfo && showInfo.id === currentClient.id && (
+      {showInfo && showInfo.id === client.id && (
         <div
           className={styles.coincidentContainer}
           style={{ left: showInfo.x + 30, top: showInfo.y - 170 }}

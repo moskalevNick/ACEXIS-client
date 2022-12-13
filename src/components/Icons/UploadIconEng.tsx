@@ -5,7 +5,7 @@ type UploadType = {
   height?: string;
 };
 
-export const UploadIcon: React.FC<UploadType> = ({ height = '72', width = '72' }) => (
+export const UploadIconEng: React.FC<UploadType> = ({ height = '72', width = '72' }) => (
   <svg
     width={width}
     height={height}

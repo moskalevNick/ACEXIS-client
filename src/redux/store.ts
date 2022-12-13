@@ -1,3 +1,4 @@
+import { visitReducer } from './visit/reducers';
 import { imageReducer } from './images/reducers';
 import { exisReducer } from './exis/reducers';
 import { clientReducer } from './clients/reducers';
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   clientReducer,
   exisReducer,
   imageReducer,
+  visitReducer,
 });
 
 const store = configureStore({

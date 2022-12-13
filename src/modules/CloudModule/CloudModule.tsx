@@ -15,11 +15,15 @@ import { CloudFilters } from '../../components/CloudFilters';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
 import { FiltersType } from '../../types';
+import { visitSettingsActions } from '../../redux/visit/reducers';
+import { exisSettingsActions } from '../../redux/exis/reducers';
+import { useTranslation } from 'react-i18next';
 
 export const CloudModule = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const { t, i18n } = useTranslation();
 
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
   const { clients, isLoading, isClientLoading, filters } = useAppSelector(
@@ -40,16 +44,22 @@ export const CloudModule = () => {
     };
 
     if (
+      filters.date.startDate &&
+      filters.date.endDate &&
       defaultDateRange.startDate.toDateString() ===
         new Date(filters.date.startDate).toDateString() &&
       defaultDateRange.endDate.toDateString() === new Date(filters.date.endDate).toDateString()
     ) {
-      return 'Customers added yesterday';
-    } else return 'Customers added for selected period';
+      return t('customers_added_yesterday');
+    } else return t('customers_added_for_selected_period');
   };
 
   useEffect(() => {
-    dispatch(clientSettingsActions.clearCurrentClient());
+    if (!id) {
+      dispatch(visitSettingsActions.clearVisits());
+      dispatch(exisSettingsActions.clearExises());
+      dispatch(clientSettingsActions.clearCurrentClient());
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -82,7 +92,7 @@ export const CloudModule = () => {
         <Button beforeIcon={<PlusIcon />} className={styles.addButton} onClick={addNewClient} />
         <div className={styles.wordingWrapper}>{isDefault()}</div>
         <div className={styles.counterWrapper}>
-          <div className={styles.counter}>{`${clients.length} clients`}</div>
+          <div className={styles.counter}>{`${clients.length} ${t('clients')}`}</div>
         </div>
       </div>
 
@@ -94,7 +104,7 @@ export const CloudModule = () => {
         <CardContainer clients={clients} withLongNavbar />
       ) : (
         <div className={styles.noClientsWrapper}>
-          No client cards found. You can add them
+          {t('no_client_card_you_can_add_them')}
           <Button beforeIcon={<PlusIcon />} className={styles.addButton} onClick={addNewClient} />
         </div>
       )}

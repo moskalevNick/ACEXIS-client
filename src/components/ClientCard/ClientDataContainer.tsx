@@ -10,7 +10,7 @@ import { SquareUploadIcon } from '../Icons/SquareUploadIcon';
 import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ImageType, VisitsType } from '../../types';
 import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imagesActions } from '../../redux/images/actions';
 import { useParams } from 'react-router-dom';
 
@@ -18,13 +18,11 @@ type ClientDataContainerType = {
   clientImages: ImageType[] | [];
   clientAvatar: ImageType | null;
   client: ClientType;
-  lastVisit: VisitsType | null;
   setOpenDeleteClient: (state: boolean) => void;
   updateFormData: (state: any) => void;
 };
 
 export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
-  lastVisit,
   client,
   setOpenDeleteClient,
   clientImages,
@@ -39,6 +37,8 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   const [billsAmount, setBillsAmount] = useState<number>(client.billsAmount || 0);
   const [isNew, setIsNew] = useState<boolean>(false);
   const [status, setStatus] = useState<string>(client.status);
+
+  const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
 
   useEffect(() => {
     if (id === 'new') {

@@ -13,6 +13,7 @@ import { ExisType } from '../../types';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { exisActions } from '../../redux/exis/actions';
+import { visitActions } from '../../redux/visit/actions';
 
 type ExisContainerType = {
   clientId?: string;
@@ -51,6 +52,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
   useEffect(() => {
     if (clientId) {
       dispatch(exisActions.getExises(clientId));
+      dispatch(visitActions.getVisits(clientId));
     }
   }, [clientId, dispatch]);
 

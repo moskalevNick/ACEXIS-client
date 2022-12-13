@@ -16,7 +16,7 @@ export const CloudFilters = () => {
   const dispatch = useAppDispatch();
 
   const onSubmitDatepicker = (date: DatepickerDataType | undefined) => {
-    if (date) {
+    if (date?.endDate && date?.startDate) {
       const dateForServer = {
         startDate: new Date(new Date(date.startDate).setHours(0, 0, 1)).toISOString(),
         endDate: new Date(new Date(date.endDate).setHours(23, 59, 59)).toISOString(),

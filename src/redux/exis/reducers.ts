@@ -62,6 +62,7 @@ const exisSlice = createSlice({
           state.pinnedExis[action.payload.clientId] = undefined;
         }
       })
+
       .addCase(exisActions.createExis.fulfilled, (state, action) => {
         state.exises = [...state.exises, action.payload];
       });
