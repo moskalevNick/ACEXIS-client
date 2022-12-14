@@ -11,28 +11,54 @@ export type State = {
   isRussian: boolean;
 };
 
+export type SimilarType = {
+  base64image: string | null;
+  clientId: string;
+  face_id: string;
+  id: string;
+  image: SimilarImageType;
+};
+
 export type ClientType = {
   id: string;
   name: string;
   status: string;
   phone: string;
   averageBill?: number;
+  face_id?: string[];
   billsAmount?: number;
   images?: ImageType[];
   visits?: VisitsType[];
   exises?: ExisType[];
   UserId?: string;
+  similar?: SimilarType[];
 };
 
 export type CreateClientType = {
   name: string;
   status: string;
   phone: string;
+  face_id?: string[];
   averageBill?: number;
   billsAmount?: number;
   images?: ImageType[];
   visits?: VisitsType[];
   UserId?: string;
+};
+
+export type UpdateClientType = {
+  id?: string;
+  name: string;
+  status: string;
+  phone: string;
+  averageBill?: number;
+  face_id?: string[];
+  billsAmount?: number;
+  images?: ImageType[];
+  visits?: VisitsType[];
+  exises?: ExisType[];
+  UserId?: string;
+  similar?: SimilarType[];
 };
 
 export type ExisType = {
@@ -78,6 +104,13 @@ export type UserAvatarType = {
   path: string;
   publicUrl: string;
   userId?: string;
+};
+
+export type SimilarImageType = {
+  id: string;
+  path: string;
+  publicUrl: string;
+  similarId?: string;
 };
 
 export type CameraFrameType = {

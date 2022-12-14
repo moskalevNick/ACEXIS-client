@@ -30,7 +30,7 @@ export const CardContainer: React.FC<CardContainerType> = ({
   return (
     <div className={containerClasses} onClick={onClick}>
       {clients.map((client) => (
-        <Card key={uuid()} client={client} showInfo={showInfo} />
+        <Card key={uuid()} client={client} showInfo={showInfo} setShowInfo={setShowInfo} />
       ))}
     </div>
   );

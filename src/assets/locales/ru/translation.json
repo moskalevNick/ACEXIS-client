@@ -22,7 +22,7 @@
   "customers_added_yesterday": "Вчера добавлено клиентов",
   "customers_added_for_selected_period": "За выбранный период добавлено клиентов",
   "clients": "клиентов",
-  "reset_range": "Отмена",
+  "reset_range": "Сбросить интервал",
   "show_photos": "Показать фото",
   "no_client_card_you_can_add_them": "Карточки клиентов не найдены. Вы можете добавить их"
 }

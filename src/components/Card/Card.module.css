@@ -153,15 +153,6 @@
   border-radius: 8px;
 }
 
-.coincidentName {
-  margin-top: 16px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 19px;
-  color: var(--card-name-color);
-}
-
 .status {
   display: flex;
   align-items: center;

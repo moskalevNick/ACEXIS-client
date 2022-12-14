@@ -4,36 +4,34 @@
   height: 38px;
   padding: 8px 16px;
   border-radius: 6px;
-  background:url('/src/assets/images/calendar.png') no-repeat, var(--input-background);
+  background: url('/src/assets/images/calendar.png') no-repeat, var(--input-background);
   background-position: calc(100% - 12px);
   border: none;
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
-  color: #1487F2;
+  color: #1487f2;
   cursor: pointer;
 }
 
-.shortCalendarWrapper{
+.shortCalendarWrapper {
   width: 138px;
 }
 
-.calendarWrapper::placeholder{
+.calendarWrapper::placeholder {
   color: var(--text-color);
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
 }
 
-
-.datepickerHeaderWrapper{
+.datepickerHeaderWrapper {
   margin: 28px 23px 16px 24px;
   display: flex;
   justify-content: space-between;
 }
 
-
-.datepickerHeader{
+.datepickerHeader {
   width: 822px;
   background-color: var(--background-datepicker);
   display: flex;
@@ -41,7 +39,7 @@
   gap: 15px;
 }
 
-.monthWrapper{
+.monthWrapper {
   color: var(--text-color);
   width: 150px;
   display: flex;
@@ -51,19 +49,19 @@
   font-size: 18px;
 }
 
-.arrowButton{
+.arrowButton {
   padding-bottom: 3px;
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  fill: #1487F2;
+  fill: #1487f2;
 }
 
-.arrowButton:disabled{
+.arrowButton:disabled {
   fill: gray;
 }
 
-.line{
+.line {
   margin: 0 auto;
   width: 94%;
   height: 1px;
@@ -71,19 +69,19 @@
   border: none;
 }
 
-.buttonSwipeleftContainer{
+.buttonSwipeleftContainer {
   position: absolute;
   top: 85px;
   left: 24px;
-} 
+}
 
-.buttonSwipeRightContainer{
+.buttonSwipeRightContainer {
   position: absolute;
   top: 85px;
   right: 24px;
-} 
+}
 
-.secondLine{
+.secondLine {
   position: absolute;
   width: 94%;
   height: 1px;
@@ -92,7 +90,7 @@
   background-color: var(--line-color);
 }
 
-.submitButtons{
+.submitButtons {
   position: absolute;
   top: 150px;
   right: 24px;
@@ -101,16 +99,17 @@
   justify-content: flex-end;
 }
 
-.cancelButton{
+.cancelButton {
   margin-right: 8px;
-  width: 144px;
+  min-width: 144px;
 }
 
-.showButton{
+.showButton {
   width: 152px;
 }
 
-.closeButton, .closeButton:hover{
+.closeButton,
+.closeButton:hover {
   background: transparent;
-  fill: #1487F2;
+  fill: #1487f2;
 }

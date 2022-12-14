@@ -54,4 +54,12 @@ export const clientActions = {
       return data;
     },
   ),
+
+  deleteSimilar: createAsyncThunk(
+    getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].deleteSimilar),
+    async (id: string) => {
+      const data = await ClientsService.deleteSimilar(id);
+      return data;
+    },
+  ),
 };

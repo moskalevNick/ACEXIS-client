@@ -1,5 +1,5 @@
 import $api from '../http';
-import { clientFilterType, ClientType, CreateClientType, FiltersType } from '../types';
+import { clientFilterType, ClientType, CreateClientType, FiltersType, SimilarType } from '../types';
 
 const path = 'clients';
 
@@ -78,6 +78,11 @@ export default class ClientsService {
 
   static async deleteClient(id: string): Promise<ClientType> {
     const response = await $api.delete(`${path}/${id}`);
+    return response.data;
+  }
+
+  static async deleteSimilar(id: string): Promise<SimilarType> {
+    const response = await $api.delete(`similar/${id}`);
     return response.data;
   }
 }

@@ -143,6 +143,32 @@ export const clientSlice = createSlice({
       })
       .addCase(clientActions.deleteClient.rejected, (state) => {
         state.isLoading = false;
+      })
+
+      .addCase(clientActions.deleteSimilar.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(clientActions.deleteSimilar.fulfilled, (state, action) => {
+        const currentClient = state.clients.find((client) => client.id === action.payload.clientId);
+        if (currentClient) {
+          state.currentClient = currentClient;
+        }
+
+        if (state.currentClient?.similar && currentClient) {
+          const currentIndex = state.clients.indexOf(currentClient);
+          const similars = state.currentClient.similar.filter((el) => el.id !== action.payload.id);
+          const newClient = { ...state.currentClient, similar: similars };
+
+          const newClients = state.clients.filter((el) => el.id !== action.payload.clientId);
+
+          newClients.splice(currentIndex, 0, newClient);
+          state.clients = newClients;
+        }
+
+        state.isLoading = false;
+      })
+      .addCase(clientActions.deleteSimilar.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

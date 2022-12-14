@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { WarningIcon } from '../Icons/WarningIcon';
@@ -10,38 +10,30 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, VisitsType } from '../../types';
+import { ClientType, SimilarType, UpdateClientType, VisitsType } from '../../types';
 import { CLICK_DURATION } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { exisActions } from '../../redux/exis/actions';
 import { visitActions } from '../../redux/visit/actions';
+import { CrossIcon } from '../Icons/CrossIcon';
+import { Button } from '../Button/Button';
+import { clientActions } from '../../redux/clients/actions';
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
+  setShowInfo: Dispatch<SetStateAction<{ id: string; x: number; y: number } | null>>;
 };
 
-export const Card: React.FC<CardType> = ({ client, showInfo }) => {
+export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<Date>(new Date());
   const [isShortDescriptionVisible, setShortDescriptionVisible] = useState(false);
-  const [coincidentClients, setCoincidentClients] = useState<ClientType[]>([]);
 
   const images = useAppSelector((state) => state.imageReducer.images[client.id]);
   const pinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis[client.id]);
   const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
-
-  // useEffect(() => {
-  //   if (client.coincidentIds) {
-  //     let arr: ClientType[] = [];
-  //     client.coincidentIds.forEach((elem) => {
-  //       const coincidentClient = clients.find((el) => el.id === elem);
-  //       if (coincidentClient) arr.push(coincidentClient);
-  //     });
-  //     setCoincidentClients(arr);
-  //   }
-  // }, [client.coincidentIds]);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -86,6 +78,37 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
     }
   };
 
+  const deleteSimilar = (id: string) => {
+    dispatch(clientActions.deleteSimilar(id));
+  };
+
+  const combineSimilar = (id: string) => {
+    const currentFaceId: string | undefined = client.similar?.find((el) => el.id === id)?.face_id;
+    if (currentFaceId) {
+      const newFaces: string[] | undefined = Object.assign([], client.face_id);
+      if (newFaces) {
+        newFaces.push(currentFaceId);
+      }
+      const clientUpdateDto: UpdateClientType = {
+        ...client,
+        face_id: newFaces,
+      };
+      clientUpdateDto.id && delete clientUpdateDto.id;
+      clientUpdateDto.exises && delete clientUpdateDto.exises;
+      clientUpdateDto.images && delete clientUpdateDto.images;
+      clientUpdateDto.similar && delete clientUpdateDto.similar;
+      clientUpdateDto.visits && delete clientUpdateDto.visits;
+
+      dispatch(
+        clientActions.editClient({
+          id: client.id,
+          newClient: clientUpdateDto,
+        }),
+      );
+      dispatch(clientActions.deleteSimilar(id));
+    }
+  };
+
   return (
     <>
       <div className={styles.wrapper} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
@@ -99,18 +122,18 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
           <div className={styles.lastVisit}>
             {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
           </div>
-          {/* {currentClient.coincidentIds?.length !== 0 && (
+          {client.similar?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
               <div
                 className={styles.warningIconWrapper}
                 onMouseEnter={(ev) =>
-                  !showInfo && setShowInfo({ id: currentClient.id, x: ev.clientX, y: ev.clientY })
+                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
                 }
               >
-                <WarninIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
+                <WarningIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
               </div>
             </div>
-          )} */}
+          )}
         </div>
 
         <div className={styles.status}>{chooseIcon(client.status)}</div>
@@ -155,21 +178,25 @@ export const Card: React.FC<CardType> = ({ client, showInfo }) => {
             e.stopPropagation();
           }}
         >
-          <div className={styles.coincidentHeader}>Select coincident profile</div>
+          <div className={styles.coincidentHeader}>Select coincident photo</div>
           <div className={styles.horizontalLineCoincident} />
           <div className={styles.profilesWrapper}>
-            {/* {coincidentClients.map((el) => (
-              <div className={styles.coincidentCard} key={uuid()}>
+            {client.similar?.map((el) => (
+              <div className={styles.coincidentCard} key={el.id}>
                 <div className={styles.imgCoincidentWrapper}>
-                  <img src={el.avatarLink} alt={`avatar_coincident_${el.name}`} />
-                  <button className={styles.coincidentDeleteButton}>
+                  <img src={el.image.publicUrl} alt={`avatar_coincident_${el.id}`} />
+                  <button
+                    className={styles.coincidentDeleteButton}
+                    onClick={() => deleteSimilar(el.id)}
+                  >
                     <CrossIcon />
                   </button>
-                  <Button className={styles.combainButton}>Combine</Button>
+                  <Button className={styles.combainButton} onClick={() => combineSimilar(el.id)}>
+                    Combine
+                  </Button>
                 </div>
-                <div className={styles.coincidentName}>{el.name}</div>
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
       )}

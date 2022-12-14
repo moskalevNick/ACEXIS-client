@@ -7,6 +7,7 @@ export const actionNames = {
     editClient: 'EDIT_CLIENT',
     addClient: 'ADD_CLIENT',
     deleteClient: 'DELETE_CLIENT',
+    deleteSimilar: 'DELETE_SIMILAR',
   },
   [modules.EXIS]: {
     getExis: 'GET_EXIS',
