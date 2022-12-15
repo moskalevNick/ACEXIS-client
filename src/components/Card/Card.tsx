@@ -86,7 +86,9 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
     if (client.similar) {
       client.similar.forEach((similar) => {
         if (!similar.image) {
-          dispatch(clientActions.deleteSimilar(similar.id));
+          setTimeout(() => {
+            deleteSimilar(similar.id);
+          }, 2000);
         }
       });
     }
