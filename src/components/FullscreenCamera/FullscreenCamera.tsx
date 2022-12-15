@@ -11,10 +11,11 @@ export const FullscreenCamera = () => {
   const dispatch = useAppDispatch();
 
   const cameraView = useAppSelector((state) => state.imageReducer.cameraFrame);
+  const { cameraToken } = useAppSelector((state) => state.globalReducer);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(imagesActions.getStream());
+      dispatch(imagesActions.getStream(cameraToken));
     }, 1000);
     return () => {
       clearInterval(interval);

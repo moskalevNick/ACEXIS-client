@@ -24,6 +24,6 @@ export const imagesActions = {
   ),
   getStream: createAsyncThunk(
     getActionName(modules.IMAGE, actionNames[modules.IMAGE].getCameraFrame),
-    async () => await ImageService.getStream(),
+    async (cameraToken: string) => await ImageService.getStream(cameraToken),
   ),
 };

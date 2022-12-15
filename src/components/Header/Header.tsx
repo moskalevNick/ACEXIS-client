@@ -23,14 +23,14 @@ export const Header = () => {
   const isOpenFullScreenCamera = useAppSelector(
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
-  const theme = useAppSelector((state) => state.globalReducer.theme);
+  const { theme, cameraToken } = useAppSelector((state) => state.globalReducer);
   const cameraView = useAppSelector((state) => state.imageReducer.cameraFrame);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (isOpenCameraWidget) {
       const interval = setInterval(() => {
-        dispatch(imagesActions.getStream());
+        dispatch(imagesActions.getStream(cameraToken));
       }, 1000);
       return () => clearInterval(interval);
     }

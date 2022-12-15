@@ -17,6 +17,7 @@ export const TodayModule = () => {
   );
   const { clients, isLoading } = useAppSelector((state) => state.clientReducer);
   const { isFaceOnCamera } = useAppSelector((state) => state.imageReducer);
+  const { cameraToken } = useAppSelector((state) => state.globalReducer);
   const containerClassnames = classNames(
     styles.container,
     isOpenFullScreenCamera && styles.containerWithCamera,
@@ -34,7 +35,7 @@ export const TodayModule = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(imagesActions.getStream());
+      dispatch(imagesActions.getStream(cameraToken));
     }, 1000);
     return () => {
       clearInterval(interval);

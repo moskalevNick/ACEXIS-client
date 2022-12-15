@@ -24,9 +24,9 @@ export default class ImageService {
     return response.data;
   }
 
-  static async getStream(): Promise<CameraFrameType[]> {
+  static async getStream(cameraToken: string): Promise<CameraFrameType[]> {
     const response = await axios.request({
-      url: 'http://94.250.201.198/get_stream.php?token=cam01',
+      url: `https://recognition.evocontrols.com/get_stream.php?token=${cameraToken}`,
       method: 'get',
       // headers: {
       //   cookies: 'SameSite=None; Secure',

@@ -18,6 +18,7 @@ const globalSlice = createSlice({
     isLoading: false,
     isAvatarLoading: false,
     avatar: null as UserAvatarType | null,
+    cameraToken: '',
   },
   reducers: {
     setTheme: (state, action) => {
@@ -48,6 +49,7 @@ const globalSlice = createSlice({
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
         state.role = action.payload.role;
+        state.cameraToken = action.payload.cameraToken;
         state.isLoading = false;
       })
       .addCase(globalActions.login.rejected, (state) => {
@@ -83,6 +85,7 @@ const globalSlice = createSlice({
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
         state.role = action.payload.role;
+        state.cameraToken = action.payload.cameraToken;
         state.isLoading = false;
       })
       .addCase(globalActions.checkAuth.rejected, (state) => {
