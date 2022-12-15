@@ -82,9 +82,21 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
     dispatch(clientActions.deleteSimilar(id));
   };
 
+  useEffect(() => {
+    if (client.similar) {
+      client.similar.forEach((similar) => {
+        if (!similar.image) {
+          dispatch(clientActions.deleteSimilar(similar.id));
+        }
+      });
+    }
+  }, [client]);
+
   const combineSimilar = (id: string) => {
     const currentFaceId: string | undefined = client.similar?.find((el) => el.id === id)?.face_id;
-    if (currentFaceId) {
+    if (client.face_id?.find((el) => el === currentFaceId)) {
+      dispatch(clientActions.deleteSimilar(id));
+    } else if (currentFaceId) {
       const newFaces: string[] | undefined = Object.assign([], client.face_id);
       if (newFaces) {
         newFaces.push(currentFaceId);
@@ -98,7 +110,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
       clientUpdateDto.images && delete clientUpdateDto.images;
       clientUpdateDto.similar && delete clientUpdateDto.similar;
       clientUpdateDto.visits && delete clientUpdateDto.visits;
-
       dispatch(
         clientActions.editClient({
           id: client.id,
@@ -184,7 +195,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
             {client.similar?.map((el) => (
               <div className={styles.coincidentCard} key={el.id}>
                 <div className={styles.imgCoincidentWrapper}>
-                  <img src={el.image.publicUrl} alt={`avatar_coincident_${el.id}`} />
+                  {el.image && <img src={el.image.publicUrl} alt={`avatar_coincident_${el.id}`} />}
                   <button
                     className={styles.coincidentDeleteButton}
                     onClick={() => deleteSimilar(el.id)}

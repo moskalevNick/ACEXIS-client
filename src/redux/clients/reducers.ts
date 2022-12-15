@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { ClientType, FiltersType } from '../../types';
 import { modules } from '../modules';
 import { clientActions } from './actions';
@@ -138,7 +138,9 @@ export const clientSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(clientActions.deleteClient.fulfilled, (state, action) => {
-        state.clients = state.clients.filter((el) => el.id !== action.payload.id);
+        const clients = current(state.clients);
+        state.clients = clients.filter((el) => el.id !== action.payload.id);
+
         state.isLoading = false;
       })
       .addCase(clientActions.deleteClient.rejected, (state) => {
@@ -152,19 +154,21 @@ export const clientSlice = createSlice({
         const currentClient = state.clients.find((client) => client.id === action.payload.clientId);
         if (currentClient) {
           state.currentClient = currentClient;
+
+          if (state.currentClient?.similar) {
+            const currentIndex = state.clients.indexOf(currentClient);
+            const similars = state.currentClient.similar.filter(
+              (el) => el.id !== action.payload.id,
+            );
+
+            const newClient = { ...state.currentClient, similar: [...similars] };
+
+            const newClients = state.clients.filter((el) => el.id !== action.payload.clientId);
+
+            newClients.splice(currentIndex, 0, newClient);
+            state.clients = newClients;
+          }
         }
-
-        if (state.currentClient?.similar && currentClient) {
-          const currentIndex = state.clients.indexOf(currentClient);
-          const similars = state.currentClient.similar.filter((el) => el.id !== action.payload.id);
-          const newClient = { ...state.currentClient, similar: similars };
-
-          const newClients = state.clients.filter((el) => el.id !== action.payload.clientId);
-
-          newClients.splice(currentIndex, 0, newClient);
-          state.clients = newClients;
-        }
-
         state.isLoading = false;
       })
       .addCase(clientActions.deleteSimilar.rejected, (state) => {

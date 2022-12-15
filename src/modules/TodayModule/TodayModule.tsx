@@ -6,6 +6,7 @@ import { todayEnd, todayStart } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
+import { imagesActions } from '../../redux/images/actions';
 import { imageSettingsActions } from '../../redux/images/reducers';
 import styles from './Today.module.css';
 
@@ -29,6 +30,16 @@ export const TodayModule = () => {
 
     dispatch(clientSettingsActions.setFilterDate(dateForServer));
     dispatch(clientActions.getClients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(imagesActions.getStream());
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+      dispatch(imageSettingsActions.resetCameraFrame());
+    };
   }, [dispatch]);
 
   useEffect(() => {
