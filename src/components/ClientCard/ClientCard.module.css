@@ -661,14 +661,12 @@
 }
 
 .messageText {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   font-weight: 600;
   font-size: 13px;
   line-height: 20px;
   height: 30px;
   margin-top: 18px;
+  word-wrap: break-word;
 }
 
 .modalDeleteClient {
