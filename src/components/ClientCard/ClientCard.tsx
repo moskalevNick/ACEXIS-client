@@ -13,6 +13,7 @@ import { ModalDeleteClient } from './ModalDeleteClient';
 import { ExisContainer } from './ExisContainer';
 import { VisitsContainer } from './VisitsContainer';
 import { ClientDataContainer } from './ClientDataContainer';
+import { t } from 'i18next';
 
 type updateFormDataType = {
   status: string;
@@ -112,7 +113,7 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
   return (
     <>
       <Input
-        placeholder={client.name ? '' : 'Enter client name'}
+        placeholder={client.name ? '' : (t('enter_client_name') as string)}
         className={styles.clientNameInput}
         onChange={onChangeName}
         value={client.name}
@@ -127,14 +128,14 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
           }}
         >
           <div className={styles.clientDataWrapper}>
-            {client.id && (
+            {id !== 'new' && (
               <div className={styles.settingsToggle}>
                 <div className={styles.wrapperSectionToggle}>
                   <button className={settingsClassnames} onClick={() => toggleVisits(false)}>
-                    Settings
+                    {t('settings')}
                   </button>
                   <button className={visitsClassnames} onClick={() => toggleVisits(true)}>
-                    Visits
+                    {t('visits')}
                   </button>
                 </div>
                 <div className={styles.horizontalLine} />
@@ -160,10 +161,10 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
               {!isVisits && <div className={styles.horizontalLine} />}
               <div className={styles.submitButtonsWrapper}>
                 <Button outlined className={styles.submitButton} onClick={cancelAddingClient}>
-                  Cancel
+                  {t('cancel')}
                 </Button>
                 <Button className={styles.submitButton} onClick={onSubmit}>
-                  {id !== 'new' ? 'Save' : 'Add visitor'}
+                  {id !== 'new' ? t('save') : t('add_visitor')}
                 </Button>
               </div>
             </div>

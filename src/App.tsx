@@ -11,7 +11,6 @@ import { globalActions } from './redux/global/actions';
 import { Loader } from './components/Loader/Loader';
 import { Founder } from './containers/Founder';
 import { Registration } from './modules/Registration/Registration';
-import i18next from 'i18next';
 
 export default function App() {
   const dispatch = useAppDispatch();

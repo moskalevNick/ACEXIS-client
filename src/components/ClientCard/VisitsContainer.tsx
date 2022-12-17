@@ -4,6 +4,7 @@ import { getInterval } from '../../helpers/getInterval';
 import { ClientType, ExisType } from '../../types';
 import { useAppSelector } from '../../hooks/redux';
 import { getDate } from '../../helpers/getDate';
+import { t } from 'i18next';
 
 type ExisAtVisitsType = {
   [key: string]: ExisType[];
@@ -41,10 +42,10 @@ export const VisitsContainer: React.FC = () => {
       <div className={styles.visitsWrapper}>
         <div className={styles.visitsHeader}>
           <div className={styles.visitsHeaderItem}>
-            <div className={styles.visitsHeaderlabel}>Visits</div>
+            <div className={styles.visitsHeaderlabel}>{t('visits')}</div>
           </div>
           <div className={styles.visitsHeaderItem}>
-            <div className={styles.visitsHeaderlabel}>Date</div>
+            <div className={styles.visitsHeaderlabel}>{t('date')}</div>
           </div>
           <div className={styles.visitsHeaderItem}>
             <div className={styles.visitsHeaderlabel}>EXIS</div>

@@ -59,9 +59,12 @@ const visitSlice = createSlice({
             }
           });
 
-          if (current(lastClientVisit) && new Date(current(lastClientVisit).date) > threeHoursAgo) {
-            const newVisits = state.visits.filter((visit) => visit.id !== lastClientVisit?.id);
-            const newExises: string[] = lastClientVisit.exisId;
+          if (lastClientVisit && new Date(lastClientVisit.date) > threeHoursAgo) {
+            const visits = current(state.visits);
+            const newVisits = visits.filter((visit) => visit.id !== lastClientVisit?.id);
+
+            const newExises: string[] = Object.assign([], lastClientVisit.exisId);
+
             newExises.push(action.payload.id);
             lastClientVisit = { ...lastClientVisit, exisId: newExises };
             newVisits.push(lastClientVisit);
@@ -72,9 +75,26 @@ const visitSlice = createSlice({
       })
 
       .addCase(exisActions.deleteExis.fulfilled, (state, action) => {
-        if (state.visits.length) {
-          const currentVisit = state.visits.find((visit) => visit.id === action.payload.id);
-          if (currentVisit) {
+        const currentVisits = current(state.visits);
+
+        if (currentVisits.length) {
+          const visit = currentVisits.find((visit) => visit.id === action.payload.visitId);
+          if (visit) {
+            const index = currentVisits.indexOf(visit);
+
+            if (index !== -1) {
+              const newExisIds = visit.exisId.filter((el) => el !== action.payload.id);
+
+              const newVisit = {
+                ...currentVisits[index],
+                exisId: newExisIds,
+              };
+
+              const newVisits = currentVisits.filter((el) => el.id !== action.payload.visitId);
+              newVisits.push(newVisit);
+
+              state.visits = newVisits;
+            }
           }
         }
       })

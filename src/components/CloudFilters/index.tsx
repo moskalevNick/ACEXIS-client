@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
 import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
@@ -9,11 +9,14 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { DatepickerDataType } from '../../types';
 import styles from './CloudFilters.module.css';
 import { clientSettingsActions } from '../../redux/clients/reducers';
+import { useTranslation } from 'react-i18next';
 
 export const CloudFilters = () => {
   const [isOpenRange, setOpenRange] = useState(false);
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
+  const { filters } = useAppSelector((state) => state.clientReducer);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const onSubmitDatepicker = (date: DatepickerDataType | undefined) => {
     if (date?.endDate && date?.startDate) {
@@ -46,7 +49,7 @@ export const CloudFilters = () => {
           </Button>
           {isOpenRange && (
             <div className={styles.wrapperSliderAbsolute}>
-              <RangeSlider label="Bill" />
+              <RangeSlider label={t('bill') as string} />
             </div>
           )}
         </>
@@ -54,13 +57,13 @@ export const CloudFilters = () => {
         <>
           <div className={styles.line} />
           <div className={styles.wrapperSlider}>
-            <RangeSlider label="Bill" />
+            <RangeSlider label={t('bill') as string} />
           </div>
         </>
       )}
       <div className={styles.line} />
       <div className={styles.statusBar}>
-        <StatusBar getStatus={setStatus} />
+        <StatusBar getStatus={setStatus} label={t('statuses') as string} />
       </div>
     </div>
   );

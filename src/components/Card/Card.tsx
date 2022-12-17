@@ -19,6 +19,7 @@ import { visitActions } from '../../redux/visit/actions';
 import { CrossIcon } from '../Icons/CrossIcon';
 import { Button } from '../Button/Button';
 import { clientActions } from '../../redux/clients/actions';
+import { t } from 'i18next';
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
@@ -131,9 +132,9 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
               <img src={images.at(-1)?.publicUrl} alt={`avatar_${images.at(-1)?.id}`} />
             )}
           </div>
-          <div className={styles.name}>{client.name ? client.name : 'Unknown client'}</div>
+          <div className={styles.name}>{client.name}</div>
           <div className={styles.lastVisit}>
-            {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
+            {lastVisit ? getInterval(lastVisit.date) : t('no_visits')}
           </div>
           {client.similar?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
@@ -155,12 +156,12 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
             <div className={styles.shortDescription}>
               <div className={styles.nameClient}>{client.name}</div>
               <div className={styles.textWrapper}>
-                <div className={styles.labelContent}>Last visit</div>
-                {lastVisit ? getInterval(lastVisit.date) : 'No visits'}
+                <div className={styles.labelContent}>{t('last_visit')}</div>
+                {lastVisit ? getInterval(lastVisit.date) : t('no_visits')}
               </div>
               <div className={styles.textWrapper}>
-                <div className={styles.labelContent}>Average bill</div>
-                {client.averageBill || 'no bills'}
+                <div className={styles.labelContent}>{t('average_bill')}</div>
+                {client.averageBill || t('no_bills')}
               </div>
               {pinnedExis && (
                 <>
@@ -191,7 +192,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
             e.stopPropagation();
           }}
         >
-          <div className={styles.coincidentHeader}>Select coincident photo</div>
+          <div className={styles.coincidentHeader}>{t('select_coincident_photo')}</div>
           <div className={styles.horizontalLineCoincident} />
           <div className={styles.profilesWrapper}>
             {client.similar?.map((el) => (
@@ -205,7 +206,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
                     <CrossIcon />
                   </button>
                   <Button className={styles.combainButton} onClick={() => combineSimilar(el.id)}>
-                    Combine
+                    {t('combine')}
                   </Button>
                 </div>
               </div>

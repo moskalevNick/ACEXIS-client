@@ -12,6 +12,7 @@ import { WheelStatusIcon } from '../Icons/StatusIcons/WheelStatusIcon';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientActions } from '../../redux/clients/actions';
 import { useNavigate } from 'react-router-dom';
+import { t } from 'i18next';
 
 type DeleteClientModalType = {
   isOpenDeleteClient: boolean;
@@ -60,10 +61,12 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
       onClose={() => setOpenDeleteClient(false)}
       open={isOpenDeleteClient}
       className={styles.modalDeleteClient}
-      label="Delete client"
+      label={t('delete_client') as string}
     >
       <div className={styles.contentWrapperDeleteClientModal}>
-        <div className={styles.contentDeleteModal}>Are you sure you want to delete the client?</div>
+        <div className={styles.contentDeleteModal}>
+          {t('are_you_sure_you_want_to_delete_the_client')}
+        </div>
         <div className={styles.deleteClientInfoWrapper}>
           {clientAvatar && (
             <img
@@ -75,12 +78,12 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
           <div className={styles.deleteClientDataWrapper}>
             <div className={styles.deleteClientName}>{client.name}</div>
             <div className={styles.deleteClientTextWrapper}>
-              <div className={styles.deleteClientLabelContent}>Last visit</div>
-              {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
+              <div className={styles.deleteClientLabelContent}>{t('last_visit')}</div>
+              {lastVisit ? getInterval(lastVisit.date) : t('no_visits')}
             </div>
             <div className={styles.deleteClientTextWrapper}>
-              <div className={styles.deleteClientLabelContent}>Average bill</div>
-              {client.averageBill || 'No bills'}
+              <div className={styles.deleteClientLabelContent}>{t('average_bill')}</div>
+              {client.averageBill || t('no_bills')}
             </div>
             <div className={styles.deleteClientTextWrapper}>
               <div className={styles.deleteClientStatus}>{getDeleteIcon(client.status)}</div>
@@ -93,10 +96,10 @@ export const ModalDeleteClient: React.FC<DeleteClientModalType> = ({
             outlined
             onClick={() => setOpenDeleteClient(false)}
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button className={styles.logoutButton} onClick={deleteClient}>
-            Delete
+            {t('delete')}
           </Button>
         </div>
       </div>

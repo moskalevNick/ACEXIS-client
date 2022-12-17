@@ -43,6 +43,8 @@ export const futureDate = new Date(
   new Date(new Date().setDate(new Date().getDate() + 1)).setHours(23, 59, 59),
 );
 
+export const dayAgo = new Date(Number(new Date()) - 24 * 60 * 60 * 1000);
+
 export const threeHoursAgo = new Date(new Date().setHours(new Date().getHours() - 3));
 
 export const CLICK_DURATION = 2500; // in ms

@@ -32,6 +32,7 @@ export type ClientType = {
   exises?: ExisType[];
   UserId?: string;
   similar?: SimilarType[];
+  lastIdentified?: Date | null;
 };
 
 export type CreateClientType = {

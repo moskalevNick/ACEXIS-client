@@ -14,6 +14,8 @@ import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { exisActions } from '../../redux/exis/actions';
 import { visitActions } from '../../redux/visit/actions';
+import { t } from 'i18next';
+import { dayAgo } from '../../helpers/constants';
 
 type ExisContainerType = {
   clientId?: string;
@@ -135,7 +137,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                 </div>
                 <button className={styles.unpinButton} onClick={unpinExis}>
                   <PinnedIcon stroke="#fff" />
-                  <div className={styles.labelUnpinButton}>Unpin this EXIS</div>
+                  <div className={styles.labelUnpinButton}>{t('unpin_this_exis')}</div>
                 </button>
 
                 <div className={styles.pinnedMessageText}>{pinnedExis.text}</div>
@@ -156,9 +158,11 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                       <button onClick={() => pinExis(exis)}>
                         <PinnedIcon />
                       </button>
-                      <button onClick={() => editExis(exis)}>
-                        <EditIcon />
-                      </button>
+                      {new Date(exis.date) > dayAgo && (
+                        <button onClick={() => editExis(exis)}>
+                          <EditIcon />
+                        </button>
+                      )}
                       <button onClick={() => confirmDeleteExis(exis)}>
                         <CrossInSquareIcon />
                       </button>
@@ -169,11 +173,11 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                     onClose={() => setOpenDeleteExis(false)}
                     open={isOpenDeleteExis}
                     className={styles.modalDeleteExis}
-                    label="Delete EXIS"
+                    label={t('delete_exis') as string}
                   >
                     <div className={styles.contentWrapperDeleteClientModal}>
                       <div className={styles.contentDeleteModal}>
-                        Are you sure you want to delete this EXIS?
+                        {t('are_you_sure_you_want_to_delete_this_exis')}
                       </div>
                       <div className={styles.deleteExisWrapper}>
                         <div className={styles.deleteExisDate}>
@@ -192,10 +196,10 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
                           outlined
                           onClick={() => setOpenDeleteExis(false)}
                         >
-                          Cancel
+                          {t('cancel')}
                         </Button>
                         <Button className={styles.logoutButton} onClick={deleteExis}>
-                          Delete
+                          {t('delete')}
                         </Button>
                       </div>
                     </div>
@@ -205,7 +209,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
             </div>
           </>
         ) : (
-          <div className={styles.noExis}>No EXIS</div>
+          <div className={styles.noExis}>{t('no_exis')}</div>
         )}
         <div className={exisInputWrapperClassnames}>
           <div className={styles.horizontalLine} />
@@ -213,7 +217,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
             <div className={styles.wrapperEdittingInpt}>
               <div className={styles.labelEdittingInput}>
                 <EditIcon />
-                Editing
+                {t('editing')}
               </div>
               <div className={styles.editingExisText}>{editingExis.text}</div>
               <Input
@@ -235,7 +239,7 @@ export const ExisContainer: React.FC<ExisContainerType> = ({ clientId }) => {
             <>
               <Input
                 className={styles.exisInput}
-                placeholder="Enter EXIS"
+                placeholder={t('enter_exis') as string}
                 value={newExisText}
                 onChange={(e) => setNewExisText(e.target.value)}
               />

@@ -7,6 +7,7 @@ import AuthService from '../../services/AuthService';
 import axios from 'axios';
 import { UserType } from '../../types';
 import UserService from '../../services/UserService';
+import i18next from 'i18next';
 
 type authType = {
   username: string;
@@ -33,8 +34,14 @@ export const globalActions = {
           ...response.data,
         };
       } catch (e) {
+        const locale = i18next.resolvedLanguage;
+        const nottificationText: string =
+          locale === 'ru'
+            ? 'Ошибка при входе в аккаунт'
+            : 'There was a problem with your login or password';
+
         Nottification({
-          text: 'there was a problem with your login or password',
+          text: nottificationText,
         });
         return {
           isAuth: false,

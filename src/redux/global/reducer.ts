@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import { UserAvatarType } from './../../types';
 import { modules } from '../modules';
 import { globalActions } from './actions';
@@ -107,10 +107,10 @@ const globalSlice = createSlice({
       .addCase(globalActions.uploadAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload;
         state.isAvatarLoading = false;
-
+        const isRus = state.isRus;
         Nottification({
           avatar: action.payload.publicUrl,
-          text: 'Avatar successfully upload',
+          text: isRus ? 'Фото профиля успешно обновлено' : 'Avatar successfully upload',
         });
       })
       .addCase(globalActions.uploadAvatar.rejected, (state) => {

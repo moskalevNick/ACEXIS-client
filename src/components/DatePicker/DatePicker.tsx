@@ -16,7 +16,7 @@ import {
   yesterdayEndDay,
   yesterdayStartDay,
 } from '../../helpers/constants';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { useTranslation } from 'react-i18next';
 import ru from 'date-fns/locale/ru';
@@ -34,13 +34,27 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
   const [monthFull, setMonthFull] = useState(monthFullEng);
   const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const { date } = useAppSelector((state) => state.clientReducer.filters);
 
   useEffect(() => {
-    // console.log(document.body.getAttribute('dir'));
-    // if (i18n.resolvedLanguage === 'ru') {
-    //   setMonthFull(monthFullRus);
-    // } else setMonthFull(monthFullEng);
-  }, [document.body.getAttribute]);
+    if (date.startDate && date.endDate) {
+      if (
+        date.startDate === veryOldDate.toISOString() &&
+        date.endDate === futureDate.toISOString()
+      ) {
+        resetRange();
+      } else {
+        setStartDate(new Date(date.startDate));
+        setEndDate(new Date(date.endDate));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (i18n.resolvedLanguage === 'ru') {
+      setMonthFull(monthFullRus);
+    } else setMonthFull(monthFullEng);
+  }, [document]);
 
   const onChange = (dates: [Date, Date]) => {
     const [start, end] = dates;
@@ -92,7 +106,7 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
         onChange={onChange}
         startDate={startDate}
         endDate={endDate}
-        placeholderText="Select date"
+        placeholderText={i18n.resolvedLanguage === 'ru' ? 'Выберите дату' : 'Select date'}
         dateFormat={isShort ? 'dd/MM' : 'MMM dd'}
         locale={i18n.resolvedLanguage === 'en' ? 'en' : ru}
         selectsRange

@@ -6,6 +6,7 @@ import { Nottification } from '../../components/Nottification/Nottification';
 import { yesterdayStartDay, yesterdayEndDay } from '../../helpers/constants';
 import { globalActions } from '../global/actions';
 import { RootStateExtended } from '../store';
+import i18next from 'i18next';
 
 export const defaultFilterValues: FiltersType = {
   searchString: '',
@@ -113,10 +114,14 @@ export const clientSlice = createSlice({
           avatar = action.payload.images[action.payload.images.length - 1].publicUrl;
         }
 
+        const locale = i18next.resolvedLanguage;
+        const nottificationText: string =
+          locale === 'ru' ? 'Клиент успешно обновлен' : 'This client successfully updated';
+
         Nottification({
           name: action.payload.name,
           avatar: avatar,
-          text: 'This client successfully updated',
+          text: nottificationText,
         });
       })
       .addCase(clientActions.editClient.rejected, (state) => {

@@ -30,8 +30,6 @@ export const CloudModule = () => {
     (state) => state.clientReducer,
   );
 
-  const [actualFilters, setActualFilters] = useState<FiltersType>(filters);
-
   const containerClassnames = classNames(
     styles.container,
     isFullScreenCameraOpen && styles.containerWithCamera,
@@ -64,22 +62,13 @@ export const CloudModule = () => {
 
   useEffect(() => {
     if (!id && !isClientLoading) {
-      const dateForServer = {
-        startDate: yesterdayStartDay.toISOString(),
-        endDate: yesterdayEndDay.toISOString(),
-      };
-
-      dispatch(clientSettingsActions.setFilterDate(dateForServer));
       dispatch(clientActions.getClients());
     }
   }, [dispatch, id, isClientLoading]);
 
   useEffect(() => {
-    if (JSON.stringify(actualFilters) !== JSON.stringify(filters)) {
-      setActualFilters(filters);
-      dispatch(clientActions.getClients());
-    }
-  }, [filters, actualFilters, dispatch]);
+    dispatch(clientActions.getClients());
+  }, [dispatch, filters]);
 
   const addNewClient = () => {
     navigate('/cloud/new');

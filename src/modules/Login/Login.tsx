@@ -86,7 +86,7 @@ export const Login = () => {
               <ControlWrapperForm label={t('password')} name="password" error={loginError}>
                 <Input placeholder={t('enter_your_password') as string} />
               </ControlWrapperForm>
-              {loginError && <ErrorMessage msg="Wrong login or password" />}
+              {loginError && <ErrorMessage msg={t('wrong_login_or_password')} />}
               <div className={styles.buttonsContainer}>
                 <span className={styles.checkbox}>
                   <Checkbox
@@ -107,7 +107,7 @@ export const Login = () => {
         </div>
         <div className={styles.wrapperToggleTheme}>
           <ToggleSwitch
-            checked={theme === 'light'}
+            checked={theme === 'dark'}
             onChange={() => {
               dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
             }}

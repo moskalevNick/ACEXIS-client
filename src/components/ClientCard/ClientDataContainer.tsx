@@ -13,6 +13,8 @@ import { ImageWrapper } from '../ImageWrapper/ImageWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { imagesActions } from '../../redux/images/actions';
 import { useParams } from 'react-router-dom';
+import i18next, { t } from 'i18next';
+import { UploadBigIconRus } from '../Icons/UploadBigIconRus';
 
 type ClientDataContainerType = {
   clientImages: ImageType[] | [];
@@ -31,7 +33,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  const [billValue, setBillValue] = useState<number>(0);
+  const [billValue, setBillValue] = useState<string>('');
   const [phoneInputStr, setPhoneInputStr] = useState<string>(client.phone);
   const [averageBill, setAverageBill] = useState<number>(client.averageBill || 0);
   const [billsAmount, setBillsAmount] = useState<number>(client.billsAmount || 0);
@@ -52,10 +54,12 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
 
   const addBill = () => {
     if (billValue) {
-      setAverageBill((prev) => (prev + billValue) / (billsAmount + 1));
-      setBillsAmount((prev) => prev + 1);
+      if (!isNaN(Number(billValue))) {
+        setAverageBill((prev) => prev + Number(billValue) / (billsAmount + 1));
+        setBillsAmount((prev) => prev + 1);
+      }
     }
-    setBillValue(0);
+    setBillValue('');
   };
 
   const { avatarImage, imageGalery } = useMemo(() => {
@@ -133,7 +137,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
         ) : (
           <>
             <input className={styles.uploadButton} type="file" onChange={uploadImage} />
-            <UploadBigIcon />
+            {i18next.resolvedLanguage === 'ru' ? <UploadBigIconRus /> : <UploadBigIcon />}
           </>
         )}
       </div>
@@ -141,15 +145,15 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       <div className={styles.clientContent}>
         <div className={styles.clientName}>{client.name}</div>
         <div className={styles.textWrapper}>
-          <div className={styles.labelContent}>Last visit</div>
-          {lastVisit ? getInterval(lastVisit.date) : 'no visits'}
+          <div className={styles.labelContent}>{t('last_visit')}</div>
+          {lastVisit ? getInterval(lastVisit.date) : t('no_visits')}
         </div>
         <div className={styles.textWrapper}>
-          <div className={styles.labelContent}>Average bill</div>
-          {Math.round(averageBill) || 'No bills'}
+          <div className={styles.labelContent}>{t('average_bill')}</div>
+          {Math.round(averageBill) || t('no_bills')}
         </div>
         <div className={styles.textWrapper}>
-          <div className={styles.labelContent}>Status</div>
+          <div className={styles.labelContent}>{t('status')}</div>
           <StatusBar
             getStatus={getStatus}
             label=""
@@ -159,9 +163,9 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
           />
         </div>
         <div className={styles.textWrapper}>
-          <div className={labelFixContent}>Phone number</div>
+          <div className={labelFixContent}>{t('phone_number')}</div>
           <Input
-            placeholder={'Enter phone number'}
+            placeholder={t('enter_phone_number') as string}
             className={styles.inputPhone}
             containerClassName={styles.containerInput}
             value={phoneInputStr}
@@ -169,24 +173,23 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
           />
         </div>
         <div className={styles.textWrapper}>
-          <div className={labelFixContent}>Bill amount</div>
+          <div className={labelFixContent}>{t('bill_amount')}</div>
           <div className={styles.billWrapper}>
             <Input
               className={styles.billInput}
               containerClassName={styles.containerInputBill}
-              placeholder="Bill"
+              placeholder={t('bill2') as string}
               value={billValue}
-              type="number"
-              onChange={(e) => setBillValue(+e.target.value)}
+              onChange={(e) => setBillValue(e.target.value)}
             />
             <Button onClick={addBill} className={styles.modalBillButton}>
-              Enter
+              {t('enter')}
             </Button>
           </div>
         </div>
         {!isNew && (
           <div className={styles.textWrapper}>
-            <div className={labelFixContent}>Delete client</div>
+            <div className={labelFixContent}>{t('delete_client')}</div>
             <div className={styles.deleteClientWrapper}>
               <Button
                 onClick={() => setOpenDeleteClient(true)}
@@ -195,7 +198,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
                 orange
                 beforeIcon={<CrossIcon />}
               >
-                Delete
+                {t('delete')}
               </Button>
             </div>
           </div>
