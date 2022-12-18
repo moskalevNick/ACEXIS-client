@@ -23,7 +23,7 @@ type updateFormDataType = {
 };
 
 const defaultValues: CreateClientType = {
-  name: '',
+  name: 'Unknown Client',
   status: 'ghost',
   phone: '',
 };
