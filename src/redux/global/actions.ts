@@ -17,6 +17,7 @@ type authType = {
 type registrationType = {
   username: string;
   password: string;
+  cameraToken: string;
 };
 
 export const globalActions = {
@@ -52,8 +53,8 @@ export const globalActions = {
 
   registration: createAsyncThunk(
     getActionName(modules.GLOBAL, actionNames[modules.GLOBAL].registration),
-    async ({ username, password }: registrationType) => {
-      const response = await AuthService.registration(username, password);
+    async ({ username, password, cameraToken }: registrationType) => {
+      const response = await AuthService.registration(username, password, cameraToken);
       return response.data;
     },
   ),

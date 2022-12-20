@@ -14,11 +14,13 @@ import { globalActions } from '../../redux/global/actions';
 type FormType = {
   username: string;
   password: string;
+  cameraToken: string;
 };
 
 const defaultValues: FormType = {
   username: '',
   password: '',
+  cameraToken: '',
 };
 
 export const Registration = () => {
@@ -68,11 +70,14 @@ export const Registration = () => {
           Registration new user
           <FormProvider {...methods}>
             <form noValidate onSubmit={submit} autoComplete="off">
-              <ControlWrapperForm label="username" name="username" error={formError}>
+              <ControlWrapperForm label="Username" name="username" error={formError}>
                 <Input placeholder="Enter username" />
               </ControlWrapperForm>
               <ControlWrapperForm label="Password" name="password" error={formError}>
                 <Input placeholder="Enter password" />
+              </ControlWrapperForm>
+              <ControlWrapperForm label="Camera token" name="cameraToken" error={formError}>
+                <Input placeholder="Enter camera token" />
               </ControlWrapperForm>
               {formError && <ErrorMessage msg="incorrect username or password" />}
               <div className={styles.buttonsContainer}>

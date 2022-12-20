@@ -150,7 +150,7 @@ export type UserType = {
   password?: string;
   minBill?: number;
   maxBill?: number;
-  linkBot?: string;
+  chatId?: string;
   isRus?: boolean;
   isDark?: boolean;
 };

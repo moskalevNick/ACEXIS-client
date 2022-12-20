@@ -12,7 +12,7 @@ const globalSlice = createSlice({
     isRus: false,
     isAuth: false,
     isDark: false,
-    linkBot: null,
+    chatId: null,
     maxBill: 0,
     minBill: 0,
     isLoading: false,
@@ -41,7 +41,7 @@ const globalSlice = createSlice({
         state.avatar = action.payload.avatar;
         state.isAuth = action.payload.isAuth;
         state.isDark = action.payload.isDark;
-        state.linkBot = action.payload.linkBot;
+        state.chatId = action.payload.chatId;
         state.isRus = action.payload.isRus;
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
@@ -76,7 +76,7 @@ const globalSlice = createSlice({
         state.isAuth = action.payload.isAuth;
         state.avatar = action.payload.avatar;
         state.isDark = action.payload.isDark;
-        state.linkBot = action.payload.linkBot;
+        state.chatId = action.payload.chatId;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.maxBill = action.payload.maxBill;
@@ -91,7 +91,7 @@ const globalSlice = createSlice({
 
       .addCase(globalActions.editSettings.fulfilled, (state, action) => {
         state.isDark = action.payload.isDark;
-        state.linkBot = action.payload.linkBot;
+        state.chatId = action.payload.chatId;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.minBill = action.payload.minBill;

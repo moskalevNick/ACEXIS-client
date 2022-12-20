@@ -7,8 +7,8 @@ export default class AuthService {
     return $api.post(`${path}/login`, { username, password });
   }
 
-  static async registration(username: string, password: string) {
-    return $api.post(`${path}/registration`, { username, password });
+  static async registration(username: string, password: string, cameraToken: string) {
+    return $api.post(`${path}/registration`, { username, password, cameraToken });
   }
 
   static async checkAuth(refreshToken: string) {

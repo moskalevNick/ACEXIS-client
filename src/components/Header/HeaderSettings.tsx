@@ -22,7 +22,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
-  const { minBill, maxBill, linkBot, avatar, isAvatarLoading } = useAppSelector(
+  const { minBill, maxBill, chatId, avatar, isAvatarLoading } = useAppSelector(
     (state) => state.globalReducer,
   );
   const { isDark } = useAppSelector((state) => state.globalReducer);
@@ -30,7 +30,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const refAvatar = useRef<HTMLHeadingElement>(null);
   const [minBillInputValue, setMinBillInputValue] = useState(minBill);
   const [maxBillInputValue, setMaxBillInputValue] = useState(maxBill);
-  const [botInputValue, setBotInputValue] = useState(linkBot || '');
+  const [botInputValue, setBotInputValue] = useState(chatId || '');
   const { t, i18n } = useTranslation();
 
   const handleClickOutside = useCallback((e: any) => {
@@ -55,7 +55,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
       globalActions.editSettings({
         minBill: minBillInputValue,
         maxBill: maxBillInputValue,
-        linkBot: botInputValue,
+        chatId: botInputValue,
         isRus: i18n.resolvedLanguage === 'ru',
       }),
     );
