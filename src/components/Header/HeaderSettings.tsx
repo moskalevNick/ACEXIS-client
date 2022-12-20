@@ -9,7 +9,6 @@ import { SettingIcon } from '../Icons/SettingIcon';
 import { Modal } from '../Modal/Modal';
 import { UploadIconEng } from '../Icons/UploadIconEng';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { globalSettingActions } from '../../redux/global/reducer';
 import { globalActions } from '../../redux/global/actions';
 import { Loader } from '../Loader/Loader';
 import { LanguageSelect } from '../LanguageSelect/LanguageSelect';
@@ -23,9 +22,10 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
-  const { minBill, maxBill, linkBot, isRus, theme, avatar, isAvatarLoading } = useAppSelector(
+  const { minBill, maxBill, linkBot, avatar, isAvatarLoading } = useAppSelector(
     (state) => state.globalReducer,
   );
+  const { isDark } = useAppSelector((state) => state.globalReducer);
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
   const [minBillInputValue, setMinBillInputValue] = useState(minBill);
@@ -64,11 +64,9 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   };
 
   const changeTheme = () => {
-    dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
-
     dispatch(
       globalActions.editSettings({
-        isDark: theme === 'light' ? true : false,
+        isDark: !isDark,
       }),
     );
   };
@@ -83,7 +81,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
     <>
       <div className={styles.settingsContainer}>
         <div className={styles.toggleThemeContainer}>
-          <ToggleSwitch checked={theme === 'dark'} size="short" onChange={changeTheme} />
+          <ToggleSwitch checked={isDark} size="short" onChange={changeTheme} />
         </div>
         <div
           className={styles.avatarContainer}

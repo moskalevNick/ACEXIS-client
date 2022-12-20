@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
 import { ArrowRightIcon } from '../Icons/ArrowRightIcon';
@@ -15,20 +15,24 @@ import { imagesActions } from '../../redux/images/actions';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { Loader } from '../Loader/Loader';
 import { useTranslation } from 'react-i18next';
+import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
+import { clientActions } from '../../redux/clients/actions';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
   const [isOpenCameraWidget, setOpenCameraWidget] = useState(false);
   const [isOpenSearchInput, setOpenSearchInput] = useState(false);
+  const [placeholderText, setPlaceholderText] = useState('Name, phone, exis');
   const isOpenFullScreenCamera = useAppSelector(
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
-  const { theme, cameraToken } = useAppSelector((state) => state.globalReducer);
+  const { isDark } = useAppSelector((state) => state.globalReducer);
+  const { cameraToken } = useAppSelector((state) => state.globalReducer);
   const cameraView = useAppSelector((state) => state.imageReducer.cameraFrame);
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
-    if (isOpenCameraWidget) {
+    if (isOpenCameraWidget && window.location.pathname !== '/') {
       const interval = setInterval(() => {
         dispatch(imagesActions.getStream(cameraToken));
       }, 1000);
@@ -53,9 +57,15 @@ export const Header = () => {
     styles.wrapperSectionToggleWithOpenCamera,
   );
 
-  useLayoutEffect(() => {
-    document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
-  }, [theme]);
+  useEffect(() => {
+    document.body.setAttribute('color-theme', !isDark ? 'light' : 'dark');
+  }, [isDark]);
+
+  useEffect(() => {
+    if (i18n.resolvedLanguage === 'ru') {
+      setPlaceholderText('Имя, телефон, эксис');
+    } else setPlaceholderText('Name, phone, exis');
+  }, [i18n.resolvedLanguage]);
 
   const onClickWidget = () => {
     setOpenCameraWidget((prev) => !prev);
@@ -64,6 +74,14 @@ export const Header = () => {
 
   const onInputChange = (e: string) => {
     dispatch(clientSettingsActions.setSearchString(e));
+  };
+
+  const setYesterday = () => {
+    const dateForServer = {
+      startDate: yesterdayStartDay.toISOString(),
+      endDate: yesterdayEndDay.toISOString(),
+    };
+    dispatch(clientSettingsActions.setFilterDate(dateForServer));
   };
 
   return (
@@ -123,6 +141,7 @@ export const Header = () => {
                   to="/cloud"
                   className={styles.section}
                   style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                  onClick={setYesterday}
                 >
                   Cloud
                 </NavLink>
@@ -131,7 +150,7 @@ export const Header = () => {
           ) : (
             <Input
               beforeIcon={<SearchIcon />}
-              placeholder={t('name_phone_exis') as string}
+              placeholder={placeholderText}
               containerClassName={styles.inputHeader}
               onChange={(e) => onInputChange(e.target.value)}
             />
@@ -141,7 +160,7 @@ export const Header = () => {
         <>
           <Input
             beforeIcon={<SearchIcon />}
-            placeholder={t('name_phone_exis') as string}
+            placeholder={placeholderText}
             containerClassName={styles.inputHeader}
             onChange={(e) => onInputChange(e.target.value)}
           />

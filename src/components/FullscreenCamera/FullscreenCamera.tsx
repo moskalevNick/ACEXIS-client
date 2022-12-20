@@ -14,13 +14,15 @@ export const FullscreenCamera = () => {
   const { cameraToken } = useAppSelector((state) => state.globalReducer);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(imagesActions.getStream(cameraToken));
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-      dispatch(imageSettingsActions.resetCameraFrame());
-    };
+    if (window.location.pathname !== '/') {
+      const interval = setInterval(() => {
+        dispatch(imagesActions.getStream(cameraToken));
+      }, 1000);
+      return () => {
+        clearInterval(interval);
+        dispatch(imageSettingsActions.resetCameraFrame());
+      };
+    }
   }, [dispatch]);
 
   return (

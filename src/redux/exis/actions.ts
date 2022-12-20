@@ -1,14 +1,13 @@
 import { visitActions } from './../visit/actions';
 import { UpdateVisitType, VisitsType } from './../../types';
 import { threeHoursAgo } from './../../helpers/constants';
-import { LastVisitType, selectVisits } from './../visit/reducers';
+import { selectVisits } from './../visit/reducers';
 import { CreateExisType, EditExisType } from '../../types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ExisService from '../../services/ExisService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
-import VisitService from '../../services/VisitService';
 
 export const exisActions = {
   getExises: createAsyncThunk(

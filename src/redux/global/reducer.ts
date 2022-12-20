@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { UserAvatarType } from './../../types';
 import { modules } from '../modules';
 import { globalActions } from './actions';
@@ -7,11 +7,11 @@ import { Nottification } from '../../components/Nottification/Nottification';
 const globalSlice = createSlice({
   name: modules.GLOBAL,
   initialState: {
-    theme: 'light',
     role: 'user',
     isFullScreenCameraOpen: false,
     isRus: false,
     isAuth: false,
+    isDark: false,
     linkBot: null,
     maxBill: 0,
     minBill: 0,
@@ -21,9 +21,6 @@ const globalSlice = createSlice({
     cameraToken: '',
   },
   reducers: {
-    setTheme: (state, action) => {
-      state.theme = action.payload;
-    },
     setFSCamera: (state, action) => {
       state.isFullScreenCameraOpen = action.payload;
     },
@@ -43,7 +40,7 @@ const globalSlice = createSlice({
       .addCase(globalActions.login.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
         state.isAuth = action.payload.isAuth;
-        state.theme = action.payload.isDark ? 'dark' : 'light';
+        state.isDark = action.payload.isDark;
         state.linkBot = action.payload.linkBot;
         state.isRus = action.payload.isRus;
         state.maxBill = action.payload.maxBill;
@@ -78,7 +75,7 @@ const globalSlice = createSlice({
       .addCase(globalActions.checkAuth.fulfilled, (state, action) => {
         state.isAuth = action.payload.isAuth;
         state.avatar = action.payload.avatar;
-        state.theme = action.payload.isDark ? 'dark' : 'light';
+        state.isDark = action.payload.isDark;
         state.linkBot = action.payload.linkBot;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
@@ -93,7 +90,7 @@ const globalSlice = createSlice({
       })
 
       .addCase(globalActions.editSettings.fulfilled, (state, action) => {
-        state.theme = action.payload.isDark ? 'dark' : 'light';
+        state.isDark = action.payload.isDark;
         state.linkBot = action.payload.linkBot;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');

@@ -6,7 +6,6 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { modules } from '../modules';
 import { visitActions } from './actions';
 import { clientActions } from '../clients/actions';
-import { useAppSelector } from '../../hooks/redux';
 import { RootStateExtended } from '../store';
 
 export type LastVisitType = Record<string, VisitsType | undefined>;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '../../components/Button/Button';
 import { RangeSlider } from '../../components/RangeSlider/RangeSlider';
@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 export const CloudFilters = () => {
   const [isOpenRange, setOpenRange] = useState(false);
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
-  const { filters } = useAppSelector((state) => state.clientReducer);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 

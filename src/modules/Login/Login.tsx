@@ -34,7 +34,8 @@ export const Login = () => {
   const dispatch = useAppDispatch();
   const [isRemember, setRemember] = useState(true);
   const [loginError, setLoginError] = useState(false);
-  const { theme, isLoading } = useAppSelector((state) => state.globalReducer);
+  const { isDark } = useAppSelector((state) => state.globalReducer);
+  const { isLoading } = useAppSelector((state) => state.globalReducer);
   const { t, i18n } = useTranslation();
 
   const methods = useForm<FormType>({
@@ -47,8 +48,8 @@ export const Login = () => {
   }, [dispatch]);
 
   useLayoutEffect(() => {
-    document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
-  }, [theme]);
+    document.body.setAttribute('color-theme', !isDark ? 'light' : 'dark');
+  }, [isDark]);
 
   const { handleSubmit, watch } = methods;
 
@@ -107,9 +108,13 @@ export const Login = () => {
         </div>
         <div className={styles.wrapperToggleTheme}>
           <ToggleSwitch
-            checked={theme === 'dark'}
+            checked={isDark}
             onChange={() => {
-              dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
+              dispatch(
+                globalActions.editSettings({
+                  isDark: !isDark,
+                }),
+              );
             }}
           />
         </div>

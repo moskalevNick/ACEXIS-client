@@ -1,7 +1,7 @@
 import styles from './ClientCard.module.css';
 import React, { useEffect, useState } from 'react';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, ExisType } from '../../types';
+import { ExisType } from '../../types';
 import { useAppSelector } from '../../hooks/redux';
 import { getDate } from '../../helpers/getDate';
 import { t } from 'i18next';

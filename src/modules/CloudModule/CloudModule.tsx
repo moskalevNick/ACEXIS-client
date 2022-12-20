@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -14,7 +14,6 @@ import { Loader } from '../../components/Loader/Loader';
 import { CloudFilters } from '../../components/CloudFilters';
 import { clientSettingsActions } from '../../redux/clients/reducers';
 import { yesterdayEndDay, yesterdayStartDay } from '../../helpers/constants';
-import { FiltersType } from '../../types';
 import { visitSettingsActions } from '../../redux/visit/reducers';
 import { exisSettingsActions } from '../../redux/exis/reducers';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +22,7 @@ export const CloudModule = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
   const { clients, isLoading, isClientLoading, filters } = useAppSelector(
@@ -64,11 +63,15 @@ export const CloudModule = () => {
     if (!id && !isClientLoading) {
       dispatch(clientActions.getClients());
     }
-  }, [dispatch, id, isClientLoading]);
+  }, [dispatch, id, isClientLoading, filters]);
 
-  useEffect(() => {
-    dispatch(clientActions.getClients());
-  }, [dispatch, filters]);
+  // useEffect(() => {
+  //   const dateForServer = {
+  //     startDate: yesterdayStartDay.toISOString(),
+  //     endDate: yesterdayEndDay.toISOString(),
+  //   };
+  //   dispatch(clientSettingsActions.setFilterDate(dateForServer));
+  // }, [dispatch]);
 
   const addNewClient = () => {
     navigate('/cloud/new');

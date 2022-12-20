@@ -80,6 +80,9 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
     setEndDate(null);
     setIsOpen(false);
     onSubmitDatepicker({ startDate: null, endDate: null });
+  };
+
+  const resetReduxRange = () => {
     const dateForServer = {
       startDate: veryOldDate.toISOString(),
       endDate: futureDate.toISOString(),
@@ -169,7 +172,14 @@ export const Datepicker: React.FC<DatepickerType> = ({ onSubmitDatepicker, isSho
             </div>
             <hr className={styles.secondLine} />
             <div className={styles.submitButtons}>
-              <Button className={styles.cancelButton} outlined onClick={resetRange}>
+              <Button
+                className={styles.cancelButton}
+                outlined
+                onClick={() => {
+                  resetRange();
+                  resetReduxRange();
+                }}
+              >
                 {t('reset_range')}
               </Button>
               <Button className={styles.showButton} onClick={submitRange}>

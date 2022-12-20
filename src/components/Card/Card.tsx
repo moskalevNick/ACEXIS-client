@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { WarningIcon } from '../Icons/WarningIcon';
@@ -10,7 +10,7 @@ import { GoalStatusIcon } from '../Icons/StatusIcons/GoalStatusIcon';
 import { PinnedIcon } from '../Icons/PinnedIcon';
 import styles from './Card.module.css';
 import { getInterval } from '../../helpers/getInterval';
-import { ClientType, SimilarType, UpdateClientType, VisitsType } from '../../types';
+import { ClientType, UpdateClientType } from '../../types';
 import { CLICK_DURATION } from '../../helpers/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { clientSettingsActions } from '../../redux/clients/reducers';
@@ -82,18 +82,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
   const deleteSimilar = (id: string) => {
     dispatch(clientActions.deleteSimilar(id));
   };
-
-  useEffect(() => {
-    if (client.similar) {
-      client.similar.forEach((similar) => {
-        if (!similar.image) {
-          setTimeout(() => {
-            deleteSimilar(similar.id);
-          }, 2000);
-        }
-      });
-    }
-  }, [client]);
 
   const combineSimilar = (id: string) => {
     const currentFaceId: string | undefined = client.similar?.find((el) => el.id === id)?.face_id;

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Login } from './modules/Login/Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CloudModule } from './modules/CloudModule/CloudModule';
@@ -23,7 +23,7 @@ export default function App() {
     if (localStorage.getItem('access-token')) {
       dispatch(globalActions.checkAuth());
     }
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Loader />;

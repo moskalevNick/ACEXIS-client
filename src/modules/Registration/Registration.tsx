@@ -1,14 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
-import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { ControlWrapperForm } from '../../components/ControlWrapper/ControlWrapperForm';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { ToggleSwitch } from '../../components/ToggleSwitch/ToggleSwitch';
-import { MoonIconPreview } from '../../components/Icons/MoonIconPreview';
-import { PlanetIcon } from '../../components/Icons/PlanetIcon';
 import styles from './Registration.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { globalSettingActions } from '../../redux/global/reducer';
@@ -27,7 +24,7 @@ const defaultValues: FormType = {
 export const Registration = () => {
   const dispatch = useAppDispatch();
   const [formError, setFormError] = useState(false);
-  const theme = useAppSelector((state) => state.globalReducer.theme);
+  const { isDark } = useAppSelector((state) => state.globalReducer);
   const isRus = useAppSelector((state) => state.globalReducer.isRus);
 
   const methods = useForm<FormType>({
@@ -40,8 +37,8 @@ export const Registration = () => {
   }, [dispatch]);
 
   useLayoutEffect(() => {
-    document.body.setAttribute('color-theme', theme === 'light' ? 'light' : 'dark');
-  }, [theme]);
+    document.body.setAttribute('color-theme', !isDark ? 'light' : 'dark');
+  }, [isDark]);
 
   const { handleSubmit, watch, reset } = methods;
 
@@ -97,9 +94,13 @@ export const Registration = () => {
         </div>
         <div className={styles.wrapperToggleTheme}>
           <ToggleSwitch
-            checked={theme === 'light'}
+            checked={!isDark}
             onChange={() => {
-              dispatch(globalSettingActions.setTheme(theme === 'light' ? 'dark' : 'light'));
+              dispatch(
+                globalActions.editSettings({
+                  isDark: !isDark,
+                }),
+              );
             }}
           />
         </div>
