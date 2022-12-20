@@ -20,6 +20,7 @@ import { CrossIcon } from '../Icons/CrossIcon';
 import { Button } from '../Button/Button';
 import { clientActions } from '../../redux/clients/actions';
 import { t } from 'i18next';
+
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
@@ -50,6 +51,12 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
         return <WheelStatusIcon />;
       default:
         return <GhostStatusIcon />;
+    }
+  };
+
+  const showSimilar = (ev: { clientX: number; clientY: number }) => {
+    if (!showInfo) {
+      setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY });
     }
   };
 
@@ -126,12 +133,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
           </div>
           {client.similar?.length !== 0 && (
             <div className={styles.coincidentWrapper}>
-              <div
-                className={styles.warningIconWrapper}
-                onMouseEnter={(ev) =>
-                  !showInfo && setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY })
-                }
-              >
+              <div className={styles.warningIconWrapper} onMouseEnter={showSimilar}>
                 <WarningIcon fill="#FF5C00" interfill="#FFF5F0" opacity="1" />
               </div>
             </div>
