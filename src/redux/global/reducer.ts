@@ -89,6 +89,9 @@ const globalSlice = createSlice({
         state.isLoading = false;
       })
 
+      .addCase(globalActions.editSettings.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(globalActions.editSettings.fulfilled, (state, action) => {
         state.isDark = action.payload.isDark;
         state.chatId = action.payload.chatId;
@@ -96,6 +99,15 @@ const globalSlice = createSlice({
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.minBill = action.payload.minBill;
         state.maxBill = action.payload.maxBill;
+        Nottification({
+          text: action.payload.isRus
+            ? 'настройки аккаунта изменены успешно'
+            : 'account settings changed successfully',
+        });
+        state.isLoading = false;
+      })
+      .addCase(globalActions.editSettings.rejected, (state) => {
+        state.isLoading = false;
       })
 
       .addCase(globalActions.uploadAvatar.pending, (state) => {
