@@ -100,7 +100,7 @@ export const Header = () => {
           <div className={styles.smallCameraView}>
             {cameraView && cameraView.img_small ? (
               <img
-                src={`http://94.250.201.198${cameraView.img_small}`}
+                src={`https://recognition.evocontrols.com${cameraView.img_small}`}
                 width={570}
                 className={styles.webcam}
                 alt="webcam"
