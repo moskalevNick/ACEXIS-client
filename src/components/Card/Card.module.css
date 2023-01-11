@@ -124,8 +124,18 @@
   display: none;
 }
 
-.combainButton {
+.buttonsWrapper {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.actionButton {
   display: none;
+  margin-right: 10px;
 }
 
 .imgCoincidentWrapper:hover > .coincidentDeleteButton {
@@ -144,11 +154,8 @@
   fill: #1487f2;
 }
 
-.imgCoincidentWrapper:hover > .combainButton {
+.imgCoincidentWrapper:hover > .buttonsWrapper > .actionButton {
   display: block;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
   width: 104px;
   height: 32px;
   border-radius: 8px;

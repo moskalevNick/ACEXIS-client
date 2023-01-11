@@ -1,6 +1,6 @@
 import axios from 'axios';
 import $api from '../http';
-import { CameraFrameType, ImageType } from '../types';
+import { CameraFrameType, CreateImageType, ImageType } from '../types';
 
 export default class ImageService {
   static async getImages(clientId: string): Promise<ImageType[]> {
@@ -24,13 +24,15 @@ export default class ImageService {
     return response.data;
   }
 
+  static async createImage(createImageDto: CreateImageType): Promise<ImageType> {
+    const response = await $api.post(`images/create/${createImageDto.clientId}`, createImageDto);
+    return response.data;
+  }
+
   static async getStream(cameraToken: string): Promise<CameraFrameType[]> {
     const response = await axios.request({
       url: `https://recognition.evocontrols.com/get_stream.php?token=${cameraToken}`,
       method: 'get',
-      // headers: {
-      //   cookies: 'SameSite=None; Secure',
-      // },
     });
     return response.data;
   }

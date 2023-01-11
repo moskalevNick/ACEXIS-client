@@ -3,6 +3,7 @@ import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';
 import ImageService from '../../services/ImageService';
+import { CreateImageType } from '../../types';
 
 type uploadImageType = {
   clientId: string;
@@ -25,5 +26,9 @@ export const imagesActions = {
   getStream: createAsyncThunk(
     getActionName(modules.IMAGE, actionNames[modules.IMAGE].getCameraFrame),
     async (cameraToken: string) => await ImageService.getStream(cameraToken),
+  ),
+  createImage: createAsyncThunk(
+    getActionName(modules.IMAGE, actionNames[modules.IMAGE].createImage),
+    async (createImageDto: CreateImageType) => await ImageService.createImage(createImageDto),
   ),
 };

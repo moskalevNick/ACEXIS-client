@@ -87,6 +87,28 @@ const imageSlice = createSlice({
         state.isLoading = false;
       })
 
+      .addCase(imagesActions.createImage.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(imagesActions.createImage.fulfilled, (state, action) => {
+        const key = action.payload.clientId;
+        if (!state.images[key] || !state.images[key].length) {
+          state.images = {
+            ...state.images,
+            [key]: [action.payload],
+          };
+        } else {
+          state.images = {
+            ...state.images,
+            [key]: [...state.images[key], action.payload],
+          };
+        }
+        state.isLoading = false;
+      })
+      .addCase(imagesActions.createImage.rejected, (state) => {
+        state.isLoading = false;
+      })
+
       .addCase(imagesActions.deleteImage.pending, (state) => {
         state.isLoading = true;
       })

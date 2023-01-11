@@ -33,6 +33,7 @@ export type ClientType = {
   UserId?: string;
   similar?: SimilarType[];
   lastIdentified?: Date | null;
+  lastVisitDate?: Date | null;
 };
 
 export type CreateClientType = {
@@ -45,6 +46,8 @@ export type CreateClientType = {
   images?: ImageType[];
   visits?: VisitsType[];
   UserId?: string;
+  lastIdentified?: Date | null;
+  lastVisitDate?: Date | null;
 };
 
 export type UpdateClientType = {
@@ -98,6 +101,14 @@ export type ImageType = {
   path: string;
   publicUrl: string;
   clientId: string;
+};
+
+export type CreateImageType = {
+  id?: string;
+  path: string;
+  publicUrl: string;
+  clientId?: string;
+  similarId?: string;
 };
 
 export type UserAvatarType = {

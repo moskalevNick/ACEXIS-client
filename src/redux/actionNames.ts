@@ -8,6 +8,7 @@ export const actionNames = {
     addClient: 'ADD_CLIENT',
     deleteClient: 'DELETE_CLIENT',
     deleteSimilar: 'DELETE_SIMILAR',
+    deleteSimilarImage: 'DELETE_SIMILAR_IMAGE',
   },
   [modules.EXIS]: {
     getExis: 'GET_EXIS',
@@ -24,6 +25,7 @@ export const actionNames = {
     uploadImage: 'UPLOAD_IMAGE',
     deleteImage: 'DELETE_IMAGE',
     getCameraFrame: 'GET_CAMERA_FRAME',
+    createImage: 'CREATE_IMAGE',
   },
   [modules.GLOBAL]: {
     login: 'LOGIN',

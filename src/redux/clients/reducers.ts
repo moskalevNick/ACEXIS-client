@@ -133,6 +133,7 @@ export const clientSlice = createSlice({
       })
       .addCase(clientActions.addClient.fulfilled, (state, action) => {
         state.currentClient = action.payload;
+        state.clients = [...state.clients, action.payload];
         state.isLoading = false;
       })
       .addCase(clientActions.addClient.rejected, (state) => {
@@ -143,8 +144,7 @@ export const clientSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(clientActions.deleteClient.fulfilled, (state, action) => {
-        const clients = current(state.clients);
-        state.clients = clients.filter((el) => el.id !== action.payload.id);
+        state.clients = state.clients.filter((el) => el.id !== action.payload.id);
 
         state.isLoading = false;
       })

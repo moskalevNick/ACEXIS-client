@@ -1,3 +1,4 @@
+import { SimilarImageType } from './../types';
 import $api from '../http';
 import { clientFilterType, ClientType, CreateClientType, FiltersType, SimilarType } from '../types';
 
@@ -83,6 +84,11 @@ export default class ClientsService {
 
   static async deleteSimilar(id: string): Promise<SimilarType> {
     const response = await $api.delete(`similar/${id}`);
+    return response.data;
+  }
+
+  static async deleteSimilarImage(id: string): Promise<SimilarImageType> {
+    const response = await $api.delete(`similar/image/${id}`);
     return response.data;
   }
 }

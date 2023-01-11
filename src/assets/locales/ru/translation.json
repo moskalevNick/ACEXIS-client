@@ -58,5 +58,6 @@
   "enter_exis": "Введите EXIS",
   "are_you_sure_you_want_to_delete_the_client": "Вы уверены, что хотите удалить клиента?",
   "date": "Дата",
-  "wrong_login_or_password": "Неправильный логин или пароль"
+  "wrong_login_or_password": "Неправильный логин или пароль",
+  "new_client": "Новый клиент"
 }

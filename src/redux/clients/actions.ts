@@ -41,7 +41,7 @@ export const clientActions = {
 
   addClient: createAsyncThunk(
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].addClient),
-    async (newClient: Omit<ClientType, 'id' | 'images'>) => {
+    async (newClient: Omit<ClientType, 'id' | 'images'>): Promise<ClientType> => {
       const data = await ClientsService.addClient(newClient);
       return data;
     },
@@ -59,6 +59,14 @@ export const clientActions = {
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].deleteSimilar),
     async (id: string) => {
       const data = await ClientsService.deleteSimilar(id);
+      return data;
+    },
+  ),
+
+  deleteSimilarImage: createAsyncThunk(
+    getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].deleteSimilarImage),
+    async (id: string) => {
+      const data = await ClientsService.deleteSimilarImage(id);
       return data;
     },
   ),
