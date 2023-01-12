@@ -95,6 +95,7 @@ const globalSlice = createSlice({
       .addCase(globalActions.editSettings.fulfilled, (state, action) => {
         state.isDark = action.payload.isDark;
         state.chatId = action.payload.chatId;
+        state.cameraToken = action.payload.cameraToken;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.minBill = action.payload.minBill;

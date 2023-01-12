@@ -15,6 +15,7 @@ import { imagesActions } from '../../redux/images/actions';
 import { useParams } from 'react-router-dom';
 import i18next, { t } from 'i18next';
 import { UploadBigIconRus } from '../Icons/UploadBigIconRus';
+import { Checkbox } from '../Checkbox/Checkbox';
 
 type ClientDataContainerType = {
   clientImages: ImageType[] | [];
@@ -32,15 +33,25 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   updateFormData,
 }) => {
   const dispatch = useAppDispatch();
+
   const { id } = useParams();
   const [billValue, setBillValue] = useState<string>('');
   const [phoneInputStr, setPhoneInputStr] = useState<string>(client.phone);
   const [averageBill, setAverageBill] = useState<number>(client.averageBill || 0);
   const [billsAmount, setBillsAmount] = useState<number>(client.billsAmount || 0);
   const [isNew, setIsNew] = useState<boolean>(false);
+  const [isAddFaces, setIsAddFaces] = useState<boolean>(client.isAddFaces || true);
   const [status, setStatus] = useState<string>(client.status);
 
   const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
+
+  useEffect(() => {
+    if (client.isAddFaces !== null && client.isAddFaces !== undefined) {
+      setIsAddFaces(client.isAddFaces);
+    } else {
+      setIsAddFaces(true);
+    }
+  }, [client.isAddFaces]);
 
   useEffect(() => {
     if (id === 'new') {
@@ -49,8 +60,9 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
   }, [id]);
 
   useEffect(() => {
-    updateFormData({ status, averageBill, billsAmount, phoneInputStr });
-  }, [status, averageBill, billsAmount, phoneInputStr]);
+    updateFormData({ status, averageBill, billsAmount, phoneInputStr, isAddFaces });
+    // eslint-disable-next-line
+  }, [status, averageBill, billsAmount, phoneInputStr, isAddFaces]);
 
   const addBill = () => {
     if (billValue) {
@@ -74,6 +86,7 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
       ),
       imageGalery:
         clientImages.length > 0 &&
+        // eslint-disable-next-line
         clientImages.map((photo, i, arr) => {
           if (i !== arr.length - 1)
             return (
@@ -132,6 +145,12 @@ export const ClientDataContainer: React.FC<ClientDataContainerType> = ({
                   <SquareUploadIcon />
                 </div>
               )}
+            </div>
+            <div className={styles.stopRecognitionContainer}>
+              <div className={labelFixContent}>{t('propose_new_faces')}</div>
+              <div className={styles.billWrapper}>
+                <Checkbox checked={isAddFaces} onChange={() => setIsAddFaces((prev) => !prev)} />
+              </div>
             </div>
           </div>
         ) : (

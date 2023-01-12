@@ -34,6 +34,7 @@ export type ClientType = {
   similar?: SimilarType[];
   lastIdentified?: Date | null;
   lastVisitDate?: Date | null;
+  isAddFaces?: boolean;
 };
 
 export type CreateClientType = {
@@ -162,6 +163,7 @@ export type UserType = {
   minBill?: number;
   maxBill?: number;
   chatId?: string;
+  cameraToken?: string;
   isRus?: boolean;
   isDark?: boolean;
 };

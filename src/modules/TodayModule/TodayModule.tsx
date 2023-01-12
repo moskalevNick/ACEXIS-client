@@ -41,14 +41,16 @@ export const TodayModule = () => {
       clearInterval(interval);
       dispatch(imageSettingsActions.resetCameraFrame());
     };
-  }, [dispatch]);
+  }, [dispatch, cameraToken]);
 
   useEffect(() => {
     if (isFaceOnCamera) {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         dispatch(clientActions.getClients());
         dispatch(imageSettingsActions.resetFaceOnCamera());
       }, 1000);
+
+      return clearTimeout(timeout);
     }
   }, [dispatch, isFaceOnCamera]);
 

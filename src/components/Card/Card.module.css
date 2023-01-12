@@ -44,7 +44,7 @@
 .coincidentContainer {
   position: absolute;
   z-index: 1;
-  width: 588px;
+  max-width: 588px;
   max-height: 494px;
   background-color: var(--login-background);
   padding: 24px;
@@ -96,6 +96,10 @@
 
 .coincidentCard {
   margin-bottom: 20px;
+}
+
+.coincidentCard:nth-child(even) {
+  margin-left: 10px;
 }
 
 .imgCoincidentWrapper {

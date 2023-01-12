@@ -22,7 +22,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
-  const { minBill, maxBill, chatId, avatar, isAvatarLoading } = useAppSelector(
+  const { minBill, maxBill, chatId, avatar, isAvatarLoading, cameraToken } = useAppSelector(
     (state) => state.globalReducer,
   );
   const { isDark } = useAppSelector((state) => state.globalReducer);
@@ -31,6 +31,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [minBillInputValue, setMinBillInputValue] = useState(minBill);
   const [maxBillInputValue, setMaxBillInputValue] = useState(maxBill);
   const [botInputValue, setBotInputValue] = useState(chatId || '');
+  const [tokenInputValue, setTokenInputValue] = useState(cameraToken || '');
   const { t, i18n } = useTranslation();
 
   const handleClickOutside = useCallback((e: any) => {
@@ -56,6 +57,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         minBill: minBillInputValue,
         maxBill: maxBillInputValue,
         chatId: botInputValue,
+        cameraToken: tokenInputValue,
         isRus: i18n.resolvedLanguage === 'ru',
       }),
     );
@@ -147,14 +149,25 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
               />
             </div>
             <hr className={styles.line} />
-            <div className={styles.botWrapper}>
-              <div className={styles.botLabel}>{t('chat_bot_telegram')}</div>
-              <Input
-                className={styles.botInput}
-                placeholder={t('link_chat_bot_telegram') as string}
-                value={botInputValue}
-                onChange={(e) => setBotInputValue(e.target.value)}
-              />
+            <div className={styles.botTokenWrapper}>
+              <>
+                <div className={styles.botLabel}>{t('chat_bot_telegram')}</div>
+                <Input
+                  className={styles.botInput}
+                  placeholder={t('link_chat_bot_telegram') as string}
+                  value={botInputValue}
+                  onChange={(e) => setBotInputValue(e.target.value)}
+                />
+              </>
+              <>
+                <div className={styles.botLabel}>{t('camera_token')}</div>
+                <Input
+                  className={styles.botInput}
+                  placeholder={t('camera_token') as string}
+                  value={tokenInputValue}
+                  onChange={(e) => setTokenInputValue(e.target.value)}
+                />
+              </>
             </div>
             <hr className={styles.line} />
             <div className={styles.uploadPhotoWrapper}>

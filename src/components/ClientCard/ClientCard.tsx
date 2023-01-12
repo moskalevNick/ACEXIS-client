@@ -20,6 +20,7 @@ type updateFormDataType = {
   phoneInputStr: string;
   averageBill?: number;
   billsAmount?: number;
+  isAddFaces?: boolean;
 };
 
 const defaultValues: CreateClientType = {
@@ -106,6 +107,7 @@ export const ClientCard: FC<{ currentClient: ClientType }> = ({ currentClient })
         phone: data.phoneInputStr,
         averageBill: data.averageBill,
         billsAmount: data.billsAmount,
+        isAddFaces: data.isAddFaces,
       };
     });
   };

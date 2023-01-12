@@ -252,18 +252,19 @@
   margin-left: 14px;
 }
 
-.botWrapper {
-  margin: 24px 0;
+.botTokenWrapper {
+  display: flex;
 }
 
 .botLabel {
+  margin-right: 24px;
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 16px;
 }
 
 .botInput {
-  width: 296px;
+  width: 150px;
   height: 42px;
 }
 

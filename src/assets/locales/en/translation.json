@@ -59,5 +59,7 @@
   "are_you_sure_you_want_to_delete_the_client": "Are you sure you want to delete the client?",
   "date": "Date",
   "wrong_login_or_password": "Wrong login or password",
-  "new_client": "New client"
+  "new_client": "New client",
+  "camera_token": "Camera token",
+  "propose_new_faces": "Propose new faces"
 }

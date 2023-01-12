@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { ClientType, FiltersType } from '../../types';
 import { modules } from '../modules';
 import { clientActions } from './actions';

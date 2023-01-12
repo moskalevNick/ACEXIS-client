@@ -43,7 +43,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
   const images = useAppSelector((state) => state.imageReducer.images[client.id]);
   const pinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis[client.id]);
   const lastVisit = useAppSelector((state) => state.visitReducer.lastVisits[client.id]);
-  const currentClient = useAppSelector((state) => state.clientReducer.currentClient);
 
   const chooseIcon = (status: string) => {
     switch (status) {
@@ -62,14 +61,22 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
     }
   };
 
-  const showSimilar = (ev: { clientX: number; clientY: number }) => {
-    if (!showInfo) {
-      setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY });
+  const showSimilar = (ev: any) => {
+    if (!showInfo || showInfo.id !== ev.id) {
+      if (ev.view.innerWidth - ev.clientX < 600 && client.similar) {
+        if (client.similar?.length > 1) {
+          setShowInfo({ id: client.id, x: ev.clientX - 650, y: ev.clientY });
+        } else {
+          setShowInfo({ id: client.id, x: ev.clientX - 400, y: ev.clientY });
+        }
+      } else {
+        setShowInfo({ id: client.id, x: ev.clientX, y: ev.clientY });
+      }
     }
   };
 
   const closeShortDescription = (e: any) => {
-    // FIXME: delete bobbling
+    // FIXME: delete bobbling (maybe not actual)
     setShortDescriptionVisible(false);
   };
 
@@ -135,8 +142,6 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
             publicUrl: currentSimilar.image.publicUrl,
           }),
         );
-
-        dispatch(clientActions.deleteSimilarImage(currentSimilar.image.id));
       }
       dispatch(clientActions.deleteSimilar(id));
     }
@@ -166,13 +171,12 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
 
       dispatch(imagesActions.createImage(newClientImage));
       dispatch(clientActions.deleteSimilar(id));
-      dispatch(clientActions.deleteSimilarImage(similar.image.id));
     }
   };
 
   return (
     <>
-      <div className={styles.wrapper} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+      <div className={styles.wrapper} onMouseDown={() => onMouseDown()} onMouseUp={onMouseUp}>
         <div className={styles.contentWrapper}>
           <div className={styles.imgWrapper}>
             {images?.length > 0 && (

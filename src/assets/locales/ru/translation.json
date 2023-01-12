@@ -59,5 +59,7 @@
   "are_you_sure_you_want_to_delete_the_client": "Вы уверены, что хотите удалить клиента?",
   "date": "Дата",
   "wrong_login_or_password": "Неправильный логин или пароль",
-  "new_client": "Новый клиент"
+  "new_client": "Новый клиент",
+  "camera_token": "Токен камеры",
+  "propose_new_faces": "Предлагать новые лица"
 }

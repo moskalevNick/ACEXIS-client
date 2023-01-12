@@ -303,6 +303,15 @@
   opacity: 0;
 }
 
+.stopRecognitionContainer {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+
 .smallPhotoWrapper {
   height: 64px;
   margin-right: 10px;
