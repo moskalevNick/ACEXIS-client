@@ -166,4 +166,5 @@ export type UserType = {
   cameraToken?: string;
   isRus?: boolean;
   isDark?: boolean;
+  recognitionDelay?: Number;
 };

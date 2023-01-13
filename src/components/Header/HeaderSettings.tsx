@@ -22,9 +22,8 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [isOpenBadge, setOpenBadge] = useState(false);
   const [isOpenSettingModal, setOpenSettingModal] = useState(false);
   const [isOpenLogautModal, setOpenLogoutModal] = useState(false);
-  const { minBill, maxBill, chatId, avatar, isAvatarLoading, cameraToken } = useAppSelector(
-    (state) => state.globalReducer,
-  );
+  const { minBill, maxBill, chatId, avatar, isAvatarLoading, cameraToken, recognitionDelay } =
+    useAppSelector((state) => state.globalReducer);
   const { isDark } = useAppSelector((state) => state.globalReducer);
   const refBadge = useRef<HTMLHeadingElement>(null);
   const refAvatar = useRef<HTMLHeadingElement>(null);
@@ -32,6 +31,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
   const [maxBillInputValue, setMaxBillInputValue] = useState(maxBill);
   const [botInputValue, setBotInputValue] = useState(chatId || '');
   const [tokenInputValue, setTokenInputValue] = useState(cameraToken || '');
+  const [recognitionInputValue, setRecognitionInputValue] = useState<Number>(recognitionDelay);
   const { t, i18n } = useTranslation();
 
   const handleClickOutside = useCallback((e: any) => {
@@ -58,6 +58,7 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
         maxBill: maxBillInputValue,
         chatId: botInputValue,
         cameraToken: tokenInputValue,
+        recognitionDelay: recognitionInputValue,
         isRus: i18n.resolvedLanguage === 'ru',
       }),
     );
@@ -149,25 +150,35 @@ export const HeaderSettings: React.FC<HeaderSettingsType> = () => {
               />
             </div>
             <hr className={styles.line} />
-            <div className={styles.botTokenWrapper}>
-              <>
-                <div className={styles.botLabel}>{t('chat_bot_telegram')}</div>
+            <div className={styles.containerSettingsCamera}>
+              <div className={styles.wrapperSettingCamera}>
+                <div className={styles.labelSettingCamera}>{t('chat_bot_telegram')}</div>
                 <Input
-                  className={styles.botInput}
+                  className={styles.settingCameraInput}
                   placeholder={t('link_chat_bot_telegram') as string}
                   value={botInputValue}
                   onChange={(e) => setBotInputValue(e.target.value)}
                 />
-              </>
-              <>
-                <div className={styles.botLabel}>{t('camera_token')}</div>
+              </div>
+              <div className={styles.wrapperSettingCamera}>
+                <div className={styles.labelSettingCamera}>{t('camera_token')}</div>
                 <Input
-                  className={styles.botInput}
+                  className={styles.settingCameraInput}
                   placeholder={t('camera_token') as string}
                   value={tokenInputValue}
                   onChange={(e) => setTokenInputValue(e.target.value)}
                 />
-              </>
+              </div>
+              <div className={styles.wrapperSettingCamera}>
+                <div className={styles.labelSettingCamera}>{t('delay_of_propose_faces')}</div>
+                <Input
+                  type="number"
+                  className={styles.settingCameraInput}
+                  placeholder={t('delay_of_propose_faces') as string}
+                  value={Number(recognitionInputValue)}
+                  onChange={(e) => setRecognitionInputValue(Number(e.target.value))}
+                />
+              </div>
             </div>
             <hr className={styles.line} />
             <div className={styles.uploadPhotoWrapper}>

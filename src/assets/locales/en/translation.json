@@ -61,5 +61,6 @@
   "wrong_login_or_password": "Wrong login or password",
   "new_client": "New client",
   "camera_token": "Camera token",
-  "propose_new_faces": "Propose new faces"
+  "propose_new_faces": "Propose new faces",
+  "delay_of_propose_faces": "Delay of propose faces (sec)"
 }

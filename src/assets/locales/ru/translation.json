@@ -61,5 +61,6 @@
   "wrong_login_or_password": "Неправильный логин или пароль",
   "new_client": "Новый клиент",
   "camera_token": "Токен камеры",
-  "propose_new_faces": "Предлагать новые лица"
+  "propose_new_faces": "Предлагать новые лица",
+  "delay_of_propose_faces": "Задержка для предложения лиц (сек)"
 }

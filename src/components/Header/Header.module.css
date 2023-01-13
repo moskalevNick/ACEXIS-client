@@ -222,7 +222,6 @@
 /* modal settings */
 .modalSettings {
   width: 976px;
-  height: 593px;
 }
 
 .billsWrapper {
@@ -252,19 +251,23 @@
   margin-left: 14px;
 }
 
-.botTokenWrapper {
+.containerSettingsCamera {
   display: flex;
+  gap: 25px;
 }
 
-.botLabel {
-  margin-right: 24px;
+.wrapperSettingCamera {
+  display: flex;
+  gap: 5px;
+}
+
+.labelSettingCamera {
+  display: block;
   font-weight: 600;
   font-size: 14px;
-  margin-bottom: 16px;
 }
 
-.botInput {
-  width: 150px;
+.settingCameraInput {
   height: 42px;
 }
 

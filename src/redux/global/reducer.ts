@@ -19,6 +19,7 @@ const globalSlice = createSlice({
     isAvatarLoading: false,
     avatar: null as UserAvatarType | null,
     cameraToken: '',
+    recognitionDelay: 30,
   },
   reducers: {
     setFSCamera: (state, action) => {
@@ -42,6 +43,7 @@ const globalSlice = createSlice({
         state.isAuth = action.payload.isAuth;
         state.isDark = action.payload.isDark;
         state.chatId = action.payload.chatId;
+        state.recognitionDelay = action.payload.recognitionDelay;
         state.isRus = action.payload.isRus;
         state.maxBill = action.payload.maxBill;
         state.minBill = action.payload.minBill;
@@ -77,6 +79,7 @@ const globalSlice = createSlice({
         state.avatar = action.payload.avatar;
         state.isDark = action.payload.isDark;
         state.chatId = action.payload.chatId;
+        state.recognitionDelay = action.payload.recognitionDelay;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
         state.maxBill = action.payload.maxBill;
@@ -95,6 +98,7 @@ const globalSlice = createSlice({
       .addCase(globalActions.editSettings.fulfilled, (state, action) => {
         state.isDark = action.payload.isDark;
         state.chatId = action.payload.chatId;
+        state.recognitionDelay = action.payload.recognitionDelay;
         state.cameraToken = action.payload.cameraToken;
         state.isRus = action.payload.isRus;
         document.body.setAttribute('dir', action.payload.isRus ? 'ru' : 'en');
