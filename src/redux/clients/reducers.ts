@@ -96,7 +96,7 @@ export const clientSlice = createSlice({
       })
 
       .addCase(clientActions.editClient.pending, (state) => {
-        state.isClientLoading = true;
+        // state.isClientLoading = true;
       })
       .addCase(clientActions.editClient.fulfilled, (state, action) => {
         state.currentClient = action.payload;
@@ -129,7 +129,7 @@ export const clientSlice = createSlice({
       })
 
       .addCase(clientActions.addClient.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
       })
       .addCase(clientActions.addClient.fulfilled, (state, action) => {
         state.currentClient = action.payload;
@@ -153,7 +153,7 @@ export const clientSlice = createSlice({
       })
 
       .addCase(clientActions.deleteSimilar.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
       })
       .addCase(clientActions.deleteSimilar.fulfilled, (state, action) => {
         const currentClient = state.clients.find((client) => client.id === action.payload.clientId);

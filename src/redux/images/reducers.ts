@@ -88,7 +88,7 @@ const imageSlice = createSlice({
       })
 
       .addCase(imagesActions.createImage.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
       })
       .addCase(imagesActions.createImage.fulfilled, (state, action) => {
         const key = action.payload.clientId;
