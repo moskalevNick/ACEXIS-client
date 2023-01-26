@@ -2,15 +2,19 @@ import styles from './ClientCard.module.css';
 import React, { useEffect, useState } from 'react';
 import { getInterval } from '../../helpers/getInterval';
 import { ExisType } from '../../types';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getDate } from '../../helpers/getDate';
 import { t } from 'i18next';
+import { Button } from '../Button/Button';
+import { CrossIcon } from '../Icons/CrossIcon';
+import { visitActions } from '../../redux/visit/actions';
 
 type ExisAtVisitsType = {
   [key: string]: ExisType[];
 };
 
 export const VisitsContainer: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [point, setPoint] = useState<null | { x: number; y: number }>(null);
   const [exisAtVisits, setExisAtVisits] = useState<ExisAtVisitsType>({});
   const exises = useAppSelector((state) => state.exisReducer.exises);
@@ -36,6 +40,10 @@ export const VisitsContainer: React.FC = () => {
       }
     });
   }, [exises, visits]);
+
+  const deleteVisit = (id: string) => {
+    dispatch(visitActions.deleteVisit(id));
+  };
 
   return (
     <div className={styles.visitsData}>
@@ -100,6 +108,9 @@ export const VisitsContainer: React.FC = () => {
                     </>
                   )}
                 </div>
+              </div>
+              <div className={styles.btnClose} onClick={() => deleteVisit(el.id)}>
+                <CrossIcon />
               </div>
             </div>
           ))}

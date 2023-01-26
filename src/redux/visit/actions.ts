@@ -18,4 +18,9 @@ export const visitActions = {
     async ({ id, newVisit }: { id: string; newVisit: UpdateVisitType }) =>
       await VisitService.updateVisit(id, newVisit),
   ),
+
+  deleteVisit: createAsyncThunk(
+    getActionName(modules.VISIT, actionNames[modules.VISIT].deleteVisit),
+    async (id: string) => await VisitService.deleteVisit(id),
+  ),
 };

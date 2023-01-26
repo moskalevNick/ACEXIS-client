@@ -19,6 +19,7 @@ export const actionNames = {
   [modules.VISIT]: {
     getVisits: 'GET_VISITS',
     updateVisit: 'UPDATE_VISIT',
+    deleteVisit: 'DELETE_VISIT',
   },
   [modules.IMAGE]: {
     getImages: 'GET_IMAGES',

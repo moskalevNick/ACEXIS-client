@@ -798,3 +798,13 @@
   line-height: 20px;
   padding: 0 24px 22px 21px;
 }
+
+.btnClose svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  fill: #1487f2;
+  width: 20px;
+  height: 20px;
+}

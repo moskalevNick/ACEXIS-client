@@ -98,6 +98,10 @@ const visitSlice = createSlice({
         }
       })
 
+      .addCase(visitActions.deleteVisit.fulfilled, (state, action) => {
+        state.visits = state.visits.filter((visit) => visit.id !== action.payload.id);
+      })
+
       .addCase(visitActions.getVisits.fulfilled, (state, action) => {
         state.visits = action.payload;
       });

@@ -13,4 +13,8 @@ export default class VisitService {
     const response = await $api.put(`${path}/${id}`, newVisit);
     return response.data;
   }
+  static async deleteVisit(id: string): Promise<VisitsType> {
+    const response = await $api.delete(`${path}/${id}`);
+    return response.data;
+  }
 }
