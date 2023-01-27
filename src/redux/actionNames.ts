@@ -5,6 +5,7 @@ export const actionNames = {
     getClients: 'GET_CLIENTS',
     getClient: 'GET_CLIENT',
     editClient: 'EDIT_CLIENT',
+    editClientWithoutUpdateRedux: 'EDIT_CLIENT_WITHOUT_UPDATE_REDUX',
     addClient: 'ADD_CLIENT',
     deleteClient: 'DELETE_CLIENT',
     deleteSimilar: 'DELETE_SIMILAR',

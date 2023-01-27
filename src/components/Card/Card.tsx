@@ -129,7 +129,7 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
         clientUpdateDto.visits && delete clientUpdateDto.visits;
 
         dispatch(
-          clientActions.editClient({
+          clientActions.editClientWithoutUpdateRedux({
             id: client.id,
             newClient: clientUpdateDto,
           }),

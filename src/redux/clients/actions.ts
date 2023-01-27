@@ -39,6 +39,14 @@ export const clientActions = {
     },
   ),
 
+  editClientWithoutUpdateRedux: createAsyncThunk(
+    getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].editClientWithoutUpdateRedux),
+    async ({ newClient, id }: editClientType) => {
+      const data = await ClientsService.editClient(newClient, id);
+      return data;
+    },
+  ),
+
   addClient: createAsyncThunk(
     getActionName(modules.CLIENTS, actionNames[modules.CLIENTS].addClient),
     async (newClient: Omit<ClientType, 'id' | 'images'>): Promise<ClientType> => {
