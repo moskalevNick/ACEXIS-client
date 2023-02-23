@@ -1,5 +1,5 @@
 import styles from './CardContainer.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '../Card/Card';
 import classNames from 'classnames';
 import uuid from 'react-uuid';
@@ -27,8 +27,25 @@ export const CardContainer: React.FC<CardContainerType> = ({
     setShowInfo(null);
   };
 
+  useEffect(() => {
+    const scrollPosition = Number(localStorage.getItem('scrollPosition'));
+    if (scrollPosition) {
+      const element = document.getElementById('cardsContainer');
+      element?.scrollTo({ top: scrollPosition });
+    }
+  }, []);
+
   return (
-    <div className={containerClasses} onClick={onClick}>
+    <div
+      id="cardsContainer"
+      className={containerClasses}
+      onClick={onClick}
+      onScroll={(e: any) => {
+        if (e.target.scrollTop !== 0) {
+          localStorage.setItem('scrollPosition', e.target.scrollTop);
+        }
+      }}
+    >
       {clients.map((client) => (
         <Card key={uuid()} client={client} showInfo={showInfo} setShowInfo={setShowInfo} />
       ))}
