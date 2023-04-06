@@ -17,7 +17,7 @@ export const FullscreenCamera = () => {
     if (window.location.pathname !== '/') {
       const interval = setInterval(() => {
         dispatch(imagesActions.getStream(cameraToken));
-      }, 1000);
+      }, 500);
       return () => {
         clearInterval(interval);
         dispatch(imageSettingsActions.resetCameraFrame());

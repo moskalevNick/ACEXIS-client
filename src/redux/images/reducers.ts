@@ -139,6 +139,17 @@ const imageSlice = createSlice({
       })
       .addCase(imagesActions.getStream.fulfilled, (state, action) => {
         state.cameraFrame = action.payload[0];
+        if (!action.payload || !action.payload.length) {
+          const locale = i18next.resolvedLanguage;
+          const nottificationText: string =
+            locale === 'ru'
+              ? 'Связь с системой распознавания утеряна'
+              : 'Lost connection with face recognition system';
+
+          Nottification({
+            text: nottificationText,
+          });
+        }
 
         if (action.payload[0] && action.payload[0].faces && action.payload[0].faces.length) {
           state.isFaceOnCamera = true;

@@ -36,7 +36,7 @@ export const TodayModule = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(imagesActions.getStream(cameraToken));
-    }, 1000);
+    }, 500);
     return () => {
       clearInterval(interval);
       dispatch(imageSettingsActions.resetCameraFrame());
