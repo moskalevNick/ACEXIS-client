@@ -1,7 +1,5 @@
-import { VisitsType, UpdateVisitType } from './../../types';
-import { CreateExisType, EditExisType } from '../../types';
+import { UpdateVisitType } from './../../types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import ExisService from '../../services/ExisService';
 import { actionNames } from '../actionNames';
 import { getActionName } from '../getActionName';
 import { modules } from '../modules';

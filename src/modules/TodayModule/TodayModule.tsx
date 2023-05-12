@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CardContainer } from '../../components/CardContainer/CardContainer';
 import { Loader } from '../../components/Loader/Loader';
 import { todayEnd, todayStart } from '../../helpers/constants';
@@ -9,9 +9,13 @@ import { clientSettingsActions } from '../../redux/clients/reducers';
 import { imagesActions } from '../../redux/images/actions';
 import { imageSettingsActions } from '../../redux/images/reducers';
 import styles from './Today.module.css';
+import { Button } from '../../components/Button/Button';
+import { useTranslation } from 'react-i18next';
 
 export const TodayModule = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const [tickedClientIds, setTickedClientIds] = useState<string[]>([]);
   const isOpenFullScreenCamera = useAppSelector(
     (state) => state.globalReducer.isFullScreenCameraOpen,
   );
@@ -54,10 +58,29 @@ export const TodayModule = () => {
     }
   }, [dispatch, isFaceOnCamera]);
 
+  const removeClients = () => {
+    tickedClientIds.forEach((id) => {
+      dispatch(clientActions.deleteClient(id));
+    });
+  };
+
+  const getTickClients = (clientIds: string[]) => {
+    setTickedClientIds(clientIds);
+  };
+
   return (
     <div className={containerClassnames}>
-      <div className={styles.label}>Today</div>
-      {isLoading ? <Loader /> : <CardContainer clients={clients} withShortNavbar />}
+      <div className={styles.labelWrapper}>
+        <div className={styles.label}>Today</div>
+        <Button className={styles.removeTickIconsButton} onClick={removeClients}>
+          {t('remove_clients')}
+        </Button>
+      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <CardContainer clients={clients} withShortNavbar getTickClients={getTickClients} />
+      )}
     </div>
   );
 };

@@ -27,18 +27,21 @@ import { Button } from '../Button/Button';
 import { clientActions } from '../../redux/clients/actions';
 import { t } from 'i18next';
 import { imagesActions } from '../../redux/images/actions';
+import { Checkbox } from '../Checkbox/Checkbox';
 
 type CardType = {
   client: ClientType;
   showInfo?: null | { id: string; x: number; y: number };
   setShowInfo: Dispatch<SetStateAction<{ id: string; x: number; y: number } | null>>;
+  tickClient: (id: string) => void;
 };
 
-export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
+export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo, tickClient }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<Date>(new Date());
   const [isShortDescriptionVisible, setShortDescriptionVisible] = useState(false);
+  const [isTickClient, setTickClient] = useState(false);
 
   const images = useAppSelector((state) => state.imageReducer.images[client.id]);
   const pinnedExis = useAppSelector((state) => state.exisReducer.pinnedExis[client.id]);
@@ -176,8 +179,22 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
 
   return (
     <>
-      <div className={styles.wrapper} onMouseDown={() => onMouseDown()} onMouseUp={onMouseUp}>
-        <div className={styles.contentWrapper}>
+      <div className={styles.wrapper}>
+        <div className={styles.checkboxWrapper}>
+          <Checkbox
+            checked={isTickClient}
+            className={styles.checkbox}
+            onChange={() => {
+              setTickClient((prev) => !prev);
+              tickClient(client.id);
+            }}
+          />
+        </div>
+        <div
+          className={styles.contentWrapper}
+          onMouseDown={() => onMouseDown()}
+          onMouseUp={onMouseUp}
+        >
           <div className={styles.imgWrapper}>
             {images?.length > 0 && (
               <img src={images.at(-1)?.publicUrl} alt={`avatar_${images.at(-1)?.id}`} />
@@ -196,7 +213,9 @@ export const Card: React.FC<CardType> = ({ client, showInfo, setShowInfo }) => {
           )}
         </div>
 
-        <div className={styles.status}>{chooseIcon(client.status)}</div>
+        <div className={styles.status} onMouseDown={() => onMouseDown()} onMouseUp={onMouseUp}>
+          {chooseIcon(client.status)}
+        </div>
         {isShortDescriptionVisible && (
           <div className={styles.shortDescriptionWrapper} onClick={closeShortDescription}>
             <div className={styles.shortDescription}>

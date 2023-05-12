@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '../../components/Button/Button';
@@ -24,6 +24,7 @@ export const CloudModule = () => {
   const { id } = useParams();
   const { t } = useTranslation();
 
+  const [tickedClientIds, setTickedClientIds] = useState<string[]>([]);
   const { isFullScreenCameraOpen } = useAppSelector((state) => state.globalReducer);
   const { clients, isLoading, isClientLoading, filters } = useAppSelector(
     (state) => state.clientReducer,
@@ -77,6 +78,16 @@ export const CloudModule = () => {
     navigate('/cloud/new');
   };
 
+  const removeClients = () => {
+    tickedClientIds.forEach((id) => {
+      dispatch(clientActions.deleteClient(id));
+    });
+  };
+
+  const getTickClients = (clientIds: string[]) => {
+    setTickedClientIds(clientIds);
+  };
+
   return (
     <div className={containerClassnames}>
       <div className={styles.labelWrapper}>
@@ -86,6 +97,9 @@ export const CloudModule = () => {
         <div className={styles.counterWrapper}>
           <div className={styles.counter}>{`${clients.length} ${t('clients')}`}</div>
         </div>
+        <Button className={styles.removeTickIconsButton} onClick={removeClients}>
+          {t('remove_clients')} {}
+        </Button>
       </div>
 
       <CloudFilters />
@@ -93,7 +107,7 @@ export const CloudModule = () => {
       {isLoading || isClientLoading ? (
         <Loader />
       ) : clients.length ? (
-        <CardContainer clients={clients} withLongNavbar />
+        <CardContainer clients={clients} withLongNavbar getTickClients={getTickClients} />
       ) : (
         <div className={styles.noClientsWrapper}>
           {t('no_client_card_you_can_add_them')}

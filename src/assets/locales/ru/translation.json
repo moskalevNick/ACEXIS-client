@@ -62,5 +62,6 @@
   "new_client": "Новый клиент",
   "camera_token": "Токен камеры",
   "propose_new_faces": "Предлагать новые лица",
-  "delay_of_propose_faces": "Задержка для предложения лиц (сек)"
+  "delay_of_propose_faces": "Задержка для предложения лиц (сек)",
+  "remove_clients": "удалить клиентов"
 }

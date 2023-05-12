@@ -62,5 +62,6 @@
   "new_client": "New client",
   "camera_token": "Camera token",
   "propose_new_faces": "Propose new faces",
-  "delay_of_propose_faces": "Delay of propose faces (sec)"
+  "delay_of_propose_faces": "Delay of propose faces (sec)",
+  "remove_clients": "Remove clients"
 }
