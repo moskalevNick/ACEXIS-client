@@ -9,6 +9,7 @@
 }
 
 .labelWrapper {
+  position: relative;
   padding-top: 40px;
   margin: 0px 0px 22px 40px;
   display: flex;
